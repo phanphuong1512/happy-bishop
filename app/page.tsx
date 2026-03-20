@@ -1,65 +1,128 @@
 import Image from "next/image";
 
-export default function Home() {
+const logoSrc =
+  "https://www.figma.com/api/mcp/asset/3dbaf4b9-2ca2-48f5-9f0c-baff1bd3c988";
+const heroBoardSrc =
+  "https://www.figma.com/api/mcp/asset/e7f90656-f858-4cec-9091-bf14026e7983";
+const accentPieceSrc =
+  "https://www.figma.com/api/mcp/asset/e6cac19d-5900-480a-bd36-bbdf719b87d0";
+
+const weekdayLabels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+const calendarCells = Array.from({ length: 35 }, (_, index) => {
+  const day = index + 1;
+  return day <= 30 ? day : null;
+});
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <main className="hb-page" data-node-id="1:4">
+      <header className="hb-header">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src={logoSrc}
+          alt="Happy Bishops logo"
+          width={90}
+          height={106}
           priority
+          className="hb-logo"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+        <nav className="hb-nav" aria-label="Điều hướng chính">
+          <a href="#" className="hb-link">
+            Giới thiệu
+          </a>
+          <a href="#" className="hb-link">
+            Sự kiện
+          </a>
+          <a href="#" className="hb-link">
+            Tin tức
+          </a>
+          <a href="#" className="hb-link">
+            Cộng đồng
+          </a>
+          <a href="#" className="hb-link">
+            Liên hệ
+          </a>
+        </nav>
+
+        <div className="hb-language-switch" role="group" aria-label="Ngôn ngữ">
+          <button
+            type="button"
+            className="hb-language hb-language--active"
+            aria-pressed="true"
+          >
+            VIE
+          </button>
+          <button type="button" className="hb-language" aria-pressed="false">
+            ENG
+          </button>
+        </div>
+      </header>
+
+      <section className="hb-hero">
+        <div className="hb-copy">
+          <p className="hb-kicker">happy</p>
+          <h1>BISHOPS</h1>
+
+          <h2>Happy Bishops không chỉ đơn thuần là một câu lạc bộ</h2>
+          <p>
+            Happy Bishops là cộng đồng cờ vua dành cho những ai yêu thích cảm
+            giác vui vẻ, kết nối và trải nghiệm cờ vua một cách thân thiện. Ở
+            đây chúng mình tôn trọng lẫn nhau, không quá đặt nặng trình độ.
           </p>
+
+          <p>
+            Chúng mình đặc biệt chú trọng vào việc tạo ra một môi trường học tập
+            và giao lưu không áp lực, phù hợp cho cả học sinh, sinh viên và
+            những người đi làm bận rộn.
+          </p>
+
+          <p>
+            Bạn sẽ được tham gia vào các buổi offline giao lưu hàng tuần tại
+            những không gian cafe thư giãn, thử sức mình qua các giải đấu phong
+            trào hàng tháng với thể thức sáng tạo, cùng hàng loạt hoạt động
+            ngoại khóa thú vị khác giúp gắn kết các thành viên.
+          </p>
+
+          <Image
+            src={accentPieceSrc}
+            alt="Quân cờ trang trí"
+            width={131}
+            height={99}
+            className="hb-accent-piece"
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="hb-hero-visual">
+          <Image
+            src={heroBoardSrc}
+            alt="Bàn cờ và quân cờ Happy Bishops"
+            fill
+            priority
+            className="hb-hero-image"
+            sizes="(max-width: 900px) 100vw, 62vw"
+          />
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="hb-calendar" aria-label="Lịch sự kiện">
+        <div className="hb-weekdays">
+          {weekdayLabels.map((label) => (
+            <span key={label}>{label}</span>
+          ))}
+        </div>
+
+        <div className="hb-grid">
+          {calendarCells.map((day, index) => (
+            <div
+              key={`day-${index}`}
+              className={day === 17 ? "hb-cell hb-cell--highlight" : "hb-cell"}
+              aria-label={day ? `Ngày ${day}` : ""}
+            >
+              {day}
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }

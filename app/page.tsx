@@ -27,10 +27,8 @@ const galleryImg5 =
 const galleryImg6 =
   "https://www.figma.com/api/mcp/asset/9813cf18-a4fd-46c6-a3f0-14a4470e3f6f";
 const viewMoreIconSrc = "/go_to_button.svg";
-const scheduleCalendarIconSrc =
-  "https://www.figma.com/api/mcp/asset/ffd22e31-6fe7-4a91-a382-c7dcae8ffccf";
-const schedulePinIconSrc =
-  "https://www.figma.com/api/mcp/asset/726d6a74-4ec5-4255-94b4-e1b21f72c733";
+const scheduleCalendarIconSrc = "/calendar.svg";
+const schedulePinIconSrc = "/map.svg";
 const newsRookSrc =
   "https://www.figma.com/api/mcp/asset/de0a0326-7215-498e-93d2-978a07ce2a93";
 const newsCard1Src =

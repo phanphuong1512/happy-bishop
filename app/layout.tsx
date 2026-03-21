@@ -4,16 +4,20 @@ import "./globals.css";
 
 const lexend = Lexend({
   subsets: ["latin", "latin-ext", "vietnamese"],
+  weight: ["400", "500", "700"],
   variable: "--font-lexend",
 });
 
 const comfortaa = Comfortaa({
   subsets: ["latin", "latin-ext", "vietnamese"],
+  weight: ["400"],
   variable: "--font-comfortaa",
 });
 
 const sourceSerif4 = Source_Serif_4({
   subsets: ["latin", "latin-ext", "vietnamese"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   variable: "--font-source-serif-4",
 });
 

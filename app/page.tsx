@@ -284,6 +284,7 @@ export default function HomePage() {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className="whitespace-nowrap text-[1.08rem] leading-none font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem] max-[680px]:text-[0.5rem]"
             >
               {item.label}

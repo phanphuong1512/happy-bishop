@@ -13,6 +13,12 @@ const fallbackBlock = `
   if ($PATH.endsWith(".next/server/subresource-integrity-manifest.json")) {
     return {};
   }
+  if ($PATH.endsWith(".next/dynamic-css-manifest")) {
+    return {};
+  }
+  if ($PATH.endsWith(".next/dynamic-css-manifest.json")) {
+    return {};
+  }
 `;
 const throwLineExact = String.raw`  throw new Error(\`Unexpected loadManifest(\${$PATH}) call!\`);`;
 
@@ -34,10 +40,7 @@ async function patchFile() {
     changed = true;
   }
 
-  if (
-    patched.includes(throwLineExact) &&
-    !patched.includes(".next/server/subresource-integrity-manifest.json")
-  ) {
+  if (patched.includes(throwLineExact) && !patched.includes(".next/dynamic-css-manifest")) {
     patched = patched.replace(
       throwLineExact,
       `${fallbackBlock}${throwLineExact}`,

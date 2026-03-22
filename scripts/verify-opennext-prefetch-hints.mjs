@@ -5,6 +5,7 @@ const targetPath =
 const expected = "**/{*-manifest,required-server-files,prefetch-hints}.json";
 const expectedFallbackPrefetch = ".next/server/prefetch-hints.json";
 const expectedFallbackSri = ".next/server/subresource-integrity-manifest.json";
+const expectedFallbackDynamicCss = ".next/dynamic-css-manifest";
 
 try {
   const source = await readFile(targetPath, "utf8");
@@ -25,6 +26,10 @@ try {
     console.error(
       "[verify-opennext] Missing fallback for subresource-integrity manifest.",
     );
+    process.exit(1);
+  }
+  if (!source.includes(expectedFallbackDynamicCss)) {
+    console.error("[verify-opennext] Missing fallback for dynamic-css manifest.");
     process.exit(1);
   }
   console.log("[verify-opennext] OK: manifest patches are active.");

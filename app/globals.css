@@ -16,6 +16,8 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -23,4 +25,21 @@ body {
   background: var(--hb-bg);
   color: var(--hb-deep-red);
   font-family: var(--font-lexend), sans-serif;
+  font-size: clamp(14px, 3vw, 16px);
+}
+
+/* Improve mobile touch targets */
+button {
+  min-height: 44px;
+}
+
+/* Better scrolling on iOS */
+.scroll-smooth {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better image rendering */
+img {
+  max-width: 100%;
+  height: auto;
 }

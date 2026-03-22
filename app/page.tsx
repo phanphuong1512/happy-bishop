@@ -190,6 +190,7 @@ const scheduleEventTemplatesByLanguage: Record<
 
 export default function HomePage() {
   const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const text = localizedText[activeLanguage];
   const scheduleTemplates = scheduleEventTemplatesByLanguage[activeLanguage];
   const navItems = text.navLabels.map((label, index) => ({
@@ -258,34 +259,48 @@ export default function HomePage() {
 
   return (
     <main
-      className="relative mx-auto mt-[0.6rem] mb-0 min-h-screen w-[calc(100%-1.2rem)] max-w-[1320px] overflow-visible"
+      className="relative mx-auto mt-[0.6rem] mb-0 min-h-screen w-[calc(100%-1.2rem)] max-w-[1320px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]"
       data-node-id="1:4"
     >
-      <header className="relative grid min-h-[82px] grid-cols-1 items-center pb-4">
+      <header className="relative grid min-h-[82px] grid-cols-1 items-center pb-4 max-[680px]:min-h-[68px] max-[680px]:pb-3">
         <div
-          className="col-start-1 row-start-1 h-[52px] w-full rounded-2xl bg-linear-to-r from-[#f18a8a] via-[#f78181] to-[#ee7b7b] shadow-[0_10px_20px_rgba(158,26,51,0.12)]"
+          className="col-start-1 row-start-1 h-[52px] w-full rounded-2xl bg-linear-to-r from-[#f18a8a] via-[#f78181] to-[#ee7b7b] shadow-[0_10px_20px_rgba(158,26,51,0.12)] max-[680px]:h-[44px]"
           aria-hidden="true"
         />
 
-        <Image
-          src={logoSrc}
-          alt="Happy Bishops logo"
-          width={90}
-          height={106}
-          priority
-          className="col-start-1 row-start-1 z-30 ml-[0.8rem] w-[52px] h-auto"
-        />
+        <Link
+          href="/"
+          prefetch={false}
+          className="col-start-1 row-start-1 z-30 ml-[0.8rem] inline-flex w-fit max-[680px]:ml-[0.6rem]"
+          aria-label={activeLanguage === "VIE" ? "Trang chủ" : "Home"}
+        >
+          <Image
+            src={logoSrc}
+            alt="Happy Bishops logo"
+            width={90}
+            height={106}
+            priority
+            className="w-[52px] h-auto max-[680px]:w-[44px]"
+          />
+        </Link>
 
         <nav
-          className="col-start-1 row-start-1 z-20 flex min-h-[52px] items-center justify-center gap-[clamp(1rem,2.2vw,2.6rem)] px-[9.8rem] py-[0.25rem] pr-[12.8rem] max-[1080px]:min-h-[48px] max-[1080px]:justify-start max-[1080px]:gap-4 max-[1080px]:overflow-x-auto max-[1080px]:px-[4.8rem] max-[1080px]:pr-[7.7rem] max-[1080px]:[scrollbar-width:none] max-[1080px]:[&::-webkit-scrollbar]:hidden max-[680px]:min-h-[44px] max-[680px]:gap-[0.8rem] max-[680px]:px-16 max-[680px]:pr-[6.2rem]"
+          className="col-start-1 row-start-1 z-20 flex min-h-[52px] items-center justify-center gap-[clamp(1rem,2.2vw,2.6rem)] px-[9.8rem] py-[0.25rem] pr-[12.8rem] max-[1080px]:min-h-[48px] max-[1080px]:justify-start max-[1080px]:gap-4 max-[1080px]:overflow-x-auto max-[1080px]:px-[4.8rem] max-[1080px]:pr-[7.7rem] max-[1080px]:[scrollbar-width:none] max-[1080px]:[&::-webkit-scrollbar]:hidden max-[530px]:min-h-[44px] max-[530px]:justify-center max-[530px]:gap-1.5 max-[530px]:overflow-visible max-[530px]:px-[4rem] max-[530px]:pr-[4.2rem]"
           aria-label={text.navAriaLabel}
         >
-          {navItems.map((item) => (
+          <Link
+            href="/"
+            prefetch={false}
+            className="hidden whitespace-nowrap rounded-md bg-white/12 px-2 py-1 text-[0.62rem] leading-none font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[530px]:inline-flex"
+          >
+            {activeLanguage === "VIE" ? "Trang chủ" : "Home"}
+          </Link>
+          {navItems.slice(0, 2).map((item) => (
             <Link
               key={item.href}
               href={item.href}
               prefetch={false}
-              className="whitespace-nowrap text-[1.08rem] leading-none font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem] max-[680px]:text-[0.5rem]"
+              className="whitespace-nowrap rounded-md px-2 py-1 text-[1.08rem] leading-none font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem] max-[530px]:text-[0.62rem] max-[530px]:bg-white/12"
             >
               {item.label}
             </Link>
@@ -293,12 +308,12 @@ export default function HomePage() {
         </nav>
 
         <div
-          className="col-start-1 row-start-1 z-20 mr-[0.8rem] grid min-h-[52px] justify-self-end [grid-template-columns:4.2rem_3px_4.2rem] items-center gap-x-[0.28rem] max-[1080px]:mr-[0.5rem] max-[1080px]:min-h-[48px] max-[1080px]:[grid-template-columns:3.35rem_2px_3.35rem] max-[1080px]:gap-x-[0.2rem] max-[680px]:mr-[0.4rem] max-[680px]:min-h-[44px] max-[680px]:[grid-template-columns:2.7rem_2px_2.7rem] max-[680px]:gap-x-[0.14rem]"
+          className="col-start-1 row-start-1 z-20 mr-[0.8rem] grid min-h-[52px] justify-self-end [grid-template-columns:4.2rem_3px_4.2rem] items-center gap-x-[0.28rem] max-[1080px]:mr-[0.5rem] max-[1080px]:min-h-[48px] max-[1080px]:[grid-template-columns:3.35rem_2px_3.35rem] max-[1080px]:gap-x-[0.2rem] max-[530px]:hidden"
           aria-label={text.languageSwitcherAriaLabel}
         >
           <button
             type="button"
-            className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] max-[680px]:px-[0.24rem] max-[680px]:py-[0.1rem] max-[680px]:text-[0.48rem] max-[680px]:border-[1.2px] focus-visible:outline-none focus-visible:border-white ${
+            className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] focus-visible:outline-none focus-visible:border-white ${
               activeLanguage === "VIE"
                 ? "border-white bg-white/10"
                 : "border-transparent"
@@ -309,12 +324,12 @@ export default function HomePage() {
             VIE
           </button>
           <span
-            className="block h-[31px] w-[3px] rounded-full bg-white/95 max-[1080px]:h-[18px] max-[1080px]:w-[2px] max-[680px]:h-[14px]"
+            className="block h-[31px] w-[3px] rounded-full bg-white/95 max-[1080px]:h-[18px] max-[1080px]:w-[2px]"
             aria-hidden="true"
           />
           <button
             type="button"
-            className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] max-[680px]:px-[0.24rem] max-[680px]:py-[0.1rem] max-[680px]:text-[0.48rem] max-[680px]:border-[1.2px] focus-visible:outline-none focus-visible:border-white ${
+            className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] focus-visible:outline-none focus-visible:border-white ${
               activeLanguage === "ENG"
                 ? "border-white bg-white/10"
                 : "border-transparent"
@@ -325,21 +340,107 @@ export default function HomePage() {
             ENG
           </button>
         </div>
+
+        {/* Hamburger Menu Button (Mobile) */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="col-start-1 row-start-1 z-30 justify-self-end mr-[0.6rem] hidden min-h-[44px] w-[44px] flex-col items-center justify-center gap-[6px] rounded-lg bg-white/10 transition-colors duration-200 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white max-[530px]:flex"
+          aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
+        >
+          <span
+            className={`block h-[2px] w-[24px] bg-white transition-all duration-300 ${
+              isMenuOpen ? "translate-y-[10px] rotate-45" : ""
+            }`}
+            aria-hidden="true"
+          />
+          <span
+            className={`block h-[2px] w-[24px] bg-white transition-all duration-300 ${
+              isMenuOpen ? "opacity-0" : ""
+            }`}
+            aria-hidden="true"
+          />
+          <span
+            className={`block h-[2px] w-[24px] bg-white transition-all duration-300 ${
+              isMenuOpen ? "-translate-y-[10px] -rotate-45" : ""
+            }`}
+            aria-hidden="true"
+          />
+        </button>
       </header>
 
-      <section className="relative grid min-h-[760px] overflow-visible gap-3 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(420px,1.25fr)] max-[1080px]:min-h-auto">
-        <div className="relative z-20 max-w-[540px] pl-[0.35rem] pt-[2.75rem] max-[1080px]:max-w-full max-[1080px]:pl-[0.1rem] max-[1080px]:pt-[1.7rem]">
-          <p className="m-0 text-[48px] leading-none font-normal [font-family:var(--font-comfortaa)] tracking-[1em] lowercase text-[var(--hb-primary)] max-[1080px]:tracking-[0.86em] max-[680px]:tracking-[0.68em]">
+      {/* Mobile Menu Sidebar */}
+      {isMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-30 bg-black/50 max-[530px]:block hidden"
+            onClick={() => setIsMenuOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="col-start-1 row-start-1 fixed right-0 top-[70px] z-40 w-[280px] max-[530px]:block hidden rounded-3xl bg-[#f78181] shadow-lg">
+            <nav className="flex flex-col space-y-0 border-b border-white/20">
+              {navItems.slice(2).map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  prefetch={false}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15 transition-colors first:rounded-t-3xl"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center justify-center gap-3 border-t border-white/20 px-4 py-4">
+              <button
+                type="button"
+                className={`inline-flex flex-1 cursor-pointer items-center justify-center rounded-lg border-[2px] bg-transparent px-3 py-2 text-[14px] font-bold text-white transition-colors duration-200 focus-visible:outline-none focus-visible:border-white ${
+                  activeLanguage === "VIE"
+                    ? "border-white bg-white/20"
+                    : "border-white/40"
+                }`}
+                aria-pressed={activeLanguage === "VIE"}
+                onClick={() => {
+                  setActiveLanguage("VIE");
+                  setIsMenuOpen(false);
+                }}
+              >
+                VIE
+              </button>
+              <button
+                type="button"
+                className={`inline-flex flex-1 cursor-pointer items-center justify-center rounded-lg border-[2px] bg-transparent px-3 py-2 text-[14px] font-bold text-white transition-colors duration-200 focus-visible:outline-none focus-visible:border-white ${
+                  activeLanguage === "ENG"
+                    ? "border-white bg-white/20"
+                    : "border-white/40"
+                }`}
+                aria-pressed={activeLanguage === "ENG"}
+                onClick={() => {
+                  setActiveLanguage("ENG");
+                  setIsMenuOpen(false);
+                }}
+              >
+                ENG
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      <section className="relative grid min-h-[760px] overflow-visible gap-3 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(420px,1.25fr)] max-[1080px]:min-h-auto max-[680px]:gap-2">
+        <div className="relative z-20 max-w-[540px] pl-[0.35rem] pt-[2.75rem] max-[1080px]:max-w-full max-[1080px]:pl-[0.1rem] max-[1080px]:pt-[1.7rem] max-[680px]:pl-[0.2rem] max-[680px]:pt-[1.2rem]">
+          <p className="m-0 text-[48px] leading-none font-normal [font-family:var(--font-comfortaa)] tracking-[1em] lowercase text-[var(--hb-primary)] max-[1080px]:text-[36px] max-[1080px]:tracking-[0.86em] max-[680px]:text-[32px] max-[680px]:tracking-[0.68em]">
             happy
           </p>
-          <h1 className="relative -left-[3px] mt-[0.35rem] mb-12 whitespace-nowrap text-[96px] leading-none font-bold [font-family:var(--font-lexend)] tracking-[0.1em] text-[var(--hb-deep-red)] max-[1080px]:mb-8 max-[680px]:mb-[1.4rem] max-[680px]:tracking-[0.08em]">
+          <h1 className="relative -left-[3px] mt-[0.35rem] mb-12 whitespace-nowrap text-[96px] leading-none font-bold [font-family:var(--font-lexend)] tracking-[0.1em] text-[var(--hb-deep-red)] max-[1080px]:mb-8 max-[1080px]:text-[72px] max-[680px]:mb-[1.4rem] max-[680px]:text-[48px] max-[680px]:tracking-[0.08em]">
             BISHOPS
           </h1>
 
-          <h2 className="mb-[0.7rem] text-[24px] leading-[1.2] font-medium [font-family:var(--font-lexend)] text-[var(--hb-deep-red)]">
+          <h2 className="mb-[0.7rem] text-[24px] leading-[1.2] font-medium [font-family:var(--font-lexend)] text-[var(--hb-deep-red)] max-[680px]:text-[18px]">
             {text.heroSubtitle}
           </h2>
-          <p className="my-[0.7rem] max-w-[640px] text-[16px] leading-[1.25] [font-family:var(--font-source-serif-4)] font-normal italic text-[var(--hb-deep-red)] max-[680px]:leading-[1.3]">
+          <p className="my-[0.7rem] max-w-[640px] text-[16px] leading-[1.25] [font-family:var(--font-source-serif-4)] font-normal italic text-[var(--hb-deep-red)] max-[680px]:text-[14px] max-[680px]:leading-[1.3]">
             {text.heroDescription}
           </p>
         </div>
@@ -356,18 +457,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative mt-8 grid gap-8 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(902px,1fr)] max-[1080px]:mt-6">
-        <div className="relative -top-[200px] z-20 w-[560px] max-w-none pl-[0.35rem] max-[1080px]:w-full max-[1080px]:max-w-[640px]">
-          <h3 className="text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[var(--hb-deep-red)]">
+      <section className="relative mt-8 grid gap-8 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(902px,1fr)] max-[1080px]:mt-6 max-[680px]:mt-4 max-[680px]:gap-4 max-[680px]:grid-cols-1">
+        <div className="relative -top-[200px] z-20 w-[560px] max-w-none pl-[0.35rem] max-[1080px]:w-full max-[1080px]:max-w-[640px] max-[680px]:-top-[100px] max-[680px]:w-full max-[680px]:pl-[0.2rem]">
+          <h3 className="text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[var(--hb-deep-red)] max-[680px]:text-[20px]">
             {text.communityTitle}
           </h3>
-          <p className="mt-5 whitespace-pre-line text-[16px] leading-normal [font-family:var(--font-source-serif-4)] font-normal italic text-[#8E2B2B]">
+          <p className="mt-5 whitespace-pre-line text-[16px] leading-normal [font-family:var(--font-source-serif-4)] font-normal italic text-[#8E2B2B] max-[680px]:text-[14px] max-[680px]:leading-[1.4]">
             {text.communityDescription}
           </p>
 
           <button
             type="button"
-            className="mt-8 inline-flex h-[56px] min-w-[300px] items-center justify-center rounded-full border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] via-[#a43638] to-[#8f2a2d] px-8 text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[#fff6e3] shadow-[0_8px_0_#6f1f22,0_16px_22px_rgba(116,27,38,0.28)] transition-[transform,box-shadow,filter] duration-150 ease-out hover:brightness-105 active:translate-y-[4px] active:shadow-[0_4px_0_#6f1f22,0_8px_14px_rgba(116,27,38,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b63d3f]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fff8ec]"
+            className="mt-8 inline-flex h-[56px] min-w-[300px] items-center justify-center rounded-full border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] via-[#a43638] to-[#8f2a2d] px-8 text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[#fff6e3] shadow-[0_8px_0_#6f1f22,0_16px_22px_rgba(116,27,38,0.28)] transition-[transform,box-shadow,filter] duration-150 ease-out hover:brightness-105 active:translate-y-[4px] active:shadow-[0_4px_0_#6f1f22,0_8px_14px_rgba(116,27,38,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b63d3f]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fff8ec] max-[680px]:h-[48px] max-[680px]:min-w-[200px] max-[680px]:px-6 max-[680px]:text-[18px]"
           >
             {text.joinNowLabel}
           </button>
@@ -452,7 +553,7 @@ export default function HomePage() {
 
       <section className="mt-10">
         <div className="h-px w-full bg-[rgba(88,10,10,0.45)]" />
-        <p className="mt-4 text-right whitespace-pre-line text-[20px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[1080px]:text-[16px]">
+        <p className="mt-4 text-right whitespace-pre-line text-[20px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[1080px]:text-[16px] max-[680px]:text-[13px] max-[680px]:leading-[1.3]">
           {text.sectionCaption}
         </p>
       </section>
@@ -461,8 +562,8 @@ export default function HomePage() {
         className="mt-10 max-[1080px]:mt-10 max-[680px]:mt-8"
         aria-label={text.scheduleSectionAriaLabel}
       >
-        <div className="relative overflow-x-auto">
-          <div className="relative min-w-[996px] rounded-2xl">
+        <div className="relative overflow-x-auto scroll-smooth">
+          <div className="relative min-w-[996px] rounded-2xl max-[680px]:min-w-[100vw]">
             <div
               className="pointer-events-none absolute inset-0 rounded-2xl bg-[#f78181] opacity-5"
               aria-hidden="true"
@@ -472,19 +573,19 @@ export default function HomePage() {
               aria-hidden="true"
             />
 
-            <div className="relative z-10 px-5 pt-4 pb-0">
-              <h3 className="text-[37px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+            <div className="relative z-10 px-5 pt-4 pb-0 max-[680px]:px-3 max-[680px]:pt-3">
+              <h3 className="text-[37px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257] max-[680px]:text-[28px]">
                 {scheduleMonthLabel}
               </h3>
 
-              <div className="mt-6 mb-2 grid grid-cols-7 text-center text-[31px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+              <div className="mt-6 mb-2 grid grid-cols-7 text-center text-[31px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257] max-[680px]:text-[18px] max-[680px]:mt-4 max-[680px]:mb-1">
                 {text.weekdayLabels.map((label) => (
                   <span key={label}>{label}</span>
                 ))}
               </div>
             </div>
 
-            <div className="relative z-10 grid grid-cols-7 overflow-hidden rounded-2xl border border-[#8e2b2b80]">
+            <div className="relative z-10 grid grid-cols-7 overflow-hidden rounded-2xl border border-[#8e2b2b80] max-[680px]:gap-0">
               {calendarCells.map((cell, index) => {
                 const event =
                   cell.dayOfWeek === 3
@@ -497,7 +598,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={cell.id}
-                    className={`relative min-h-[104px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[5px] ${
+                    className={`relative min-h-[104px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[5px] max-[680px]:min-h-[80px] max-[680px]:px-1 max-[680px]:pt-1 max-[680px]:pb-1 ${
                       index < 7 ? "border-t-0" : ""
                     } ${index % 7 === 6 ? "border-r-0" : ""} ${
                       isToday
@@ -511,13 +612,13 @@ export default function HomePage() {
                     }
                   >
                     {cell.day && (
-                      <p className="text-[13px] leading-none font-bold [font-family:var(--font-lexend)] text-[#f78181]">
+                      <p className="text-[13px] leading-none font-bold [font-family:var(--font-lexend)] text-[#f78181] max-[680px]:text-[10px]">
                         {cell.day}
                       </p>
                     )}
 
                     {event && (
-                      <div className="mt-[12px] space-y-[2px] text-[#580a0a]">
+                      <div className="mt-[12px] space-y-[2px] text-[#580a0a] max-[680px]:mt-1 max-[680px]:space-y-0.5 max-[680px]:hidden">
                         <div className="flex items-start gap-[5px]">
                           <Image
                             src={scheduleCalendarIconSrc}
@@ -565,7 +666,7 @@ export default function HomePage() {
         aria-label={text.newsSectionAriaLabel}
       >
         <div className="mx-[56px] h-px bg-[rgba(88,10,10,0.55)] max-[1080px]:mx-0" />
-        <h3 className="mt-[14px] ml-[52px] text-[96px] leading-none font-bold tracking-[0.1em] [font-family:var(--font-lexend)] text-[#8e2b2b] max-[1080px]:ml-0 max-[1080px]:text-[68px] max-[680px]:text-[46px]">
+        <h3 className="mt-[14px] ml-[52px] text-[96px] leading-none font-bold tracking-[0.1em] [font-family:var(--font-lexend)] text-[#8e2b2b] max-[1080px]:ml-0 max-[1080px]:text-[68px] max-[680px]:ml-6 max-[680px]:text-[42px] max-[680px]:tracking-[0.08em]">
           {text.newsTitle}
         </h3>
 
@@ -579,7 +680,7 @@ export default function HomePage() {
         />
 
         <div className="relative left-1/2 mt-8 w-screen -translate-x-1/2 overflow-x-clip">
-          <div className="relative w-full overflow-hidden rounded-tl-[160px] bg-[#eb979b] px-[50px] pt-[58px] pb-[66px] min-[1081px]:min-h-[713px] max-[1080px]:rounded-tl-[80px] max-[1080px]:px-6 max-[1080px]:pt-10 max-[1080px]:pb-10">
+          <div className="relative w-full overflow-hidden rounded-tl-[160px] bg-[#eb979b] px-[50px] pt-[58px] pb-[66px] min-[1081px]:min-h-[713px] max-[1080px]:rounded-tl-[80px] max-[1080px]:px-6 max-[1080px]:pt-10 max-[1080px]:pb-10 max-[680px]:rounded-tl-[40px] max-[680px]:px-4 max-[680px]:pt-6 max-[680px]:pb-6">
             <div className="relative hidden h-[480px] min-[1280px]:block">
               {newsCards.map((card, index) => {
                 const leftClass =
@@ -638,10 +739,10 @@ export default function HomePage() {
                       sizes="(max-width: 1080px) 100vw, 50vw"
                     />
                   </div>
-                  <h4 className="mt-2 text-[20px] leading-none font-bold whitespace-nowrap [font-family:var(--font-lexend)] text-[#580a0a] max-[680px]:text-[18px]">
+                  <h4 className="mt-2 text-[20px] leading-none font-bold whitespace-nowrap [font-family:var(--font-lexend)] text-[#580a0a] max-[680px]:text-[16px]">
                     {card.title}
                   </h4>
-                  <p className="mt-2 text-[14px] leading-[1.2] font-light [font-family:var(--font-lexend)] text-[#580a0a]">
+                  <p className="mt-2 text-[14px] leading-[1.2] font-light [font-family:var(--font-lexend)] text-[#580a0a] max-[680px]:text-[13px]">
                     {card.summary}
                   </p>
                 </article>

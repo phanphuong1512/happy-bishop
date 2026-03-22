@@ -29,7 +29,9 @@ try {
     process.exit(1);
   }
   if (!source.includes(expectedFallbackDynamicCss)) {
-    console.error("[verify-opennext] Missing fallback for dynamic-css manifest.");
+    console.error(
+      "[verify-opennext] Missing fallback for dynamic-css manifest.",
+    );
     process.exit(1);
   }
   console.log("[verify-opennext] OK: manifest patches are active.");

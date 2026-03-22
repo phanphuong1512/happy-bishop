@@ -40,7 +40,10 @@ async function patchFile() {
     changed = true;
   }
 
-  if (patched.includes(throwLineExact) && !patched.includes(".next/dynamic-css-manifest")) {
+  if (
+    patched.includes(throwLineExact) &&
+    !patched.includes(".next/dynamic-css-manifest")
+  ) {
     patched = patched.replace(
       throwLineExact,
       `${fallbackBlock}${throwLineExact}`,

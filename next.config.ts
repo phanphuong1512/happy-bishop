@@ -1,10 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    prefetchInlining: false,
-  },
+  poweredByHeader: false,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -17,11 +16,4 @@ const nextConfig: NextConfig = {
 
 export default nextConfig;
 
-if (process.env.NODE_ENV === "development") {
-  const optionalCloudflareAdapter = "@opennextjs/cloudflare";
-  import(optionalCloudflareAdapter)
-    .then((m) => m.initOpenNextCloudflareForDev())
-    .catch(() => {
-      // Optional in local environments where Cloudflare adapter isn't installed.
-    });
-}
+import("@opennextjs/cloudflare").then((m) => m.initOpenNextCloudflareForDev());

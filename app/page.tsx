@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type Language = "VIE" | "ENG";
 
@@ -191,6 +191,8 @@ const scheduleEventTemplatesByLanguage: Record<
 export default function HomePage() {
   const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mobileGalleryIndex, setMobileGalleryIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
   const text = localizedText[activeLanguage];
   const scheduleTemplates = scheduleEventTemplatesByLanguage[activeLanguage];
   const navItems = text.navLabels.map((label, index) => ({
@@ -200,7 +202,6 @@ export default function HomePage() {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonthIndex = now.getMonth();
-  const todayDate = now.getDate();
   const scheduleMonthLabel =
     activeLanguage === "VIE"
       ? `Tháng ${currentMonthIndex + 1}/${currentYear}`
@@ -251,11 +252,41 @@ export default function HomePage() {
 
     return cells;
   }, [currentYear, currentMonthIndex]);
+  const wednesdayDays = useMemo(
+    () =>
+      calendarCells
+        .filter((cell) => cell.day !== null && cell.dayOfWeek === 3)
+        .map((cell) => cell.day as number),
+    [calendarCells],
+  );
+  const sundayDays = useMemo(
+    () =>
+      calendarCells
+        .filter((cell) => cell.day !== null && cell.dayOfWeek === 0)
+        .map((cell) => cell.day as number),
+    [calendarCells],
+  );
   const newsCards = [
     { ...text.newsCards[0], imageSrc: newsCard1Src },
     { ...text.newsCards[1], imageSrc: newsCard2Src },
     { ...text.newsCards[2], imageSrc: newsCard3Src },
   ];
+  const mobileGallerySlides = [
+    galleryImg1,
+    galleryImg2,
+    galleryImg3,
+    galleryImg4,
+    galleryImg5,
+    galleryImg6,
+  ];
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setMobileGalleryIndex((prev) => (prev + 1) % mobileGallerySlides.length);
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [mobileGalleryIndex, mobileGallerySlides.length]);
 
   return (
     <main
@@ -285,26 +316,41 @@ export default function HomePage() {
         </Link>
 
         <nav
-          className="col-start-1 row-start-1 z-20 flex min-h-[52px] items-center justify-center gap-[clamp(1rem,2.2vw,2.6rem)] px-[9.8rem] py-[0.25rem] pr-[12.8rem] max-[1080px]:min-h-[48px] max-[1080px]:justify-start max-[1080px]:gap-4 max-[1080px]:overflow-x-auto max-[1080px]:px-[4.8rem] max-[1080px]:pr-[7.7rem] max-[1080px]:[scrollbar-width:none] max-[1080px]:[&::-webkit-scrollbar]:hidden max-[530px]:min-h-[44px] max-[530px]:justify-center max-[530px]:gap-1.5 max-[530px]:overflow-visible max-[530px]:px-[4rem] max-[530px]:pr-[4.2rem]"
+          className="col-start-1 row-start-1 z-20 flex items-center min-h-[52px] px-[9.8rem] py-[0.25rem] pr-[12.8rem] max-[1080px]:min-h-[48px] max-[1080px]:px-[4.8rem] max-[1080px]:pr-[7.7rem] max-[530px]:min-h-[44px] max-[530px]:px-[4.2rem]"
           aria-label={text.navAriaLabel}
         >
-          <Link
-            href="/"
-            prefetch={false}
-            className="hidden whitespace-nowrap rounded-md bg-white/12 px-2 py-1 text-[0.62rem] leading-none font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[530px]:inline-flex"
-          >
-            {activeLanguage === "VIE" ? "Trang chủ" : "Home"}
-          </Link>
-          {navItems.slice(0, 2).map((item) => (
+          <div className="flex h-[52px] w-full items-center justify-center gap-[clamp(1rem,2.2vw,2.6rem)] max-[1080px]:h-[48px] max-[1080px]:gap-4 max-[1080px]:overflow-x-auto max-[1080px]:[scrollbar-width:none] max-[1080px]:[&::-webkit-scrollbar]:hidden max-[530px]:hidden">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                prefetch={false}
+                className="inline-flex items-center whitespace-nowrap text-[1.08rem] leading-[1.1] font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden h-full w-full items-center justify-center gap-2 max-[530px]:flex">
             <Link
-              key={item.href}
-              href={item.href}
+              href="/"
               prefetch={false}
-              className="whitespace-nowrap rounded-md px-2 py-1 text-[1.08rem] leading-none font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem] max-[530px]:text-[0.62rem] max-[530px]:bg-white/12"
+              className="inline-flex items-center whitespace-nowrap rounded-lg bg-white/14 px-2.5 py-1.5 text-[0.72rem] leading-[1] font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline"
             >
-              {item.label}
+              {activeLanguage === "VIE" ? "Trang chủ" : "Home"}
             </Link>
-          ))}
+            {navItems.slice(0, 2).map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                prefetch={false}
+                className="inline-flex items-center whitespace-nowrap rounded-lg bg-white/14 px-2.5 py-1.5 text-[0.72rem] leading-[1] font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </nav>
 
         <div
@@ -428,7 +474,7 @@ export default function HomePage() {
         </>
       )}
 
-      <section className="relative grid min-h-[760px] overflow-visible gap-3 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(420px,1.25fr)] max-[1080px]:min-h-auto max-[680px]:gap-2">
+      <section className="relative grid min-h-[760px] overflow-visible gap-3 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(420px,1.25fr)] max-[1080px]:min-h-auto max-[680px]:gap-0">
         <div className="relative z-20 max-w-[540px] pl-[0.35rem] pt-[2.75rem] max-[1080px]:max-w-full max-[1080px]:pl-[0.1rem] max-[1080px]:pt-[1.7rem] max-[680px]:pl-[0.2rem] max-[680px]:pt-[1.2rem]">
           <p className="m-0 text-[48px] leading-none font-normal [font-family:var(--font-comfortaa)] tracking-[1em] lowercase text-[var(--hb-primary)] max-[1080px]:text-[36px] max-[1080px]:tracking-[0.86em] max-[680px]:text-[32px] max-[680px]:tracking-[0.68em]">
             happy
@@ -445,21 +491,21 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="relative min-h-[940px] overflow-visible max-[1080px]:mt-[-1.5rem] max-[1080px]:min-h-[740px] max-[680px]:mt-[-1rem] max-[680px]:min-h-[600px] [&>span]:!overflow-visible">
+        <div className="relative min-h-[940px] overflow-visible max-[1080px]:mt-[-1.5rem] max-[1080px]:min-h-[740px] max-[680px]:mt-[-4.5rem] max-[680px]:min-h-[470px] [&>span]:!overflow-visible">
           <Image
             src={heroBoardSrc}
             alt={text.heroImageAlt}
             fill
             priority
-            className="!absolute !top-[-335px] !left-1/2 !right-auto !bottom-auto !w-[150%] !h-[150%] max-w-none -translate-x-1/2 -rotate-[40deg] object-contain object-center drop-shadow-[0_22px_26px_rgba(94,10,24,0.2)] max-[1080px]:!top-[-255px] max-[1080px]:!w-[145%] max-[1080px]:!h-[145%] max-[680px]:!top-[-175px] max-[680px]:!w-[138%] max-[680px]:!h-[138%]"
+            className="!absolute !top-[-335px] !left-1/2 !right-auto !bottom-auto !w-[150%] !h-[150%] max-w-none -translate-x-1/2 -rotate-[40deg] object-contain object-center drop-shadow-[0_22px_26px_rgba(94,10,24,0.2)] min-[1081px]:!top-[-410px] min-[1081px]:scale-[1.66] max-[1080px]:!top-[-255px] max-[1080px]:!w-[145%] max-[1080px]:!h-[145%] max-[680px]:!top-[-238px] max-[680px]:!w-[173%] max-[680px]:!h-[173%]"
             sizes="(max-width: 900px) 100vw, 62vw"
           />
         </div>
       </section>
 
-      <section className="relative mt-8 grid gap-8 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(902px,1fr)] max-[1080px]:mt-6 max-[680px]:mt-4 max-[680px]:gap-4 max-[680px]:grid-cols-1">
-        <div className="relative -top-[200px] z-20 w-[560px] max-w-none pl-[0.35rem] max-[1080px]:w-full max-[1080px]:max-w-[640px] max-[680px]:-top-[100px] max-[680px]:w-full max-[680px]:pl-[0.2rem]">
-          <h3 className="text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[var(--hb-deep-red)] max-[680px]:text-[20px]">
+      <section className="relative mt-8 grid gap-8 min-[1081px]:grid-cols-[minmax(340px,1fr)_minmax(902px,1fr)] max-[1080px]:mt-6 max-[680px]:mt-4 max-[680px]:gap-2 max-[680px]:grid-cols-1">
+        <div className="relative -top-[200px] z-20 w-[560px] max-w-none pl-[0.35rem] max-[1080px]:w-full max-[1080px]:max-w-[640px] max-[680px]:-top-[44px] max-[680px]:w-full max-[680px]:pl-[0.2rem]">
+          <h3 className="text-[48px] leading-none font-medium [font-family:var(--font-lexend)] text-[var(--hb-deep-red)] max-[680px]:text-[32px]">
             {text.communityTitle}
           </h3>
           <p className="mt-5 whitespace-pre-line text-[16px] leading-normal [font-family:var(--font-source-serif-4)] font-normal italic text-[#8E2B2B] max-[680px]:text-[14px] max-[680px]:leading-[1.4]">
@@ -468,69 +514,152 @@ export default function HomePage() {
 
           <button
             type="button"
-            className="mt-8 inline-flex h-[56px] min-w-[300px] items-center justify-center rounded-full border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] via-[#a43638] to-[#8f2a2d] px-8 text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[#fff6e3] shadow-[0_8px_0_#6f1f22,0_16px_22px_rgba(116,27,38,0.28)] transition-[transform,box-shadow,filter] duration-150 ease-out hover:brightness-105 active:translate-y-[4px] active:shadow-[0_4px_0_#6f1f22,0_8px_14px_rgba(116,27,38,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b63d3f]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fff8ec] max-[680px]:h-[48px] max-[680px]:min-w-[200px] max-[680px]:px-6 max-[680px]:text-[18px]"
+            className="mt-8 inline-flex h-[56px] min-w-[300px] items-center justify-center rounded-full border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] via-[#a43638] to-[#8f2a2d] px-8 text-[24px] leading-none font-medium [font-family:var(--font-lexend)] text-[#fff6e3] shadow-[0_8px_0_#6f1f22,0_16px_22px_rgba(116,27,38,0.28)] transition-[transform,box-shadow,filter] duration-150 ease-out hover:brightness-105 active:translate-y-[4px] active:shadow-[0_4px_0_#6f1f22,0_8px_14px_rgba(116,27,38,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b63d3f]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fff8ec] max-[680px]:mt-5 max-[680px]:block max-[680px]:h-[48px] max-[680px]:min-w-[200px] max-[680px]:w-fit max-[680px]:px-6 max-[680px]:text-[18px] max-[680px]:mx-auto"
           >
             {text.joinNowLabel}
           </button>
         </div>
 
-        <div className="relative z-20 hidden h-[503px] w-[902px] justify-self-end lg:block">
-          <Image
-            src={galleryImg2}
-            alt=""
-            width={212}
-            height={234}
-            aria-hidden="true"
-            className="absolute left-[473px] top-0 h-[234px] w-[212px] rounded-[10px] object-cover"
-          />
-          <Image
-            src={galleryImg3}
-            alt=""
-            width={211}
-            height={197}
-            aria-hidden="true"
-            className="absolute left-[691px] top-0 h-[197px] w-[211px] rounded-[10px] object-cover"
-          />
-          <Image
-            src={galleryImg1}
-            alt=""
-            width={211}
-            height={197}
-            aria-hidden="true"
-            className="absolute left-[256px] top-[102px] h-[197px] w-[211px] rounded-[10px] object-cover"
-          />
-          <Image
-            src={galleryImg6}
-            alt=""
-            width={212}
-            height={199}
-            aria-hidden="true"
-            className="absolute left-[690px] top-[203px] h-[199px] w-[212px] rounded-[10px] object-cover"
-          />
-          <Image
-            src={galleryImg4}
-            alt=""
-            width={466}
-            height={197}
-            aria-hidden="true"
-            className="absolute left-0 top-[306px] h-[197px] w-[466px] rounded-[10px] object-cover"
-          />
-          <Image
-            src={galleryImg5}
-            alt=""
-            width={210}
-            height={262}
-            aria-hidden="true"
-            className="absolute left-[473px] top-[241px] h-[262px] w-[210px] rounded-[10px] object-cover"
-          />
-          <Image
-            src={viewMoreIconSrc}
-            alt=""
-            width={152}
-            height={56}
-            aria-hidden="true"
-            className="absolute right-0 bottom-0 h-[56px] w-[152px]"
-          />
+        <div className="relative z-20 w-full max-w-[902px] justify-self-center min-[1081px]:justify-self-end">
+          <div className="relative hidden aspect-[902/503] w-full min-[1081px]:block">
+            <div className="absolute left-[52.44%] top-0 h-[46.52%] w-[23.50%] overflow-hidden rounded-[10px]">
+              <Image
+                src={galleryImg2}
+                alt=""
+                fill
+                aria-hidden="true"
+                className="object-cover"
+                sizes="(max-width: 680px) 24vw, (max-width: 1080px) 22vw, 212px"
+              />
+            </div>
+
+            <div className="absolute left-[76.61%] top-0 h-[39.17%] w-[23.39%] overflow-hidden rounded-[10px]">
+              <Image
+                src={galleryImg3}
+                alt=""
+                fill
+                aria-hidden="true"
+                className="object-cover"
+                sizes="(max-width: 680px) 24vw, (max-width: 1080px) 22vw, 211px"
+              />
+            </div>
+
+            <div className="absolute left-[28.38%] top-[20.28%] h-[39.17%] w-[23.39%] overflow-hidden rounded-[10px]">
+              <Image
+                src={galleryImg1}
+                alt=""
+                fill
+                aria-hidden="true"
+                className="object-cover"
+                sizes="(max-width: 680px) 24vw, (max-width: 1080px) 22vw, 211px"
+              />
+            </div>
+
+            <div className="absolute left-[76.50%] top-[40.36%] h-[39.56%] w-[23.50%] overflow-hidden rounded-[10px]">
+              <Image
+                src={galleryImg6}
+                alt=""
+                fill
+                aria-hidden="true"
+                className="object-cover"
+                sizes="(max-width: 680px) 24vw, (max-width: 1080px) 22vw, 212px"
+              />
+            </div>
+
+            <div className="absolute left-0 top-[60.83%] h-[39.17%] w-[51.66%] overflow-hidden rounded-[10px]">
+              <Image
+                src={galleryImg4}
+                alt=""
+                fill
+                aria-hidden="true"
+                className="object-cover"
+                sizes="(max-width: 680px) 52vw, (max-width: 1080px) 48vw, 466px"
+              />
+            </div>
+
+            <div className="absolute left-[52.44%] top-[47.91%] h-[52.09%] w-[23.28%] overflow-hidden rounded-[10px]">
+              <Image
+                src={galleryImg5}
+                alt=""
+                fill
+                aria-hidden="true"
+                className="object-cover"
+                sizes="(max-width: 680px) 23vw, (max-width: 1080px) 21vw, 210px"
+              />
+            </div>
+
+            <Image
+              src={viewMoreIconSrc}
+              alt=""
+              width={152}
+              height={56}
+              aria-hidden="true"
+              className="pointer-events-none absolute right-[4.2%] bottom-[2.4%] h-auto w-[10.1%] max-[680px]:right-[3%] max-[680px]:bottom-[2%] max-[680px]:w-[11.4%]"
+            />
+          </div>
+
+          <div
+            className="relative mt-4 overflow-hidden rounded-2xl min-[1081px]:hidden max-[680px]:mt-1"
+            onTouchStart={(event) => {
+              touchStartX.current = event.touches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(event) => {
+              if (touchStartX.current === null) {
+                return;
+              }
+
+              const touchEndX =
+                event.changedTouches[0]?.clientX ?? touchStartX.current;
+              const deltaX = touchEndX - touchStartX.current;
+              const swipeThreshold = 40;
+
+              if (deltaX <= -swipeThreshold) {
+                setMobileGalleryIndex(
+                  (prev) => (prev + 1) % mobileGallerySlides.length,
+                );
+              } else if (deltaX >= swipeThreshold) {
+                setMobileGalleryIndex(
+                  (prev) =>
+                    (prev - 1 + mobileGallerySlides.length) %
+                    mobileGallerySlides.length,
+                );
+              }
+
+              touchStartX.current = null;
+            }}
+          >
+            <div className="relative aspect-[4/3] w-full">
+              {mobileGallerySlides.map((slideSrc, index) => (
+                <Image
+                  key={`mobile-gallery-${index}`}
+                  src={slideSrc}
+                  alt=""
+                  fill
+                  aria-hidden="true"
+                  className={`object-cover transition-opacity duration-500 ${
+                    mobileGalleryIndex === index
+                      ? "opacity-100"
+                      : "pointer-events-none opacity-0"
+                  }`}
+                  sizes="(max-width: 1080px) 100vw, 0px"
+                />
+              ))}
+            </div>
+
+            <div className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full bg-[#1f1f1f]/40 px-2.5 py-1.5">
+              {mobileGallerySlides.map((_, index) => (
+                <span
+                  key={`mobile-gallery-dot-${index}`}
+                  className={`block h-1.5 rounded-full transition-all duration-300 ${
+                    mobileGalleryIndex === index
+                      ? "w-5 bg-white"
+                      : "w-1.5 bg-white/60"
+                  }`}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
         <Image
@@ -562,8 +691,8 @@ export default function HomePage() {
         className="mt-10 max-[1080px]:mt-10 max-[680px]:mt-8"
         aria-label={text.scheduleSectionAriaLabel}
       >
-        <div className="relative overflow-x-auto scroll-smooth">
-          <div className="relative min-w-[996px] rounded-2xl max-[680px]:min-w-[100vw]">
+        <div className="relative overflow-x-auto scroll-smooth max-[680px]:hidden">
+          <div className="relative min-w-[996px] rounded-2xl">
             <div
               className="pointer-events-none absolute inset-0 rounded-2xl bg-[#f78181] opacity-5"
               aria-hidden="true"
@@ -585,7 +714,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="relative z-10 grid grid-cols-7 overflow-hidden rounded-2xl border border-[#8e2b2b80] max-[680px]:gap-0">
+            <div className="relative z-10 grid grid-cols-7 overflow-hidden rounded-2xl border border-[#8e2b2b80]">
               {calendarCells.map((cell, index) => {
                 const event =
                   cell.dayOfWeek === 3
@@ -593,15 +722,15 @@ export default function HomePage() {
                     : cell.dayOfWeek === 0
                       ? scheduleTemplates.sunday
                       : undefined;
-                const isToday = cell.day === todayDate;
+                const isEventDay = Boolean(event);
 
                 return (
                   <div
                     key={cell.id}
-                    className={`relative min-h-[104px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[5px] max-[680px]:min-h-[80px] max-[680px]:px-1 max-[680px]:pt-1 max-[680px]:pb-1 ${
+                    className={`relative min-h-[104px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[5px] ${
                       index < 7 ? "border-t-0" : ""
                     } ${index % 7 === 6 ? "border-r-0" : ""} ${
-                      isToday
+                      isEventDay
                         ? "-m-px z-10 rounded-[10px] border-3 border-[#ad4257] bg-transparent"
                         : ""
                     }`}
@@ -612,13 +741,13 @@ export default function HomePage() {
                     }
                   >
                     {cell.day && (
-                      <p className="text-[13px] leading-none font-bold [font-family:var(--font-lexend)] text-[#f78181] max-[680px]:text-[10px]">
+                      <p className="text-[13px] leading-none font-bold [font-family:var(--font-lexend)] text-[#f78181]">
                         {cell.day}
                       </p>
                     )}
 
                     {event && (
-                      <div className="mt-[12px] space-y-[2px] text-[#580a0a] max-[680px]:mt-1 max-[680px]:space-y-0.5 max-[680px]:hidden">
+                      <div className="mt-[12px] space-y-[2px] text-[#580a0a]">
                         <div className="flex items-start gap-[5px]">
                           <Image
                             src={scheduleCalendarIconSrc}
@@ -659,6 +788,76 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <div className="hidden rounded-2xl border border-[#8e2b2b4d] bg-[#f781810d] p-3 max-[680px]:block">
+          <h3 className="text-[28px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+            {scheduleMonthLabel}
+          </h3>
+
+          <div className="mt-3 grid grid-cols-7 text-center text-[12px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+            {text.weekdayLabels.map((label) => (
+              <span key={`mobile-weekday-${label}`}>{label}</span>
+            ))}
+          </div>
+
+          <div className="mt-2 grid grid-cols-7 gap-1">
+            {calendarCells.map((cell) => {
+              const isEventDay = cell.dayOfWeek === 3 || cell.dayOfWeek === 0;
+
+              return (
+                <div
+                  key={`mobile-${cell.id}`}
+                  className={`flex h-9 items-center justify-center rounded-md border border-[#8e2b2b40] text-[11px] font-bold [font-family:var(--font-lexend)] ${
+                    cell.day === null
+                      ? "border-transparent text-transparent"
+                      : isEventDay
+                        ? "bg-[#ad4257] text-[#fff6e3]"
+                        : "bg-[#fff6e3] text-[#8e2b2b]"
+                  }`}
+                  aria-label={
+                    cell.day ? `${text.scheduleDayAriaPrefix} ${cell.day}` : ""
+                  }
+                >
+                  {cell.day ?? ""}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-4 space-y-2">
+            <article className="rounded-xl border border-[#8e2b2b40] bg-[#fff6e3] p-2.5 text-[#580a0a]">
+              <p className="text-[11px] font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+                {activeLanguage === "VIE" ? "Thứ 4" : "Wednesday"}:{" "}
+                {wednesdayDays.join(", ")}
+              </p>
+              <p className="mt-1 text-[11px] leading-[1.2] font-semibold [font-family:var(--font-source-serif-4)]">
+                {scheduleTemplates.wednesday.time}
+              </p>
+              <p className="text-[10px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
+                {scheduleTemplates.wednesday.place}
+              </p>
+              <p className="text-[9px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
+                {scheduleTemplates.wednesday.address}
+              </p>
+            </article>
+
+            <article className="rounded-xl border border-[#8e2b2b40] bg-[#fff6e3] p-2.5 text-[#580a0a]">
+              <p className="text-[11px] font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+                {activeLanguage === "VIE" ? "Chủ nhật" : "Sunday"}:{" "}
+                {sundayDays.join(", ")}
+              </p>
+              <p className="mt-1 text-[11px] leading-[1.2] font-semibold [font-family:var(--font-source-serif-4)]">
+                {scheduleTemplates.sunday.time}
+              </p>
+              <p className="text-[10px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
+                {scheduleTemplates.sunday.place}
+              </p>
+              <p className="text-[9px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
+                {scheduleTemplates.sunday.address}
+              </p>
+            </article>
+          </div>
+        </div>
       </section>
 
       <section
@@ -693,7 +892,7 @@ export default function HomePage() {
                 return (
                   <article
                     key={`${card.title}-${index}`}
-                    className={`absolute top-0 w-[338px] ${leftClass}`}
+                    className={`absolute top-0 w-[338px] translate-x-[24px] translate-y-[24px] ${leftClass}`}
                   >
                     <div className="relative h-[336px] w-[338px] overflow-hidden rounded-[22px]">
                       <Image

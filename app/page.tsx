@@ -7,36 +7,36 @@ import { useEffect, useMemo, useRef, useState } from "react";
 type Language = "VIE" | "ENG";
 
 const logoSrc =
-  "https://happybishops.com/hb-assets/bishop.webp";
+  "https://assets.happybishops.com/hb-assets/bishop.webp";
 const heroBoardSrc =
-  "https://happybishops.com/hb-assets/hero.webp";
+  "https://assets.happybishops.com/hb-assets/hero.webp";
 const floatingPawnSrc =
-  "https://happybishops.com/hb-assets/pawn.webp";
+  "https://assets.happybishops.com/hb-assets/pawn.webp";
 const floatingBishopSrc =
-  "https://happybishops.com/hb-assets/bishop.webp";
+  "https://assets.happybishops.com/hb-assets/bishop.webp";
 const galleryImg1 =
-  "https://happybishops.com/hb-assets/1.webp";
+  "https://assets.happybishops.com/hb-assets/1.webp";
 const galleryImg2 =
-  "https://happybishops.com/hb-assets/2.webp";
+  "https://assets.happybishops.com/hb-assets/2.webp";
 const galleryImg3 =
-  "https://happybishops.com/hb-assets/3.webp";
+  "https://assets.happybishops.com/hb-assets/3.webp";
 const galleryImg4 =
-  "https://happybishops.com/hb-assets/4.webp";
+  "https://assets.happybishops.com/hb-assets/4.webp";
 const galleryImg5 =
-  "https://happybishops.com/hb-assets/5.webp";
+  "https://assets.happybishops.com/hb-assets/5.webp";
 const galleryImg6 =
-  "https://happybishops.com/hb-assets/6.webp";
+  "https://assets.happybishops.com/hb-assets/6.webp";
 const viewMoreIconSrc = "/go_to_button.svg";
 const scheduleCalendarIconSrc = "/calendar.svg";
 const schedulePinIconSrc = "/map.svg";
 const newsRookSrc =
-  "https://happybishops.com/hb-assets/rook.webp";
+  "https://assets.happybishops.com/hb-assets/rook.webp";
 const newsCard1Src =
-  "https://happybishops.com/hb-assets/1.webp";
+  "https://assets.happybishops.com/hb-assets/1.webp";
 const newsCard2Src =
-  "https://happybishops.com/hb-assets/2.webp";
+  "https://assets.happybishops.com/hb-assets/2.webp";
 const newsCard3Src =
-  "https://happybishops.com/hb-assets/3.webp";
+  "https://assets.happybishops.com/hb-assets/3.webp";
 const newsArrowSrc = "/go_to_button_white.svg";
 
 const localizedText: Record<

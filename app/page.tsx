@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 type Language = "VIE" | "ENG";
 
 const logoSrc =
-  "https://assets.happybishops.com/hb-assets/bishop.webp";
+  "https://assets.happybishops.com/hb-assets/logo.webp";
 const heroBoardSrc =
   "https://assets.happybishops.com/hb-assets/hero.webp";
 const floatingPawnSrc =

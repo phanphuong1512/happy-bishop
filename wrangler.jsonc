@@ -6,6 +6,16 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
+  "routes": [
+    {
+      "pattern": "happybishops.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.happybishops.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"

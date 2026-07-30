@@ -668,7 +668,7 @@ export default function HomePage() {
           width={130}
           height={130}
           aria-hidden="true"
-          className="pointer-events-none absolute left-[20%] top-[-90%] z-10 h-auto w-[70px] rotate-[-40deg] opacity-95 max-[1080px]:left-[52%] max-[1080px]:top-[4%] max-[1080px]:w-[70px] max-[680px]:hidden"
+          className="pointer-events-none absolute left-[22%] top-[-45%] z-10 h-auto w-[84px] rotate-[-22deg] opacity-95 drop-shadow-[0_12px_16px_rgba(94,10,24,0.18)] max-[1080px]:left-[52%] max-[1080px]:top-[4%] max-[1080px]:w-[72px] max-[680px]:hidden"
         />
         <Image
           src={floatingBishopSrc}
@@ -676,7 +676,7 @@ export default function HomePage() {
           width={240}
           height={240}
           aria-hidden="true"
-          className="pointer-events-none absolute left-[-5%] top-[80%] z-10 h-auto w-[130px] rotate-[30deg] opacity-95 max-[1080px]:w-[108px] max-[680px]:hidden"
+          className="pointer-events-none absolute left-[-3%] top-[72%] z-10 h-auto w-[140px] rotate-[18deg] opacity-95 drop-shadow-[0_16px_22px_rgba(94,10,24,0.22)] max-[1080px]:w-[110px] max-[680px]:hidden"
         />
       </section>
 
@@ -872,10 +872,10 @@ export default function HomePage() {
         <Image
           src={newsRookSrc}
           alt=""
-          width={172}
+          width={180}
           height={300}
           aria-hidden="true"
-          className="pointer-events-none absolute top-[-50px] -right-[80px] z-20 hidden h-auto w-[172px] rotate-[-10deg] min-[1081px]:block"
+          className="pointer-events-none absolute top-[-60px] right-[-20px] z-20 hidden h-auto w-[180px] rotate-[22deg] drop-shadow-[0_14px_20px_rgba(94,10,24,0.2)] min-[1081px]:block"
         />
 
         <div className="relative left-1/2 mt-8 w-screen -translate-x-1/2 overflow-x-clip">

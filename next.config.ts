@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "happybishops.com",
+        pathname: "/hb-assets/**",
+      },
+      {
+        protocol: "https",
         hostname: "www.figma.com",
         pathname: "/api/mcp/asset/**",
       },

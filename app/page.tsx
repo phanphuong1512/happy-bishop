@@ -7,36 +7,36 @@ import { useEffect, useMemo, useRef, useState } from "react";
 type Language = "VIE" | "ENG";
 
 const logoSrc =
-  "https://www.figma.com/api/mcp/asset/5414bfae-90ad-4b28-98fb-e8de9ced4bad";
+  "https://happybishops.com/hb-assets/bishop.webp";
 const heroBoardSrc =
-  "https://www.figma.com/api/mcp/asset/e7f90656-f858-4cec-9091-bf14026e7983";
+  "https://happybishops.com/hb-assets/hero.webp";
 const floatingPawnSrc =
-  "https://www.figma.com/api/mcp/asset/8fd70182-4766-47ce-9d94-b781211c52f6";
+  "https://happybishops.com/hb-assets/pawn.webp";
 const floatingBishopSrc =
-  "https://www.figma.com/api/mcp/asset/0f87e472-8e6b-4490-8090-cf825c19661d";
+  "https://happybishops.com/hb-assets/bishop.webp";
 const galleryImg1 =
-  "https://www.figma.com/api/mcp/asset/7a446f5e-c61a-4e65-aabd-e71284b08453";
+  "https://happybishops.com/hb-assets/1.webp";
 const galleryImg2 =
-  "https://www.figma.com/api/mcp/asset/e31ad684-2851-4cdf-b3ff-0c5ae2b50397";
+  "https://happybishops.com/hb-assets/2.webp";
 const galleryImg3 =
-  "https://www.figma.com/api/mcp/asset/bb200038-162f-4d89-99d8-4f278e5fdb37";
+  "https://happybishops.com/hb-assets/3.webp";
 const galleryImg4 =
-  "https://www.figma.com/api/mcp/asset/2a064ff3-2671-44dc-99c6-3b9618ff7cd2";
+  "https://happybishops.com/hb-assets/4.webp";
 const galleryImg5 =
-  "https://www.figma.com/api/mcp/asset/f3fb942c-b09c-40fc-b22c-eb3ce1b27bdf";
+  "https://happybishops.com/hb-assets/5.webp";
 const galleryImg6 =
-  "https://www.figma.com/api/mcp/asset/9813cf18-a4fd-46c6-a3f0-14a4470e3f6f";
+  "https://happybishops.com/hb-assets/6.webp";
 const viewMoreIconSrc = "/go_to_button.svg";
 const scheduleCalendarIconSrc = "/calendar.svg";
 const schedulePinIconSrc = "/map.svg";
 const newsRookSrc =
-  "https://www.figma.com/api/mcp/asset/de0a0326-7215-498e-93d2-978a07ce2a93";
+  "https://happybishops.com/hb-assets/rook.webp";
 const newsCard1Src =
-  "https://www.figma.com/api/mcp/asset/4981f416-1a4e-43de-a061-ca1cdd4b82a0";
+  "https://happybishops.com/hb-assets/1.webp";
 const newsCard2Src =
-  "https://www.figma.com/api/mcp/asset/cc5f6d25-ce9c-478d-9913-3a81163a5147";
+  "https://happybishops.com/hb-assets/2.webp";
 const newsCard3Src =
-  "https://www.figma.com/api/mcp/asset/fd4084b3-a70f-466b-9986-f423068172e7";
+  "https://happybishops.com/hb-assets/3.webp";
 const newsArrowSrc = "/go_to_button_white.svg";
 
 const localizedText: Record<

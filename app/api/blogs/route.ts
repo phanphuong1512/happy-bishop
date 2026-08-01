@@ -111,6 +111,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, message: "Đã thêm bài viết mới vào Cloudflare D1 Database!" });
     }
 
+    // Proxy POST to live production Cloudflare D1 Database if running on localhost:3000
+    try {
+      const prodRes = await fetch("https://happybishops.com/api/blogs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: "hb_admin_auth=hb_authenticated_admin_session_2025",
+        },
+        body: JSON.stringify(body),
+      });
+      const prodData = await prodRes.json();
+      if (prodRes.ok && prodData.success) {
+        return NextResponse.json({ success: true, message: "🟢 Đã thêm bài viết mới trực tiếp vào Cloudflare D1 Database!" });
+      }
+    } catch (e) {
+      console.error("Local proxy POST error:", e);
+    }
+
     const newId = localDevBlogs.length > 0 ? Math.max(...localDevBlogs.map(b => Number(b.id) || 0)) + 1 : 1;
     const newPost = {
       id: newId,

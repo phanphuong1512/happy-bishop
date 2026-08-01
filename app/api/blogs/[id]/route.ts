@@ -118,6 +118,24 @@ export async function PUT(
       return NextResponse.json({ success: true, message: "Đã cập nhật bài viết trong Cloudflare D1 Database!" });
     }
 
+    // Proxy PUT to live production D1 Database if running on localhost:3000
+    try {
+      const prodRes = await fetch(`https://happybishops.com/api/blogs/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: "hb_admin_auth=hb_authenticated_admin_session_2025",
+        },
+        body: JSON.stringify(body),
+      });
+      const prodData = await prodRes.json();
+      if (prodRes.ok && prodData.success) {
+        return NextResponse.json({ success: true, message: "🟢 Đã cập nhật bài viết trực tiếp trên Cloudflare D1 Database!" });
+      }
+    } catch (e) {
+      console.error("Local proxy PUT error:", e);
+    }
+
     const localBlogs = getLocalDevBlogs();
     const index = localBlogs.findIndex((b) => String(b.id) === id || b.slug === id);
     if (index !== -1) {
@@ -156,6 +174,22 @@ export async function DELETE(
     if (db) {
       await db.prepare("DELETE FROM blogs WHERE id = ? OR slug = ?").bind(id, id).run();
       return NextResponse.json({ success: true, message: "Đã xóa bài viết khỏi Cloudflare D1 Database!" });
+    }
+
+    // Proxy DELETE to live production D1 Database if running on localhost:3000
+    try {
+      const prodRes = await fetch(`https://happybishops.com/api/blogs/${id}`, {
+        method: "DELETE",
+        headers: {
+          Cookie: "hb_admin_auth=hb_authenticated_admin_session_2025",
+        },
+      });
+      const prodData = await prodRes.json();
+      if (prodRes.ok && prodData.success) {
+        return NextResponse.json({ success: true, message: "🟢 Đã xóa bài viết trực tiếp khỏi Cloudflare D1 Database!" });
+      }
+    } catch (e) {
+      console.error("Local proxy DELETE error:", e);
     }
 
     const localBlogs = getLocalDevBlogs();

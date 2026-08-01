@@ -72,7 +72,7 @@ export default function AboutPage() {
               {isVie ? "Cộng đồng" : "Community"}
             </Link>
             <Link
-              href="/#lien-he"
+              href="/lien-he"
               className="inline-flex items-center whitespace-nowrap text-[1.08rem] leading-[1.1] font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem]"
             >
               {isVie ? "Liên hệ" : "Contact"}

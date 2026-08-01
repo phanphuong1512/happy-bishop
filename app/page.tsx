@@ -138,7 +138,7 @@ const navHrefs = [
   "/su-kien",
   "/blog",
   "/#cong-dong",
-  "/#lien-he",
+  "/lien-he",
 ];
 
 const scheduleEventTemplatesByLanguage: Record<

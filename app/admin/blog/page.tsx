@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Edit, Trash2, LogOut, ArrowLeft, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react";
+import { Plus, Edit, Trash2, LogOut, ArrowLeft, RefreshCw, CheckCircle2, AlertCircle, Upload } from "lucide-react";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
@@ -16,6 +16,35 @@ export default function AdminBlogManagementPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<any | null>(null);
   const [toastMsg, setToastMsg] = useState<{ text: string; isError?: boolean } | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    const body = new FormData();
+    body.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success && data.url) {
+        setFormData((prev) => ({ ...prev, coverImage: data.url }));
+        showToast("Tải ảnh lên CDN thành công!");
+      } else {
+        showToast(data.message || "Lỗi khi tải ảnh!", true);
+      }
+    } catch (err) {
+      showToast("Lỗi kết nối khi tải ảnh!", true);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   // Form fields state
   const [formData, setFormData] = useState({
@@ -354,15 +383,41 @@ export default function AdminBlogManagementPage() {
               </div>
 
               <div>
-                <label className="block mb-1">Ảnh bìa URL (*)</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.coverImage}
-                  onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  placeholder="https://assets.happybishops.com/media/blog_1.webp"
-                  className="w-full rounded-xl border border-[rgba(142,43,43,0.25)] bg-white p-2.5 text-sm font-semibold text-[#8e2b2b] focus:outline-none"
-                />
+                <label className="block mb-1">Ảnh bìa (*)</label>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      required
+                      value={formData.coverImage}
+                      onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                      placeholder="https://assets.happybishops.com/media/blog_1.webp"
+                      className="flex-1 rounded-xl border border-[rgba(142,43,43,0.25)] bg-white p-2.5 text-sm font-semibold text-[#8e2b2b] focus:outline-none"
+                    />
+                    <label className="shrink-0 cursor-pointer rounded-xl border border-[#c86a6c] bg-[#8e2b2b] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#a43638] transition-colors flex items-center gap-1.5">
+                      <Upload className="w-3.5 h-3.5" />
+                      {uploadingImage ? "Đang tải..." : "Tải ảnh từ máy"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        disabled={uploadingImage}
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {formData.coverImage && (
+                    <div className="relative h-28 w-44 overflow-hidden rounded-xl border border-[rgba(142,43,43,0.2)] bg-gray-100">
+                      <Image
+                        src={formData.coverImage}
+                        alt="Preview"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div>

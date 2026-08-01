@@ -56,6 +56,19 @@ export async function GET(
     }
   }
 
+  // Localhost fallback: fetch from production live D1
+  try {
+    const prodRes = await fetch(`https://happybishops.com/api/blogs/${id}`, { cache: "no-store" });
+    if (prodRes.ok) {
+      const prodData = await prodRes.json();
+      if (prodData.data) {
+        return NextResponse.json({ success: true, data: prodData.data });
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching live D1 detail fallback:", err);
+  }
+
   const localBlogs = getLocalDevBlogs();
   const found = localBlogs.find((p) => String(p.id) === id || p.slug === id);
   if (found) {
@@ -105,7 +118,6 @@ export async function PUT(
       return NextResponse.json({ success: true, message: "Đã cập nhật bài viết trong Cloudflare D1 Database!" });
     }
 
-    // Local dev update
     const localBlogs = getLocalDevBlogs();
     const index = localBlogs.findIndex((b) => String(b.id) === id || b.slug === id);
     if (index !== -1) {
@@ -146,7 +158,6 @@ export async function DELETE(
       return NextResponse.json({ success: true, message: "Đã xóa bài viết khỏi Cloudflare D1 Database!" });
     }
 
-    // Local dev delete
     const localBlogs = getLocalDevBlogs();
     const filtered = localBlogs.filter((b) => String(b.id) !== id && b.slug !== id);
     setLocalDevBlogs(filtered);

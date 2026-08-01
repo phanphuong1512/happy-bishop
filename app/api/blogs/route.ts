@@ -26,7 +26,7 @@ async function getD1Database() {
       return db;
     }
   } catch (e) {
-    //
+    // Running in local Next.js dev server without wrangler proxy
   }
   return null;
 }
@@ -56,6 +56,19 @@ export async function GET() {
     } catch (error: any) {
       console.error("D1 Query Error:", error);
     }
+  }
+
+  // When running on localhost:3000 without local D1 binding, fetch live D1 data from production
+  try {
+    const prodRes = await fetch("https://happybishops.com/api/blogs", { cache: "no-store" });
+    if (prodRes.ok) {
+      const prodData = await prodRes.json();
+      if (prodData.data && prodData.data.length > 0) {
+        return NextResponse.json({ success: true, data: prodData.data, source: "production-d1-proxy" });
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching live D1 fallback:", err);
   }
 
   return NextResponse.json({ success: true, data: localDevBlogs, source: "local" });

@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { blogPosts } from "./data";
-
 import { useLanguage } from "@/context/language-context";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";

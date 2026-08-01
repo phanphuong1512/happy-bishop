@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
-import { blogPosts } from "../data";
 import { useLanguage } from "@/context/language-context";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
@@ -28,16 +27,10 @@ export default function BlogPostDetailPage({
       .then((data) => {
         if (data.data) {
           setPost(data.data);
-        } else {
-          // Fallback to initial seed matching D1
-          const staticFound = blogPosts.find((p) => p.slug === slug);
-          if (staticFound) setPost(staticFound);
         }
       })
       .catch((err) => {
         console.error("D1 Fetch Error:", err);
-        const staticFound = blogPosts.find((p) => p.slug === slug);
-        if (staticFound) setPost(staticFound);
       })
       .finally(() => setLoading(false));
   }, [slug]);
@@ -55,10 +48,6 @@ export default function BlogPostDetailPage({
   if (!post) {
     notFound();
   }
-
-  const postIndex = blogPosts.findIndex((p) => p.slug === slug);
-  const nextPost = postIndex > 0 ? blogPosts[postIndex - 1] : null;
-  const prevPost = postIndex < blogPosts.length - 1 && postIndex !== -1 ? blogPosts[postIndex + 1] : null;
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1000px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -162,28 +151,13 @@ export default function BlogPostDetailPage({
         )}
 
         {/* Article Navigation Bar */}
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(88,10,10,0.2)] pt-6 text-sm font-bold [font-family:var(--font-lexend)]">
-          {prevPost ? (
-            <Link
-              href={`/blog/${prevPost.slug}`}
-              className="inline-flex items-center gap-2 text-[#8e2b2b] hover:text-[#f78181] transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" /> {isVie ? "Bài trước" : "Previous Article"}
-            </Link>
-          ) : (
-            <span />
-          )}
-
-          {nextPost ? (
-            <Link
-              href={`/blog/${nextPost.slug}`}
-              className="inline-flex items-center gap-2 text-[#8e2b2b] hover:text-[#f78181] transition-colors"
-            >
-              {isVie ? "Bài tiếp theo" : "Next Article"} <ArrowRight className="w-4 h-4" />
-            </Link>
-          ) : (
-            <span />
-          )}
+        <div className="mt-12 flex items-center justify-between gap-4 border-t border-[rgba(88,10,10,0.2)] pt-6 text-sm font-bold [font-family:var(--font-lexend)]">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#8e2b2b]/10 px-4 py-2 text.xs text-[#8e2b2b] hover:bg-[#8e2b2b]/20 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> {isVie ? "Xem tất cả bài viết" : "View all articles"}
+          </Link>
         </div>
       </article>
     </main>

@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { blogPosts as staticBlogPosts } from "@/app/blog/data";
 
-// Memory store for local development (when env.DB is not bound to local dev server)
-let localDevBlogs: any[] = [...staticBlogPosts];
+let localDevBlogs: any[] = [];
 
 export function getLocalDevBlogs() {
   return localDevBlogs;
@@ -28,7 +26,7 @@ async function getD1Database() {
       return db;
     }
   } catch (e) {
-    // Running in local Next.js dev server without wrangler proxy
+    //
   }
   return null;
 }
@@ -39,7 +37,7 @@ export async function GET() {
   if (db) {
     try {
       const { results } = await db.prepare("SELECT * FROM blogs ORDER BY id DESC").all();
-      if (results && results.length > 0) {
+      if (results) {
         const formatted = results.map((row: any) => ({
           id: row.id,
           slug: row.slug,
@@ -60,7 +58,6 @@ export async function GET() {
     }
   }
 
-  // Local development fallback so localhost:3000 is never 0/blank
   return NextResponse.json({ success: true, data: localDevBlogs, source: "local" });
 }
 
@@ -101,7 +98,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, message: "Đã thêm bài viết mới vào Cloudflare D1 Database!" });
     }
 
-    // Local dev fallback
     const newId = localDevBlogs.length > 0 ? Math.max(...localDevBlogs.map(b => Number(b.id) || 0)) + 1 : 1;
     const newPost = {
       id: newId,
@@ -116,7 +112,7 @@ export async function POST(request: Request) {
 
     localDevBlogs.unshift(newPost);
 
-    return NextResponse.json({ success: true, message: "Đã tạo bài viết mới (Local Dev)!", data: newPost });
+    return NextResponse.json({ success: true, message: "Đã tạo bài viết mới!", data: newPost });
   } catch (error: any) {
     console.error("D1 Insert Error:", error);
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi thêm bài viết!" }, { status: 500 });

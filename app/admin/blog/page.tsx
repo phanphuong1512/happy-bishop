@@ -362,7 +362,7 @@ export default function AdminBlogManagementPage() {
                 <button
                   type="button"
                   title="Xóa bài viết"
-                  onClick={() => handleDelete(post.id)}
+                  onClick={() => handleDelete(post.id || post.slug)}
                   className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-100 text-rose-800 hover:bg-rose-200 transition-colors cursor-pointer shadow-xs"
                 >
                   <Trash2 className="w-5 h-5" />

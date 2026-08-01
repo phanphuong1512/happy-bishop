@@ -3,8 +3,16 @@ import { cookies } from "next/headers";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { blogPosts as staticBlogPosts } from "@/app/blog/data";
 
-// In-memory store for environments where D1 is not bound (e.g. local dev server)
+// Shared memory store for local development / non-D1 environment
 let memoryBlogs: any[] = [...staticBlogPosts];
+
+export function getMemoryBlogs() {
+  return memoryBlogs;
+}
+
+export function setMemoryBlogs(newBlogs: any[]) {
+  memoryBlogs = newBlogs;
+}
 
 async function isAuthorized() {
   const cookieStore = await cookies();
@@ -33,6 +41,31 @@ async function getD1Database() {
           updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
       `).run();
+
+      // Seed initial static posts if table is empty
+      const countRes: any = await db.prepare("SELECT COUNT(*) as count FROM blogs").first();
+      if (countRes && countRes.count === 0) {
+        for (const post of staticBlogPosts) {
+          const jsonContent = JSON.stringify(post.content);
+          await db.prepare(
+            `INSERT OR IGNORE INTO blogs (id, slug, title, date, summary, cover_image, content, recap_link_text, recap_link_target_slug)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          )
+            .bind(
+              post.id,
+              post.slug,
+              post.title,
+              post.date,
+              post.summary,
+              post.coverImage,
+              jsonContent,
+              post.recapLink?.text || "",
+              post.recapLink?.targetSlug || ""
+            )
+            .run();
+        }
+      }
+
       return db;
     }
   } catch (e) {
@@ -47,7 +80,7 @@ export async function GET() {
   if (db) {
     try {
       const { results } = await db.prepare("SELECT * FROM blogs ORDER BY id DESC").all();
-      if (results && results.length > 0) {
+      if (results) {
         const formatted = results.map((row: any) => ({
           id: row.id,
           slug: row.slug,
@@ -129,5 +162,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi tạo bài viết!" }, { status: 500 });
   }
 }
-
-export { memoryBlogs };

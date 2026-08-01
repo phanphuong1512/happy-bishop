@@ -12,11 +12,13 @@ const floatingBishopSrc = "https://assets.happybishops.com/hb-assets/bishop.webp
 const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 const newsRookSrc = "https://assets.happybishops.com/hb-assets/rook.webp";
 
+import { useLanguage } from "@/context/language-context";
+
 export default function AboutPage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isVie = activeLanguage === "VIE";
+  const isVie = language === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-16 min-h-screen w-[calc(100%-1.2rem)] max-w-[1320px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -89,11 +91,11 @@ export default function AboutPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "VIE"
+              language === "VIE"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("VIE")}
+            onClick={() => setLanguage("VIE")}
           >
             VIE
           </button>
@@ -104,11 +106,11 @@ export default function AboutPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "ENG"
+              language === "ENG"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("ENG")}
+            onClick={() => setLanguage("ENG")}
           >
             ENG
           </button>
@@ -186,10 +188,10 @@ export default function AboutPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "VIE" ? "border-white bg-white/20" : "border-white/40"
+                  language === "VIE" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("VIE");
+                  setLanguage("VIE");
                   setIsMenuOpen(false);
                 }}
               >
@@ -198,10 +200,10 @@ export default function AboutPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "ENG" ? "border-white bg-white/20" : "border-white/40"
+                  language === "ENG" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("ENG");
+                  setLanguage("ENG");
                   setIsMenuOpen(false);
                 }}
               >

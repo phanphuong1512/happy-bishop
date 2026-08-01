@@ -1,39 +1,24 @@
+"use client";
+
+import React, { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import { blogPosts } from "../data";
-import { Calendar } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
-export async function generateMetadata({
+export default function BlogPostDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
-  if (!post) {
-    return { title: "Bài viết không tồn tại – Happy Bishops" };
-  }
-  return {
-    title: `${post.title} – Happy Bishops`,
-    description: post.summary,
-  };
-}
+  const { slug } = use(params);
+  const { language } = useLanguage();
+  const isVie = language === "VIE";
 
-export default async function BlogPostDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
   const postIndex = blogPosts.findIndex((p) => p.slug === slug);
   if (postIndex === -1) {
     notFound();
@@ -70,9 +55,9 @@ export default async function BlogPostDetailPage({
           <div className="flex gap-6 max-[530px]:gap-3">
             <Link
               href="/blog"
-              className="text-sm font-bold text-white hover:underline underline-offset-4"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:underline underline-offset-4"
             >
-              ← Quay lại danh sách Tin tức
+              <ArrowLeft className="w-4 h-4" /> {isVie ? "Quay lại danh sách Tin tức" : "Back to News List"}
             </Link>
           </div>
         </nav>
@@ -84,14 +69,14 @@ export default async function BlogPostDetailPage({
           href="/blog"
           className="inline-flex items-center gap-2 text-sm font-bold text-[#8e2b2b] hover:text-[#f78181] transition-colors [font-family:var(--font-lexend)]"
         >
-          ← Tất cả bài viết
+          <ArrowLeft className="w-4 h-4" /> {isVie ? "Tất cả bài viết" : "All Articles"}
         </Link>
       </div>
 
-      {/* Main Article Container */}
-      <article className="rounded-3xl border border-[rgba(142,43,43,0.18)] bg-[#fff6e3] p-8 shadow-xs max-[680px]:p-5">
+      {/* Article Content Container */}
+      <article className="rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#fff6e3] p-8 shadow-xs max-[680px]:p-5">
         {/* Cover Image */}
-        <div className="relative h-[380px] w-full overflow-hidden rounded-2xl bg-[#eb979b]/20 max-[680px]:h-[220px]">
+        <div className="relative aspect-16/9 w-full overflow-hidden rounded-2xl border border-[rgba(142,43,43,0.15)] shadow-xs">
           <Image
             src={post.coverImage}
             alt={post.title}
@@ -106,7 +91,7 @@ export default async function BlogPostDetailPage({
         <div className="mt-6 flex items-center justify-between">
           <span className="inline-flex items-center gap-1.5 rounded-md bg-[#8e2b2b]/10 px-3 py-1 text-xs font-bold text-[#8e2b2b] [font-family:var(--font-lexend)]">
             <Calendar className="w-3.5 h-3.5" />
-            Ngày đăng: {post.date}
+            {isVie ? "Ngày đăng:" : "Date:"} {post.date}
           </span>
           <span className="text-xs font-semibold text-[#f78181] [font-family:var(--font-lexend)]">
             Happy Bishops Blog #{post.id}
@@ -129,58 +114,46 @@ export default async function BlogPostDetailPage({
           ))}
         </div>
 
-
-
         {/* Target Recap Link (if available) */}
         {post.recapLink && (
-          <div className="mt-8 rounded-2xl bg-[#f78181]/15 p-5 border border-[#f78181]/30">
-            <p className="text-sm font-bold text-[#8e2b2b] [font-family:var(--font-lexend)] mb-2">
-              Xem thêm:
+          <div className="mt-8 rounded-2xl bg-[#eb979b]/20 p-6 border border-[#8e2b2b]/20">
+            <p className="text-sm font-semibold text-[#8e2b2b] [font-family:var(--font-lexend)] mb-2">
+              {isVie ? "Đọc bài viết liên quan:" : "Read related article:"}
             </p>
             <Link
               href={`/blog/${post.recapLink.targetSlug}`}
-              className="inline-flex items-center gap-2 text-base font-bold text-[#8e2b2b] hover:text-[#f78181] underline underline-offset-4 transition-colors [font-family:var(--font-lexend)]"
+              className="inline-flex items-center gap-2 text-base font-bold text-[#8e2b2b] underline hover:text-[#f78181] [font-family:var(--font-lexend)]"
             >
               {post.recapLink.text} →
             </Link>
           </div>
         )}
+
+        {/* Article Navigation Bar */}
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(88,10,10,0.2)] pt-6 text-sm font-bold [font-family:var(--font-lexend)]">
+          {prevPost ? (
+            <Link
+              href={`/blog/${prevPost.slug}`}
+              className="inline-flex items-center gap-2 text-[#8e2b2b] hover:text-[#f78181] transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" /> {isVie ? "Bài trước" : "Previous Article"}
+            </Link>
+          ) : (
+            <span />
+          )}
+
+          {nextPost ? (
+            <Link
+              href={`/blog/${nextPost.slug}`}
+              className="inline-flex items-center gap-2 text-[#8e2b2b] hover:text-[#f78181] transition-colors"
+            >
+              {isVie ? "Bài tiếp theo" : "Next Article"} <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <span />
+          )}
+        </div>
       </article>
-
-      {/* Prev / Next Post Navigation */}
-      <div className="mt-8 grid grid-cols-2 gap-4 max-[680px]:grid-cols-1">
-        {prevPost ? (
-          <Link
-            href={`/blog/${prevPost.slug}`}
-            className="flex flex-col rounded-2xl border border-[rgba(142,43,43,0.15)] bg-[#fff6e3] p-4 transition-colors hover:bg-white/60"
-          >
-            <span className="text-xs font-semibold text-[#f78181] [font-family:var(--font-lexend)]">
-              ← Bài trước
-            </span>
-            <span className="mt-1 text-sm font-bold text-[#8e2b2b] line-clamp-1 [font-family:var(--font-lexend)]">
-              {prevPost.title}
-            </span>
-          </Link>
-        ) : (
-          <div />
-        )}
-
-        {nextPost ? (
-          <Link
-            href={`/blog/${nextPost.slug}`}
-            className="flex flex-col items-end text-right rounded-2xl border border-[rgba(142,43,43,0.15)] bg-[#fff6e3] p-4 transition-colors hover:bg-white/60"
-          >
-            <span className="text-xs font-semibold text-[#f78181] [font-family:var(--font-lexend)]">
-              Bài tiếp theo →
-            </span>
-            <span className="mt-1 text-sm font-bold text-[#8e2b2b] line-clamp-1 [font-family:var(--font-lexend)]">
-              {nextPost.title}
-            </span>
-          </Link>
-        ) : (
-          <div />
-        )}
-      </div>
     </main>
   );
 }

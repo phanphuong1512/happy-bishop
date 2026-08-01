@@ -12,11 +12,13 @@ const floatingBishopSrc = "https://assets.happybishops.com/hb-assets/bishop.webp
 const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 const newsRookSrc = "https://assets.happybishops.com/hb-assets/rook.webp";
 
+import { useLanguage } from "@/context/language-context";
+
 export default function EventsOverviewPage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isVie = activeLanguage === "VIE";
+  const isVie = language === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1320px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -89,11 +91,11 @@ export default function EventsOverviewPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "VIE"
+              language === "VIE"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("VIE")}
+            onClick={() => setLanguage("VIE")}
           >
             VIE
           </button>
@@ -104,11 +106,11 @@ export default function EventsOverviewPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "ENG"
+              language === "ENG"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("ENG")}
+            onClick={() => setLanguage("ENG")}
           >
             ENG
           </button>
@@ -186,10 +188,10 @@ export default function EventsOverviewPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "VIE" ? "border-white bg-white/20" : "border-white/40"
+                  language === "VIE" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("VIE");
+                  setLanguage("VIE");
                   setIsMenuOpen(false);
                 }}
               >
@@ -198,10 +200,10 @@ export default function EventsOverviewPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "ENG" ? "border-white bg-white/20" : "border-white/40"
+                  language === "ENG" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("ENG");
+                  setLanguage("ENG");
                   setIsMenuOpen(false);
                 }}
               >
@@ -218,7 +220,7 @@ export default function EventsOverviewPage() {
           happy bishops
         </p>
         <h1 className="mt-2 text-[88px] leading-none font-bold [font-family:var(--font-lexend)] tracking-[0.08em] text-[var(--hb-deep-red)] max-[1080px]:text-[64px] max-[680px]:text-[42px]">
-          SỰ KIỆN
+          {isVie ? "SỰ KIỆN" : "EVENTS"}
         </h1>
         <div className="mt-6 h-px w-full bg-[rgba(88,10,10,0.35)]" />
       </section>
@@ -234,11 +236,13 @@ export default function EventsOverviewPage() {
                   <Trophy className="w-5 h-5" />
                 </div>
                 <h2 className="text-[32px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[24px]">
-                  Giải đấu
+                  {isVie ? "Giải đấu" : "Tournaments"}
                 </h2>
               </div>
               <p className="mt-4 text-[16.5px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[15px]">
-                Các giải đấu do Happy Bishops tổ chức dành cho cộng đồng người chơi phong trào tại Hà Nội, bao gồm giải đấu hàng tháng và một số giải đặc biệt trong năm.
+                {isVie
+                  ? "Các giải đấu do Happy Bishops tổ chức dành cho cộng đồng người chơi phong trào tại Hà Nội, bao gồm giải đấu hàng tháng và một số giải đặc biệt trong năm."
+                  : "Tournaments organized by Happy Bishops for amateur chess players in Hanoi, including monthly events and special seasonal cups."}
               </p>
             </div>
 
@@ -247,7 +251,7 @@ export default function EventsOverviewPage() {
                 href="/su-kien/giai-dau"
                 className="inline-flex h-[52px] min-w-[220px] items-center justify-center rounded-full border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] via-[#a43638] to-[#8f2a2d] px-8 text-[18px] font-bold [font-family:var(--font-lexend)] text-[#fff6e3] shadow-[0_6px_0_#6f1f22,0_12px_18px_rgba(116,27,38,0.28)] hover:brightness-105 active:translate-y-[3px] transition-all max-[680px]:w-full"
               >
-                Xem các giải đấu →
+                {isVie ? "Xem các giải đấu →" : "View Tournaments →"}
               </Link>
             </div>
           </div>
@@ -260,11 +264,13 @@ export default function EventsOverviewPage() {
                   <BookOpen className="w-5 h-5" />
                 </div>
                 <h2 className="text-[32px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[24px]">
-                  Workshop
+                  {isVie ? "Workshop" : "Workshops"}
                 </h2>
               </div>
               <p className="mt-4 text-[16.5px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[15px]">
-                Các buổi chia sẻ và workshop nhỏ về cờ vua và cách tổ chức giải đấu, dành cho những người muốn tìm hiểu sâu hơn về hoạt động trong cộng đồng.
+                {isVie
+                  ? "Các buổi chia sẻ và workshop nhỏ về cờ vua và cách tổ chức giải đấu, dành cho những người muốn tìm hiểu sâu hơn về hoạt động trong cộng đồng."
+                  : "Workshops and sharing sessions on chess concepts and tournament management for community leaders and enthusiasts."}
               </p>
             </div>
 
@@ -273,7 +279,7 @@ export default function EventsOverviewPage() {
                 href="/su-kien/workshop"
                 className="inline-flex h-[52px] min-w-[220px] items-center justify-center rounded-full border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] via-[#a43638] to-[#8f2a2d] px-8 text-[18px] font-bold [font-family:var(--font-lexend)] text-[#fff6e3] shadow-[0_6px_0_#6f1f22,0_12px_18px_rgba(116,27,38,0.28)] hover:brightness-105 active:translate-y-[3px] transition-all max-[680px]:w-full"
               >
-                Xem workshop →
+                {isVie ? "Xem workshop →" : "View Workshops →"}
               </Link>
             </div>
           </div>

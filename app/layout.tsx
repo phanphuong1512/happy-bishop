@@ -32,6 +32,8 @@ export const metadata: Metadata = {
   description: "Happy Bishops chess community website",
 };
 
+import { LanguageProvider } from "@/context/language-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,7 +47,9 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

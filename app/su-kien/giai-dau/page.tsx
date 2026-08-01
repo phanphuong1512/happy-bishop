@@ -10,8 +10,11 @@ type Language = "VIE" | "ENG";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
+import { useLanguage } from "@/context/language-context";
+
 export default function TournamentsListPage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language } = useLanguage();
+  const isVie = language === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1100px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -42,7 +45,7 @@ export default function TournamentsListPage() {
               href="/su-kien"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:underline underline-offset-4"
             >
-              <ArrowLeft className="w-4 h-4" /> Quay lại Sự kiện
+              <ArrowLeft className="w-4 h-4" /> {isVie ? "Quay lại Sự kiện" : "Back to Events"}
             </Link>
           </div>
         </nav>
@@ -54,17 +57,19 @@ export default function TournamentsListPage() {
           href="/su-kien"
           className="inline-flex items-center gap-2 text-sm font-bold text-[#8e2b2b] hover:text-[#f78181] transition-colors [font-family:var(--font-lexend)]"
         >
-          <ArrowLeft className="w-4 h-4" /> Trang Tổng Quan Sự Kiện
+          <ArrowLeft className="w-4 h-4" /> {isVie ? "Trang Tổng Quan Sự Kiện" : "Events Overview Page"}
         </Link>
       </div>
 
       {/* Page Title */}
       <section className="mb-8">
         <h1 className="text-[48px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[32px]">
-          Các Giải Đấu Cờ Vua
+          {isVie ? "Các Giải Đấu Cờ Vua" : "Chess Tournaments"}
         </h1>
         <p className="mt-2 text-[16px] [font-family:var(--font-source-serif-4)] italic text-[#580a0a]">
-          Danh sách các giải đấu do Happy Bishops tổ chức cho cộng đồng cờ vua phong trào tại Hà Nội.
+          {isVie
+            ? "Danh sách các giải đấu do Happy Bishops tổ chức cho cộng đồng cờ vua phong trào tại Hà Nội."
+            : "List of chess tournaments organized by Happy Bishops for the Hanoi amateur chess community."}
         </p>
         <div className="mt-4 h-px w-full bg-[rgba(88,10,10,0.25)]" />
       </section>
@@ -86,26 +91,26 @@ export default function TournamentsListPage() {
             <div className="mt-5 grid grid-cols-2 gap-3.5 text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b] bg-[#eb979b]/15 p-4 rounded-2xl border border-[rgba(142,43,43,0.1)] max-[680px]:grid-cols-1">
               <p className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Thời gian:</strong> {t.time}</span>
+                <span><strong>{isVie ? "Thời gian:" : "Date & Time:"}</strong> {t.time}</span>
               </p>
               <p className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Địa điểm:</strong> {t.location}</span>
+                <span><strong>{isVie ? "Địa điểm:" : "Venue:"}</strong> {t.location}</span>
               </p>
               <p className="flex items-center gap-2">
                 <Trophy className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Thể thức:</strong> {t.format}</span>
+                <span><strong>{isVie ? "Thể thức:" : "Format:"}</strong> {t.format}</span>
               </p>
               <p className="flex items-center gap-2">
                 <Users className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Số người tham gia:</strong> {t.participants}</span>
+                <span><strong>{isVie ? "Số người tham gia:" : "Participants:"}</strong> {t.participants}</span>
               </p>
             </div>
 
             {/* Intro Paragraphs */}
             <div className="mt-6 space-y-4 text-[16.5px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[14.5px]">
               <h3 className="text-[18px] not-italic font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] border-b border-[rgba(142,43,43,0.15)] pb-1">
-                Giới thiệu
+                {isVie ? "Giới thiệu" : "Introduction"}
               </h3>
               {t.intro.map((p, idx) => (
                 <p key={`intro-${idx}`}>{p}</p>
@@ -138,31 +143,31 @@ export default function TournamentsListPage() {
             {t.results && (
               <div className="mt-6">
                 <h3 className="text-[18px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] border-b border-[rgba(142,43,43,0.15)] pb-1">
-                  Kết quả giải đấu
+                  {isVie ? "Kết quả giải đấu" : "Tournament Results"}
                 </h3>
                 <div className="mt-3 space-y-2 text-[15px] [font-family:var(--font-lexend)] font-medium text-[#8e2b2b]">
                   {t.results.first && (
                     <p className="flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-amber-500" />
-                      <span><strong>Giải Nhất:</strong> {t.results.first}</span>
+                      <span><strong>{isVie ? "Giải Nhất:" : "1st Place:"}</strong> {t.results.first}</span>
                     </p>
                   )}
                   {t.results.second && (
                     <p className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-slate-400" />
-                      <span><strong>Giải Nhì:</strong> {t.results.second}</span>
+                      <span><strong>{isVie ? "Giải Nhì:" : "2nd Place:"}</strong> {t.results.second}</span>
                     </p>
                   )}
                   {t.results.third && (
                     <p className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-amber-700" />
-                      <span><strong>Giải Ba:</strong> {t.results.third}</span>
+                      <span><strong>{isVie ? "Giải Ba:" : "3rd Place:"}</strong> {t.results.third}</span>
                     </p>
                   )}
                   {t.results.femaleBest && (
                     <p className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-rose-500" />
-                      <span><strong>Giải Nhất Nữ:</strong> {t.results.femaleBest}</span>
+                      <span><strong>{isVie ? "Giải Nhất Nữ:" : "Top Female Player:"}</strong> {t.results.femaleBest}</span>
                     </p>
                   )}
                 </div>
@@ -173,7 +178,7 @@ export default function TournamentsListPage() {
             {t.sidePrizes && t.sidePrizes.length > 0 && (
               <div className="mt-6">
                 <h3 className="text-[18px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] border-b border-[rgba(142,43,43,0.15)] pb-1">
-                  Giải phụ
+                  {isVie ? "Giải phụ" : "Special Prizes"}
                 </h3>
                 <div className="mt-3 space-y-1 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
                   {t.sidePrizes.map((prize, idx) => (
@@ -190,7 +195,7 @@ export default function TournamentsListPage() {
             {t.highlightsText && (
               <div className="mt-6">
                 <h3 className="text-[18px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] border-b border-[rgba(142,43,43,0.15)] pb-1 mb-3">
-                  Khoảnh khắc của giải đấu
+                  {isVie ? "Khoảnh khắc của giải đấu" : "Event Highlights"}
                 </h3>
                 <p className="text-[16px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a]">
                   {t.highlightsText}

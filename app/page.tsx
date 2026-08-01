@@ -167,8 +167,10 @@ const scheduleEventTemplatesByLanguage: Record<
   },
 };
 
+import { useLanguage } from "@/context/language-context";
+
 export default function HomePage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language: activeLanguage, setLanguage: setActiveLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mobileGalleryIndex, setMobileGalleryIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);

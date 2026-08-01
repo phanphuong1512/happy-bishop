@@ -10,8 +10,11 @@ type Language = "VIE" | "ENG";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
+import { useLanguage } from "@/context/language-context";
+
 export default function WorkshopListPage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language } = useLanguage();
+  const isVie = language === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1100px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -42,7 +45,7 @@ export default function WorkshopListPage() {
               href="/su-kien"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:underline underline-offset-4"
             >
-              <ArrowLeft className="w-4 h-4" /> Quay lại Sự kiện
+              <ArrowLeft className="w-4 h-4" /> {isVie ? "Quay lại Sự kiện" : "Back to Events"}
             </Link>
           </div>
         </nav>
@@ -54,17 +57,19 @@ export default function WorkshopListPage() {
           href="/su-kien"
           className="inline-flex items-center gap-2 text-sm font-bold text-[#8e2b2b] hover:text-[#f78181] transition-colors [font-family:var(--font-lexend)]"
         >
-          <ArrowLeft className="w-4 h-4" /> Trang Tổng Quan Sự Kiện
+          <ArrowLeft className="w-4 h-4" /> {isVie ? "Trang Tổng Quan Sự Kiện" : "Events Overview Page"}
         </Link>
       </div>
 
       {/* Page Title */}
       <section className="mb-8">
         <h1 className="text-[48px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[32px]">
-          Các Buổi Workshop
+          {isVie ? "Các Buổi Workshop" : "Community Workshops"}
         </h1>
         <p className="mt-2 text-[16px] [font-family:var(--font-source-serif-4)] italic text-[#580a0a]">
-          Các buổi chia sẻ kiến thức, kỹ năng tổ chức và trọng tài cờ vua do Happy Bishops thực hiện.
+          {isVie
+            ? "Các buổi chia sẻ kiến thức, kỹ năng tổ chức và trọng tài cờ vua do Happy Bishops thực hiện."
+            : "Knowledge-sharing sessions, event organizing skills, and referee workshops hosted by Happy Bishops."}
         </p>
         <div className="mt-4 h-px w-full bg-[rgba(88,10,10,0.25)]" />
       </section>
@@ -86,26 +91,26 @@ export default function WorkshopListPage() {
             <div className="mt-5 grid grid-cols-2 gap-3 text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b] bg-[#f78181]/15 p-4 rounded-2xl border border-[rgba(142,43,43,0.1)] max-[680px]:grid-cols-1">
               <p className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Thời gian:</strong> {w.time}</span>
+                <span><strong>{isVie ? "Thời gian:" : "Date & Time:"}</strong> {w.time}</span>
               </p>
               <p className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Địa điểm:</strong> {w.location}</span>
+                <span><strong>{isVie ? "Địa điểm:" : "Venue:"}</strong> {w.location}</span>
               </p>
               <p className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Hình thức:</strong> {w.format}</span>
+                <span><strong>{isVie ? "Hình thức:" : "Format:"}</strong> {w.format}</span>
               </p>
               <p className="flex items-center gap-2">
                 <Users className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
-                <span><strong>Số người tham gia:</strong> {w.participants}</span>
+                <span><strong>{isVie ? "Số người tham gia:" : "Participants:"}</strong> {w.participants}</span>
               </p>
             </div>
 
             {/* Intro Paragraphs */}
             <div className="mt-6 space-y-4 text-[16.5px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[14.5px]">
               <h3 className="text-[18px] not-italic font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] border-b border-[rgba(142,43,43,0.15)] pb-1">
-                Giới thiệu
+                {isVie ? "Giới thiệu" : "Introduction"}
               </h3>
               {w.intro.map((p, idx) => (
                 <p key={`intro-${idx}`}>{p}</p>

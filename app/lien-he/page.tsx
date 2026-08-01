@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Mail, Phone, MapPin, Users } from "lucide-react";
 import { ZaloIcon, FacebookIcon } from "@/components/icons";
-
-type Language = "VIE" | "ENG";
+import { useLanguage } from "@/context/language-context";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 const floatingBishopSrc = "https://assets.happybishops.com/hb-assets/bishop.webp";
@@ -14,10 +13,10 @@ const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 const newsRookSrc = "https://assets.happybishops.com/hb-assets/rook.webp";
 
 export default function ContactPage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isVie = activeLanguage === "VIE";
+  const isVie = language === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1320px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -90,11 +89,11 @@ export default function ContactPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "VIE"
+              language === "VIE"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("VIE")}
+            onClick={() => setLanguage("VIE")}
           >
             VIE
           </button>
@@ -105,11 +104,11 @@ export default function ContactPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "ENG"
+              language === "ENG"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("ENG")}
+            onClick={() => setLanguage("ENG")}
           >
             ENG
           </button>
@@ -159,38 +158,38 @@ export default function ContactPage() {
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15 first:rounded-t-3xl"
               >
-                Giới thiệu
+                {isVie ? "Giới thiệu" : "About"}
               </Link>
               <Link
                 href="/su-kien"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Sự kiện
+                {isVie ? "Sự kiện" : "Events"}
               </Link>
               <Link
                 href="/blog"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Tin tức
+                {isVie ? "Tin tức" : "News"}
               </Link>
               <Link
                 href="/lien-he"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Liên hệ
+                {isVie ? "Liên hệ" : "Contact"}
               </Link>
             </nav>
             <div className="flex items-center justify-center gap-3 px-4 py-4">
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "VIE" ? "border-white bg-white/20" : "border-white/40"
+                  language === "VIE" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("VIE");
+                  setLanguage("VIE");
                   setIsMenuOpen(false);
                 }}
               >
@@ -199,10 +198,10 @@ export default function ContactPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "ENG" ? "border-white bg-white/20" : "border-white/40"
+                  language === "ENG" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("ENG");
+                  setLanguage("ENG");
                   setIsMenuOpen(false);
                 }}
               >
@@ -224,7 +223,7 @@ export default function ContactPage() {
         <p className="mt-4 max-w-[760px] mx-auto text-[17px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[15px]">
           {isVie
             ? "Chúng mình luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc từ cộng đồng. Bạn có thể liên hệ trực tiếp với đội ngũ sáng lập hoặc tham gia các kênh truyền thông chính thức dưới đây."
-            : "We'd love to hear from you! Feel free to reach out for any inquiries, feedback, or to learn more about our chess club and events."}
+            : "We are always ready to listen and answer any questions from the community. You can contact the co-founders directly or join our official channels below."}
         </p>
 
         {/* Global Community Links Bar */}
@@ -236,7 +235,7 @@ export default function ContactPage() {
             className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
             <ZaloIcon className="w-7 h-7" />
-            <span>Zalo Community Group</span>
+            <span>{isVie ? "Nhóm Zalo Cộng Đồng" : "Zalo Community Group"}</span>
           </a>
           <a
             href="https://www.facebook.com/happy.bishops.community"
@@ -245,7 +244,7 @@ export default function ContactPage() {
             className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
             <FacebookIcon className="w-7 h-7" />
-            <span>Facebook Fanpage</span>
+            <span>{isVie ? "Fanpage Facebook" : "Facebook Fanpage"}</span>
           </a>
         </div>
 
@@ -254,6 +253,10 @@ export default function ContactPage() {
 
       {/* 2 Co-Founder Contact Cards */}
       <section className="relative z-10 mt-8">
+        <h2 className="text-[28px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] mb-6 text-center max-[680px]:text-[22px]">
+          {isVie ? "Liên hệ Ban Quản Trị" : "Co-Founders Contact"}
+        </h2>
+
         <div className="grid grid-cols-2 gap-8 max-[850px]:grid-cols-1">
           {/* Card 1: Vũ Hiền Thanh */}
           <div className="flex flex-col justify-between rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#fff6e3] p-8 shadow-xs max-[680px]:p-6">
@@ -274,7 +277,7 @@ export default function ContactPage() {
                     Vũ Hiền Thanh
                   </h2>
                   <p className="text-[14.5px] font-semibold italic [font-family:var(--font-source-serif-4)] text-[#f78181]">
-                    Co-Founder – Happy Bishops
+                    {isVie ? "Đồng Sáng Lập – Happy Bishops" : "Co-Founder – Happy Bishops"}
                   </p>
                 </div>
               </div>
@@ -282,7 +285,7 @@ export default function ContactPage() {
               {/* Badges / Qualifications */}
               <div className="mt-4 flex flex-wrap gap-2 text-[12px] font-medium [font-family:var(--font-lexend)] text-[#8e2b2b]">
                 <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
-                  Đại học Ngoại thương
+                  {isVie ? "Đại học Ngoại thương" : "Foreign Trade University"}
                 </span>
                 <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
                   National Arbiter
@@ -313,9 +316,9 @@ export default function ContactPage() {
                     <Users className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Zalo &amp; Hotline:</span>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">{isVie ? "Zalo & Hotline:" : "Zalo & Hotline:"}</span>
                     <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline flex items-center gap-1.5">
-                      <ZaloIcon className="w-5 h-5" /> Gia nhập nhóm Zalo
+                      <ZaloIcon className="w-5 h-5" /> {isVie ? "Gia nhập nhóm Zalo" : "Join Zalo Group"}
                     </a>
                   </div>
                 </div>
@@ -325,8 +328,8 @@ export default function ContactPage() {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Địa điểm sinh hoạt:</span>
-                    <span className="font-semibold">Urban Station Coffee, Phạm Ngọc Thạch</span>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">{isVie ? "Địa điểm sinh hoạt:" : "Weekly Venue:"}</span>
+                    <span className="font-semibold">Urban Station Coffee, Pham Ngoc Thach</span>
                   </div>
                 </div>
               </div>
@@ -352,7 +355,7 @@ export default function ContactPage() {
                     Trịnh Thành Long
                   </h2>
                   <p className="text-[14.5px] font-semibold italic [font-family:var(--font-source-serif-4)] text-[#f78181]">
-                    Co-Founder – Happy Bishops
+                    {isVie ? "Đồng Sáng Lập – Happy Bishops" : "Co-Founder – Happy Bishops"}
                   </p>
                 </div>
               </div>
@@ -360,7 +363,7 @@ export default function ContactPage() {
               {/* Badges / Qualifications */}
               <div className="mt-4 flex flex-wrap gap-2 text-[12px] font-medium [font-family:var(--font-lexend)] text-[#8e2b2b]">
                 <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
-                  Đại học Y Hà Nội
+                  {isVie ? "Đại học Y Hà Nội" : "Hanoi Medical University"}
                 </span>
                 <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
                   FIDE School Instructor – Batch 29
@@ -388,9 +391,9 @@ export default function ContactPage() {
                     <Users className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Zalo &amp; Hotline:</span>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">{isVie ? "Zalo & Hotline:" : "Zalo & Hotline:"}</span>
                     <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline flex items-center gap-1.5">
-                      <ZaloIcon className="w-5 h-5" /> Gia nhập nhóm Zalo
+                      <ZaloIcon className="w-5 h-5" /> {isVie ? "Gia nhập nhóm Zalo" : "Join Zalo Group"}
                     </a>
                   </div>
                 </div>
@@ -400,8 +403,8 @@ export default function ContactPage() {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Địa điểm sinh hoạt:</span>
-                    <span className="font-semibold">Urban Station Coffee, Phạm Ngọc Thạch</span>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">{isVie ? "Địa điểm sinh hoạt:" : "Weekly Venue:"}</span>
+                    <span className="font-semibold">Urban Station Coffee, Pham Ngoc Thach</span>
                   </div>
                 </div>
               </div>

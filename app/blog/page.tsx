@@ -5,17 +5,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { blogPosts } from "./data";
 
-type Language = "VIE" | "ENG";
+import { useLanguage } from "@/context/language-context";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 const newsRookSrc = "https://assets.happybishops.com/hb-assets/rook.webp";
 const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 
 export default function BlogIndexPage() {
-  const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
+  const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isVie = activeLanguage === "VIE";
+  const isVie = language === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1320px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -88,11 +88,11 @@ export default function BlogIndexPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "VIE"
+              language === "VIE"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("VIE")}
+            onClick={() => setLanguage("VIE")}
           >
             VIE
           </button>
@@ -103,11 +103,11 @@ export default function BlogIndexPage() {
           <button
             type="button"
             className={`inline-flex w-full cursor-pointer items-center justify-center rounded-xl border-[2px] bg-transparent px-[0.42rem] py-[0.25rem] text-[1rem] leading-none font-bold text-white transition-colors duration-200 max-[1080px]:px-[0.3rem] max-[1080px]:py-[0.15rem] max-[1080px]:text-[0.6rem] max-[1080px]:border-[1.5px] ${
-              activeLanguage === "ENG"
+              language === "ENG"
                 ? "border-white bg-white/10"
                 : "border-transparent"
             }`}
-            onClick={() => setActiveLanguage("ENG")}
+            onClick={() => setLanguage("ENG")}
           >
             ENG
           </button>
@@ -185,10 +185,10 @@ export default function BlogIndexPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "VIE" ? "border-white bg-white/20" : "border-white/40"
+                  language === "VIE" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("VIE");
+                  setLanguage("VIE");
                   setIsMenuOpen(false);
                 }}
               >
@@ -197,10 +197,10 @@ export default function BlogIndexPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-lg border-2 py-2 text-center text-sm font-bold text-white ${
-                  activeLanguage === "ENG" ? "border-white bg-white/20" : "border-white/40"
+                  language === "ENG" ? "border-white bg-white/20" : "border-white/40"
                 }`}
                 onClick={() => {
-                  setActiveLanguage("ENG");
+                  setLanguage("ENG");
                   setIsMenuOpen(false);
                 }}
               >
@@ -217,7 +217,7 @@ export default function BlogIndexPage() {
           happy bishops
         </p>
         <h1 className="mt-2 text-[88px] leading-none font-bold [font-family:var(--font-lexend)] tracking-[0.08em] text-[var(--hb-deep-red)] max-[1080px]:text-[64px] max-[680px]:text-[42px]">
-          TIN TỨC &amp; BLOG
+          {isVie ? "TIN TỨC & BLOG" : "NEWS & BLOG"}
         </h1>
         <div className="mt-6 h-px w-full bg-[rgba(88,10,10,0.35)]" />
       </section>
@@ -262,7 +262,7 @@ export default function BlogIndexPage() {
                   href={`/blog/${post.slug}`}
                   className="inline-flex items-center gap-2 text-sm font-bold text-[#8e2b2b] [font-family:var(--font-lexend)] hover:text-[#f78181] transition-colors"
                 >
-                  Đọc chi tiết <span className="transition-transform group-hover:translate-x-1">→</span>
+                  {isVie ? "Đọc chi tiết →" : "Read More →"}
                 </Link>
                 <span className="text-xs font-semibold text-[#f78181] [font-family:var(--font-lexend)]">
                   # {post.id}

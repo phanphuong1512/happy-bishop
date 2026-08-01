@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { blogPosts as staticBlogPosts } from "@/app/blog/data";
 
 async function isAuthorized() {
   const cookieStore = await cookies();
@@ -8,27 +9,17 @@ async function isAuthorized() {
   return authCookie?.value === "hb_authenticated_admin_session_2025";
 }
 
-async function ensureTableExists(db: any) {
-  if (!db) return;
+async function getD1Database() {
   try {
-    await db.prepare(`
-      CREATE TABLE IF NOT EXISTS blogs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        slug TEXT UNIQUE NOT NULL,
-        title TEXT NOT NULL,
-        date TEXT NOT NULL,
-        summary TEXT NOT NULL,
-        cover_image TEXT NOT NULL,
-        content TEXT NOT NULL,
-        recap_link_text TEXT,
-        recap_link_target_slug TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-    `).run();
+    const { env } = await getCloudflareContext();
+    const db = (env as any)?.DB;
+    if (db) {
+      return db;
+    }
   } catch (e) {
-    console.error("ensureTableExists error:", e);
+    console.error("D1 Connection error:", e);
   }
+  return null;
 }
 
 export async function GET(
@@ -36,11 +27,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  try {
-    const { env } = await getCloudflareContext();
-    const db = (env as any)?.DB;
-    if (db) {
-      await ensureTableExists(db);
+  const db = await getD1Database();
+
+  if (db) {
+    try {
       const row: any = await db.prepare(
         "SELECT * FROM blogs WHERE id = ? OR slug = ?"
       )
@@ -61,9 +51,14 @@ export async function GET(
         };
         return NextResponse.json({ success: true, data: formatted });
       }
+    } catch (error) {
+      console.error("D1 Fetch ID Error:", error);
     }
-  } catch (error) {
-    console.error("D1 Fetch ID Error:", error);
+  }
+
+  const found = staticBlogPosts.find((p) => String(p.id) === id || p.slug === id);
+  if (found) {
+    return NextResponse.json({ success: true, data: found });
   }
 
   return NextResponse.json({ success: false, message: "Không tìm thấy bài viết" }, { status: 404 });
@@ -82,12 +77,10 @@ export async function PUT(
     const body = await request.json();
     const { title, slug, date, summary, coverImage, content, recapLinkText, recapLinkTargetSlug } = body;
 
-    const { env } = await getCloudflareContext();
-    const db = (env as any)?.DB;
+    const db = await getD1Database();
     const jsonContent = Array.isArray(content) ? JSON.stringify(content) : JSON.stringify([content]);
 
     if (db) {
-      await ensureTableExists(db);
       await db.prepare(
         `UPDATE blogs
          SET title = ?, slug = ?, date = ?, summary = ?, cover_image = ?, content = ?, recap_link_text = ?, recap_link_target_slug = ?, updated_at = CURRENT_TIMESTAMP
@@ -106,10 +99,10 @@ export async function PUT(
         )
         .run();
 
-      return NextResponse.json({ success: true, message: "Cập nhật bài viết thành công!" });
+      return NextResponse.json({ success: true, message: "Đã cập nhật bài viết vào D1 Database!" });
     }
 
-    return NextResponse.json({ success: true, message: "Cập nhật thành công!" });
+    return NextResponse.json({ success: true, message: "Đã cập nhật bài viết thành công!" });
   } catch (error: any) {
     console.error("D1 Update Error:", error);
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi cập nhật bài viết!" }, { status: 500 });
@@ -126,15 +119,13 @@ export async function DELETE(
 
   const { id } = await params;
   try {
-    const { env } = await getCloudflareContext();
-    const db = (env as any)?.DB;
+    const db = await getD1Database();
     if (db) {
-      await ensureTableExists(db);
       await db.prepare("DELETE FROM blogs WHERE id = ?").bind(id).run();
-      return NextResponse.json({ success: true, message: "Xóa bài viết thành công!" });
+      return NextResponse.json({ success: true, message: "Đã xóa bài viết khỏi D1 Database!" });
     }
 
-    return NextResponse.json({ success: true, message: "Xóa bài viết thành công!" });
+    return NextResponse.json({ success: true, message: "Đã xóa bài viết!" });
   } catch (error: any) {
     console.error("D1 Delete Error:", error);
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi xóa bài viết!" }, { status: 500 });

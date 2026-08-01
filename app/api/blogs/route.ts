@@ -3,46 +3,50 @@ import { cookies } from "next/headers";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { blogPosts as staticBlogPosts } from "@/app/blog/data";
 
+// In-memory store for environments where D1 is not bound (e.g. local dev server)
+let memoryBlogs: any[] = [...staticBlogPosts];
+
 async function isAuthorized() {
   const cookieStore = await cookies();
   const authCookie = cookieStore.get("hb_admin_auth");
   return authCookie?.value === "hb_authenticated_admin_session_2025";
 }
 
-async function ensureTableExists(db: any) {
-  if (!db) return;
-  try {
-    await db.prepare(`
-      CREATE TABLE IF NOT EXISTS blogs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        slug TEXT UNIQUE NOT NULL,
-        title TEXT NOT NULL,
-        date TEXT NOT NULL,
-        summary TEXT NOT NULL,
-        cover_image TEXT NOT NULL,
-        content TEXT NOT NULL,
-        recap_link_text TEXT,
-        recap_link_target_slug TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-    `).run();
-  } catch (e) {
-    console.error("ensureTableExists error:", e);
-  }
-}
-
-export async function GET() {
+async function getD1Database() {
   try {
     const { env } = await getCloudflareContext();
     const db = (env as any)?.DB;
     if (db) {
-      await ensureTableExists(db);
+      // Ensure table exists
+      await db.prepare(`
+        CREATE TABLE IF NOT EXISTS blogs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          slug TEXT UNIQUE NOT NULL,
+          title TEXT NOT NULL,
+          date TEXT NOT NULL,
+          summary TEXT NOT NULL,
+          cover_image TEXT NOT NULL,
+          content TEXT NOT NULL,
+          recap_link_text TEXT,
+          recap_link_target_slug TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+      `).run();
+      return db;
+    }
+  } catch (e) {
+    console.error("D1 Connection error:", e);
+  }
+  return null;
+}
 
-      const { results } = await db.prepare(
-        "SELECT * FROM blogs ORDER BY id DESC"
-      ).all();
+export async function GET() {
+  const db = await getD1Database();
 
+  if (db) {
+    try {
+      const { results } = await db.prepare("SELECT * FROM blogs ORDER BY id DESC").all();
       if (results && results.length > 0) {
         const formatted = results.map((row: any) => ({
           id: row.id,
@@ -57,15 +61,14 @@ export async function GET() {
             targetSlug: row.recap_link_target_slug,
           } : undefined,
         }));
-        return NextResponse.json({ success: true, data: formatted });
+        return NextResponse.json({ success: true, data: formatted, source: "d1" });
       }
+    } catch (err) {
+      console.error("Error reading from D1:", err);
     }
-  } catch (error) {
-    console.error("D1 Fetch Error, falling back to static posts:", error);
   }
 
-  // Fallback to static blog posts if D1 isn't populated yet
-  return NextResponse.json({ success: true, data: staticBlogPosts });
+  return NextResponse.json({ success: true, data: memoryBlogs, source: "memory" });
 }
 
 export async function POST(request: Request) {
@@ -81,14 +84,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: "Vui lòng nhập đầy đủ các trường bắt buộc (*)" }, { status: 400 });
     }
 
-    const { env } = await getCloudflareContext();
-    const db = (env as any)?.DB;
+    const db = await getD1Database();
     const currentDate = date || new Date().toLocaleDateString("vi-VN");
     const jsonContent = Array.isArray(content) ? JSON.stringify(content) : JSON.stringify([content]);
 
     if (db) {
-      await ensureTableExists(db);
-
       await db.prepare(
         `INSERT INTO blogs (slug, title, date, summary, cover_image, content, recap_link_text, recap_link_target_slug)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
@@ -105,12 +105,29 @@ export async function POST(request: Request) {
         )
         .run();
 
-      return NextResponse.json({ success: true, message: "Tạo bài viết thành công trên D1 Database!" });
+      return NextResponse.json({ success: true, message: "Đã lưu bài viết vào Cloudflare D1 Database!" });
     }
 
-    return NextResponse.json({ success: true, message: "Tạo bài viết thành công!" });
+    // In-memory fallback
+    const newId = memoryBlogs.length > 0 ? Math.max(...memoryBlogs.map(b => Number(b.id) || 0)) + 1 : 1;
+    const newPost = {
+      id: newId,
+      slug,
+      title,
+      date: currentDate,
+      summary,
+      coverImage,
+      content: Array.isArray(content) ? content : [content],
+      recapLink: recapLinkText ? { text: recapLinkText, targetSlug: recapLinkTargetSlug } : undefined,
+    };
+
+    memoryBlogs.unshift(newPost);
+
+    return NextResponse.json({ success: true, message: "Đã tạo bài viết mới!", data: newPost });
   } catch (error: any) {
-    console.error("D1 Create Error:", error);
-    return NextResponse.json({ success: false, message: error.message || "Lỗi khi tạo bài viết trên D1!" }, { status: 500 });
+    console.error("Create Blog Error:", error);
+    return NextResponse.json({ success: false, message: error.message || "Lỗi khi tạo bài viết!" }, { status: 500 });
   }
 }
+
+export { memoryBlogs };

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Trophy, BookOpen } from "lucide-react";
 
 type Language = "VIE" | "ENG";
 
@@ -229,7 +230,9 @@ export default function EventsOverviewPage() {
           <div className="flex flex-col justify-between rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#eb979b]/15 p-8 max-[680px]:p-6">
             <div>
               <div className="flex items-center gap-3">
-                <span className="text-3xl">♟</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                  <Trophy className="w-5 h-5" />
+                </div>
                 <h2 className="text-[32px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[24px]">
                   Giải đấu
                 </h2>
@@ -253,7 +256,9 @@ export default function EventsOverviewPage() {
           <div className="flex flex-col justify-between rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#f78181]/15 p-8 max-[680px]:p-6">
             <div>
               <div className="flex items-center gap-3">
-                <span className="text-3xl">📚</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                  <BookOpen className="w-5 h-5" />
+                </div>
                 <h2 className="text-[32px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[24px]">
                   Workshop
                 </h2>

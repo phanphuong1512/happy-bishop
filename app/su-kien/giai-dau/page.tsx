@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Calendar, MapPin, Trophy, Users, Award, ArrowLeft } from "lucide-react";
 import { tournaments } from "../data";
 
 type Language = "VIE" | "ENG";
@@ -11,9 +12,6 @@ const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
 export default function TournamentsListPage() {
   const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const isVie = activeLanguage === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1100px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -42,9 +40,9 @@ export default function TournamentsListPage() {
           <div className="flex gap-6 max-[530px]:gap-3">
             <Link
               href="/su-kien"
-              className="text-sm font-bold text-white hover:underline underline-offset-4"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:underline underline-offset-4"
             >
-              ← Quay lại Sự kiện
+              <ArrowLeft className="w-4 h-4" /> Quay lại Sự kiện
             </Link>
           </div>
         </nav>
@@ -56,7 +54,7 @@ export default function TournamentsListPage() {
           href="/su-kien"
           className="inline-flex items-center gap-2 text-sm font-bold text-[#8e2b2b] hover:text-[#f78181] transition-colors [font-family:var(--font-lexend)]"
         >
-          ← Trang Tổng Quan Sự Kiện
+          <ArrowLeft className="w-4 h-4" /> Trang Tổng Quan Sự Kiện
         </Link>
       </div>
 
@@ -85,11 +83,23 @@ export default function TournamentsListPage() {
             </h2>
 
             {/* Quick Info Grid */}
-            <div className="mt-5 grid grid-cols-2 gap-3 text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b] bg-[#eb979b]/15 p-4 rounded-2xl border border-[rgba(142,43,43,0.1)] max-[680px]:grid-cols-1">
-              <p>📅 <strong>Thời gian:</strong> {t.time}</p>
-              <p>📍 <strong>Địa điểm:</strong> {t.location}</p>
-              <p>♟ <strong>Thể thức:</strong> {t.format}</p>
-              <p>👥 <strong>Số người tham gia:</strong> {t.participants}</p>
+            <div className="mt-5 grid grid-cols-2 gap-3.5 text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b] bg-[#eb979b]/15 p-4 rounded-2xl border border-[rgba(142,43,43,0.1)] max-[680px]:grid-cols-1">
+              <p className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Thời gian:</strong> {t.time}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Địa điểm:</strong> {t.location}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Trophy className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Thể thức:</strong> {t.format}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Users className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Số người tham gia:</strong> {t.participants}</span>
+              </p>
             </div>
 
             {/* Intro Paragraphs */}
@@ -106,16 +116,16 @@ export default function TournamentsListPage() {
             {(t.workshopLink || t.drawLink) && (
               <div className="mt-6 space-y-2 rounded-2xl bg-white/70 p-4 border border-[rgba(142,43,43,0.15)] text-[14px] [font-family:var(--font-lexend)]">
                 {t.workshopLink && (
-                  <p>
-                    📌 Thông tin workshop:{" "}
+                  <p className="flex items-center gap-2">
+                    <span className="font-bold">Thông tin workshop:</span>{" "}
                     <Link href={t.workshopLink} className="font-bold text-[#8e2b2b] underline hover:text-[#f78181]">
                       Đọc thêm tại đây →
                     </Link>
                   </p>
                 )}
                 {t.drawLink && (
-                  <p>
-                    📊 Kết quả chia bảng đấu:{" "}
+                  <p className="flex items-center gap-2">
+                    <span className="font-bold">Kết quả chia bảng đấu:</span>{" "}
                     <Link href={t.drawLink} className="font-bold text-[#8e2b2b] underline hover:text-[#f78181]">
                       Đọc thêm tại đây →
                     </Link>
@@ -131,10 +141,30 @@ export default function TournamentsListPage() {
                   Kết quả giải đấu
                 </h3>
                 <div className="mt-3 space-y-2 text-[15px] [font-family:var(--font-lexend)] font-medium text-[#8e2b2b]">
-                  {t.results.first && <p>🥇 <strong>Giải Nhất:</strong> {t.results.first}</p>}
-                  {t.results.second && <p>🥈 <strong>Giải Nhì:</strong> {t.results.second}</p>}
-                  {t.results.third && <p>🥉 <strong>Giải Ba:</strong> {t.results.third}</p>}
-                  {t.results.femaleBest && <p>🏅 <strong>Giải Nhất Nữ:</strong> {t.results.femaleBest}</p>}
+                  {t.results.first && (
+                    <p className="flex items-center gap-2">
+                      <Trophy className="w-4 h-4 text-amber-500" />
+                      <span><strong>Giải Nhất:</strong> {t.results.first}</span>
+                    </p>
+                  )}
+                  {t.results.second && (
+                    <p className="flex items-center gap-2">
+                      <Award className="w-4 h-4 text-slate-400" />
+                      <span><strong>Giải Nhì:</strong> {t.results.second}</span>
+                    </p>
+                  )}
+                  {t.results.third && (
+                    <p className="flex items-center gap-2">
+                      <Award className="w-4 h-4 text-amber-700" />
+                      <span><strong>Giải Ba:</strong> {t.results.third}</span>
+                    </p>
+                  )}
+                  {t.results.femaleBest && (
+                    <p className="flex items-center gap-2">
+                      <Award className="w-4 h-4 text-rose-500" />
+                      <span><strong>Giải Nhất Nữ:</strong> {t.results.femaleBest}</span>
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -147,7 +177,10 @@ export default function TournamentsListPage() {
                 </h3>
                 <div className="mt-3 space-y-1 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
                   {t.sidePrizes.map((prize, idx) => (
-                    <p key={`prize-${idx}`}>{prize}</p>
+                    <p key={`prize-${idx}`} className="flex items-center gap-2">
+                      <Award className="w-4 h-4 text-[#f78181]" />
+                      <span>{prize}</span>
+                    </p>
                   ))}
                 </div>
               </div>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Calendar, MapPin, BookOpen, Users, ArrowLeft } from "lucide-react";
 import { workshops } from "../data";
 
 type Language = "VIE" | "ENG";
@@ -11,9 +12,6 @@ const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
 export default function WorkshopListPage() {
   const [activeLanguage, setActiveLanguage] = useState<Language>("VIE");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const isVie = activeLanguage === "VIE";
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1100px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -42,9 +40,9 @@ export default function WorkshopListPage() {
           <div className="flex gap-6 max-[530px]:gap-3">
             <Link
               href="/su-kien"
-              className="text-sm font-bold text-white hover:underline underline-offset-4"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:underline underline-offset-4"
             >
-              ← Quay lại Sự kiện
+              <ArrowLeft className="w-4 h-4" /> Quay lại Sự kiện
             </Link>
           </div>
         </nav>
@@ -56,7 +54,7 @@ export default function WorkshopListPage() {
           href="/su-kien"
           className="inline-flex items-center gap-2 text-sm font-bold text-[#8e2b2b] hover:text-[#f78181] transition-colors [font-family:var(--font-lexend)]"
         >
-          ← Trang Tổng Quan Sự Kiện
+          <ArrowLeft className="w-4 h-4" /> Trang Tổng Quan Sự Kiện
         </Link>
       </div>
 
@@ -86,10 +84,22 @@ export default function WorkshopListPage() {
 
             {/* Quick Info Grid */}
             <div className="mt-5 grid grid-cols-2 gap-3 text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b] bg-[#f78181]/15 p-4 rounded-2xl border border-[rgba(142,43,43,0.1)] max-[680px]:grid-cols-1">
-              <p>📅 <strong>Thời gian:</strong> {w.time}</p>
-              <p>📍 <strong>Địa điểm:</strong> {w.location}</p>
-              <p>🏫 <strong>Hình thức:</strong> {w.format}</p>
-              <p>👥 <strong>Số người tham gia:</strong> {w.participants}</p>
+              <p className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Thời gian:</strong> {w.time}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Địa điểm:</strong> {w.location}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Hình thức:</strong> {w.format}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Users className="w-4 h-4 shrink-0 text-[#8e2b2b]/70" />
+                <span><strong>Số người tham gia:</strong> {w.participants}</span>
+              </p>
             </div>
 
             {/* Intro Paragraphs */}

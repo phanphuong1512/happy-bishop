@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Mail, Phone, MapPin, Users } from "lucide-react";
+import { ZaloIcon, FacebookIcon } from "@/components/icons";
 
 type Language = "VIE" | "ENG";
 
@@ -222,7 +224,7 @@ export default function ContactPage() {
         <p className="mt-4 max-w-[760px] mx-auto text-[17px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[15px]">
           {isVie
             ? "Chúng mình luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc từ cộng đồng. Bạn có thể liên hệ trực tiếp với đội ngũ sáng lập hoặc tham gia các kênh truyền thông chính thức dưới đây."
-            : "We'd love to hear from you! Feel free to reach out for any inquiries, feedback, or to learn more about our chess club and events. You can contact us via email, phone, or join our community on Zalo and Facebook."}
+            : "We'd love to hear from you! Feel free to reach out for any inquiries, feedback, or to learn more about our chess club and events."}
         </p>
 
         {/* Global Community Links Bar */}
@@ -233,7 +235,8 @@ export default function ContactPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
-            <span>💬</span> Zalo Community Group
+            <ZaloIcon className="w-5 h-5 text-[#0068ff]" />
+            <span>Zalo Community Group</span>
           </a>
           <a
             href="https://www.facebook.com/happy.bishops.community"
@@ -241,7 +244,8 @@ export default function ContactPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
-            <span>🌐</span> Facebook Fanpage
+            <FacebookIcon className="w-5 h-5 text-[#1877f2]" />
+            <span>Facebook Fanpage</span>
           </a>
         </div>
 
@@ -256,8 +260,14 @@ export default function ContactPage() {
             <div>
               {/* Header inside card */}
               <div className="flex items-center gap-5">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/30 text-3xl shadow-inner">
-                  ♟
+                <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/30 shadow-inner">
+                  <Image
+                    src={logoSrc}
+                    alt="Vũ Hiền Thanh"
+                    width={50}
+                    height={50}
+                    className="w-12 h-auto opacity-90"
+                  />
                 </div>
                 <div>
                   <h2 className="text-[26px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b]">
@@ -285,9 +295,11 @@ export default function ContactPage() {
               <div className="my-5 h-px w-full bg-[rgba(88,10,10,0.15)]" />
 
               {/* Contact Info List */}
-              <div className="space-y-3.5 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
+              <div className="space-y-4 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">✉️</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                    <Mail className="w-4 h-4" />
+                  </div>
                   <div>
                     <span className="text-xs text-[#8e2b2b]/70 block font-normal">Email:</span>
                     <a href="mailto:hienthanh.hb@gmail.com" className="font-bold hover:underline">
@@ -297,17 +309,21 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">💬</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                    <Users className="w-4 h-4" />
+                  </div>
                   <div>
-                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Phone &amp; Zalo:</span>
-                    <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">
-                      Gia nhập nhóm Zalo
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Zalo &amp; Hotline:</span>
+                    <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline flex items-center gap-1.5">
+                      <ZaloIcon className="w-4 h-4 text-[#0068ff]" /> Gia nhập nhóm Zalo
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">📍</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                    <MapPin className="w-4 h-4" />
+                  </div>
                   <div>
                     <span className="text-xs text-[#8e2b2b]/70 block font-normal">Địa điểm sinh hoạt:</span>
                     <span className="font-semibold">Urban Station Coffee, Phạm Ngọc Thạch</span>
@@ -322,8 +338,14 @@ export default function ContactPage() {
             <div>
               {/* Header inside card */}
               <div className="flex items-center gap-5">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/30 text-3xl shadow-inner">
-                  ♟
+                <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/30 shadow-inner">
+                  <Image
+                    src={logoSrc}
+                    alt="Trịnh Thành Long"
+                    width={50}
+                    height={50}
+                    className="w-12 h-auto opacity-90"
+                  />
                 </div>
                 <div>
                   <h2 className="text-[26px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b]">
@@ -348,9 +370,11 @@ export default function ContactPage() {
               <div className="my-5 h-px w-full bg-[rgba(88,10,10,0.15)]" />
 
               {/* Contact Info List */}
-              <div className="space-y-3.5 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
+              <div className="space-y-4 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">✉️</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                    <Mail className="w-4 h-4" />
+                  </div>
                   <div>
                     <span className="text-xs text-[#8e2b2b]/70 block font-normal">Email:</span>
                     <a href="mailto:thanhlong.hb@gmail.com" className="font-bold hover:underline">
@@ -360,17 +384,21 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">💬</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                    <Users className="w-4 h-4" />
+                  </div>
                   <div>
-                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Phone &amp; Zalo:</span>
-                    <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">
-                      Gia nhập nhóm Zalo
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Zalo &amp; Hotline:</span>
+                    <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline flex items-center gap-1.5">
+                      <ZaloIcon className="w-4 h-4 text-[#0068ff]" /> Gia nhập nhóm Zalo
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">📍</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8e2b2b]/10 text-[#8e2b2b]">
+                    <MapPin className="w-4 h-4" />
+                  </div>
                   <div>
                     <span className="text-xs text-[#8e2b2b]/70 block font-normal">Địa điểm sinh hoạt:</span>
                     <span className="font-semibold">Urban Station Coffee, Phạm Ngọc Thạch</span>

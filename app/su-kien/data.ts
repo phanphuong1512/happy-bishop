@@ -51,7 +51,7 @@ export const tournaments: Tournament[] = [
       second: "Nguyễn Phan Trọng Hiếu",
       third: "Nguyễn Sĩ Trọng Đức",
     },
-    sidePrizes: ["🎁 Vận động viên may mắn: Giang Hải Long"],
+    sidePrizes: ["Vận động viên may mắn: Giang Hải Long"],
     highlightsText:
       "Bên cạnh những ván cờ nhanh và đầy kịch tính, giải đấu cũng là dịp để các thành viên trong cộng đồng gặp gỡ, giao lưu và chia sẻ niềm đam mê cờ vua. Happy Bishops xin cảm ơn tất cả các kỳ thủ đã tham gia và góp phần tạo nên một giải đấu thú vị với format mới mẻ. “Nhanh Như Chớp” hứa hẹn sẽ là một ý tưởng đáng để tiếp tục phát triển trong các sự kiện tiếp theo của cộng đồng.",
   },
@@ -107,7 +107,7 @@ export const tournaments: Tournament[] = [
       second: "Nguyễn Hồng Quang",
       third: "Nguyễn Đình Khôi",
     },
-    sidePrizes: ["🍀 Vận động viên may mắn: Nguyễn Minh Khang"],
+    sidePrizes: ["Vận động viên may mắn: Nguyễn Minh Khang"],
     highlightsText:
       "Bên cạnh những ván cờ hấp dẫn, giải đấu cũng là dịp để các thành viên trong cộng đồng gặp gỡ, trò chuyện và kết nối với những người bạn mới cùng chung niềm đam mê cờ vua. Happy Bishops xin cảm ơn tất cả các kỳ thủ đã tham gia và góp phần tạo nên một buổi sáng thi đấu vui vẻ, tích cực và đầy năng lượng.",
   },
@@ -130,8 +130,8 @@ export const tournaments: Tournament[] = [
       femaleBest: "Tô Mai Phương",
     },
     sidePrizes: [
-      "🍀 Vận động viên may mắn: Nguyễn Đức Minh",
-      "♟ Cặp đôi song sát: Nguyễn Thu Phương – Lê Đức Duy",
+      "Vận động viên may mắn: Nguyễn Đức Minh",
+      "Cặp đôi song sát: Nguyễn Thu Phương – Lê Đức Duy",
     ],
     highlightsText:
       "Giải đấu đã mang lại một buổi sáng thi đấu sôi động với nhiều ván cờ hấp dẫn và những khoảnh khắc đáng nhớ của cộng đồng Happy Bishops.",

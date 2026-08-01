@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogPosts } from "../data";
+import { Calendar } from "lucide-react";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
@@ -103,8 +104,9 @@ export default async function BlogPostDetailPage({
 
         {/* Date & Tag */}
         <div className="mt-6 flex items-center justify-between">
-          <span className="inline-flex items-center gap-2 rounded-md bg-[#8e2b2b]/10 px-3 py-1 text-xs font-bold text-[#8e2b2b] [font-family:var(--font-lexend)]">
-            📅 Ngày đăng: {post.date}
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-[#8e2b2b]/10 px-3 py-1 text-xs font-bold text-[#8e2b2b] [font-family:var(--font-lexend)]">
+            <Calendar className="w-3.5 h-3.5" />
+            Ngày đăng: {post.date}
           </span>
           <span className="text-xs font-semibold text-[#f78181] [font-family:var(--font-lexend)]">
             Happy Bishops Blog #{post.id}

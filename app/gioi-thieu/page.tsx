@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { GraduationCap, Award, Trophy } from "lucide-react";
 
 type Language = "VIE" | "ENG";
 
@@ -325,11 +326,15 @@ export default function AboutPage() {
             {/* Founder 1: Vũ Hiền Thanh */}
             <div className="relative flex flex-col rounded-3xl bg-white/70 p-8 border border-[rgba(142,43,43,0.18)] shadow-md transition-all duration-300 hover:shadow-lg max-[680px]:p-6">
               <div className="flex flex-col items-center text-center">
-                {/* Photo Placeholder Frame */}
-                <div className="relative mb-5 flex h-[160px] w-[160px] items-center justify-center overflow-hidden rounded-full border-4 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/40 shadow-inner">
-                  <span className="text-[64px]" role="img" aria-label="chess bishop">
-                    ♟
-                  </span>
+                {/* Photo Frame */}
+                <div className="relative mb-5 flex h-[140px] w-[140px] items-center justify-center overflow-hidden rounded-full border-4 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/40 shadow-inner">
+                  <Image
+                    src={logoSrc}
+                    alt="Vũ Hiền Thanh"
+                    width={70}
+                    height={70}
+                    className="w-16 h-auto opacity-90"
+                  />
                 </div>
 
                 <h3 className="text-[26px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[22px]">
@@ -341,14 +346,14 @@ export default function AboutPage() {
 
                 {/* Badges / Credentials */}
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
-                  <span className="rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                    🎓 Đại học Ngoại thương
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    <GraduationCap className="w-3.5 h-3.5" /> Đại học Ngoại thương
                   </span>
-                  <span className="rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                    🏆 National Arbiter
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    <Award className="w-3.5 h-3.5" /> National Arbiter
                   </span>
-                  <span className="rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                    ♟ FIDE School Instructor – Batch 29
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    <Trophy className="w-3.5 h-3.5" /> FIDE School Instructor – Batch 29
                   </span>
                 </div>
 
@@ -363,11 +368,15 @@ export default function AboutPage() {
             {/* Founder 2: Trịnh Thành Long */}
             <div className="relative flex flex-col rounded-3xl bg-white/70 p-8 border border-[rgba(142,43,43,0.18)] shadow-md transition-all duration-300 hover:shadow-lg max-[680px]:p-6">
               <div className="flex flex-col items-center text-center">
-                {/* Photo Placeholder Frame */}
-                <div className="relative mb-5 flex h-[160px] w-[160px] items-center justify-center overflow-hidden rounded-full border-4 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/40 shadow-inner">
-                  <span className="text-[64px]" role="img" aria-label="chess bishop">
-                    ♟
-                  </span>
+                {/* Photo Frame */}
+                <div className="relative mb-5 flex h-[140px] w-[140px] items-center justify-center overflow-hidden rounded-full border-4 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/40 shadow-inner">
+                  <Image
+                    src={logoSrc}
+                    alt="Trịnh Thành Long"
+                    width={70}
+                    height={70}
+                    className="w-16 h-auto opacity-90"
+                  />
                 </div>
 
                 <h3 className="text-[26px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] max-[680px]:text-[22px]">
@@ -379,11 +388,11 @@ export default function AboutPage() {
 
                 {/* Badges / Credentials */}
                 <div className="mt-3 flex flex-wrap justify-center gap-2">
-                  <span className="rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                    🎓 Đại học Y Hà Nội
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    <GraduationCap className="w-3.5 h-3.5" /> Đại học Y Hà Nội
                   </span>
-                  <span className="rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                    ♟ FIDE School Instructor – Batch 29
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#8e2b2b]/10 px-3.5 py-1 text-[12.5px] font-semibold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    <Trophy className="w-3.5 h-3.5" /> FIDE School Instructor – Batch 29
                   </span>
                 </div>
 

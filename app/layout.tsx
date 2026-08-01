@@ -30,6 +30,9 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Happy Bishops",
   description: "Happy Bishops chess community website",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 import { LanguageProvider } from "@/context/language-context";

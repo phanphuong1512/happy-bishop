@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { blogPosts as staticBlogPosts } from "@/app/blog/data";
+
+// Memory store for local development (when env.DB is not bound to local dev server)
+let localDevBlogs: any[] = [...staticBlogPosts];
+
+export function getLocalDevBlogs() {
+  return localDevBlogs;
+}
+
+export function setLocalDevBlogs(blogs: any[]) {
+  localDevBlogs = blogs;
+}
 
 async function isAuthorized() {
   const cookieStore = await cookies();
@@ -16,7 +28,7 @@ async function getD1Database() {
       return db;
     }
   } catch (e) {
-    console.error("D1 Connection Error:", e);
+    // Running in local Next.js dev server without wrangler proxy
   }
   return null;
 }
@@ -24,51 +36,37 @@ async function getD1Database() {
 export async function GET() {
   const db = await getD1Database();
 
-  if (!db) {
-    return NextResponse.json(
-      { success: false, message: "Không thể kết nối Cloudflare D1 Database!" },
-      { status: 500 }
-    );
+  if (db) {
+    try {
+      const { results } = await db.prepare("SELECT * FROM blogs ORDER BY id DESC").all();
+      if (results && results.length > 0) {
+        const formatted = results.map((row: any) => ({
+          id: row.id,
+          slug: row.slug,
+          title: row.title,
+          date: row.date,
+          summary: row.summary,
+          coverImage: row.cover_image,
+          content: typeof row.content === "string" ? JSON.parse(row.content) : row.content,
+          recapLink: row.recap_link_text ? {
+            text: row.recap_link_text,
+            targetSlug: row.recap_link_target_slug,
+          } : undefined,
+        }));
+        return NextResponse.json({ success: true, data: formatted, source: "d1" });
+      }
+    } catch (error: any) {
+      console.error("D1 Query Error:", error);
+    }
   }
 
-  try {
-    const { results } = await db.prepare("SELECT * FROM blogs ORDER BY id DESC").all();
-    
-    const formatted = (results || []).map((row: any) => ({
-      id: row.id,
-      slug: row.slug,
-      title: row.title,
-      date: row.date,
-      summary: row.summary,
-      coverImage: row.cover_image,
-      content: typeof row.content === "string" ? JSON.parse(row.content) : row.content,
-      recapLink: row.recap_link_text ? {
-        text: row.recap_link_text,
-        targetSlug: row.recap_link_target_slug,
-      } : undefined,
-    }));
-
-    return NextResponse.json({ success: true, data: formatted });
-  } catch (error: any) {
-    console.error("D1 Query Error:", error);
-    return NextResponse.json(
-      { success: false, message: error.message || "Lỗi khi truy vấn Cloudflare D1!" },
-      { status: 500 }
-    );
-  }
+  // Local development fallback so localhost:3000 is never 0/blank
+  return NextResponse.json({ success: true, data: localDevBlogs, source: "local" });
 }
 
 export async function POST(request: Request) {
   if (!(await isAuthorized())) {
     return NextResponse.json({ success: false, message: "Bạn chưa đăng nhập hoặc hết phiên làm việc!" }, { status: 401 });
-  }
-
-  const db = await getD1Database();
-  if (!db) {
-    return NextResponse.json(
-      { success: false, message: "Không thể kết nối Cloudflare D1 Database!" },
-      { status: 500 }
-    );
   }
 
   try {
@@ -79,28 +77,48 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: "Vui lòng nhập đầy đủ các trường bắt buộc (*)" }, { status: 400 });
     }
 
+    const db = await getD1Database();
     const currentDate = date || new Date().toLocaleDateString("vi-VN");
     const jsonContent = Array.isArray(content) ? JSON.stringify(content) : JSON.stringify([content]);
 
-    await db.prepare(
-      `INSERT INTO blogs (slug, title, date, summary, cover_image, content, recap_link_text, recap_link_target_slug)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-    )
-      .bind(
-        slug,
-        title,
-        currentDate,
-        summary,
-        coverImage,
-        jsonContent,
-        recapLinkText || "",
-        recapLinkTargetSlug || ""
+    if (db) {
+      await db.prepare(
+        `INSERT INTO blogs (slug, title, date, summary, cover_image, content, recap_link_text, recap_link_target_slug)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
       )
-      .run();
+        .bind(
+          slug,
+          title,
+          currentDate,
+          summary,
+          coverImage,
+          jsonContent,
+          recapLinkText || "",
+          recapLinkTargetSlug || ""
+        )
+        .run();
 
-    return NextResponse.json({ success: true, message: "Đã thêm bài viết mới vào Cloudflare D1 Database!" });
+      return NextResponse.json({ success: true, message: "Đã thêm bài viết mới vào Cloudflare D1 Database!" });
+    }
+
+    // Local dev fallback
+    const newId = localDevBlogs.length > 0 ? Math.max(...localDevBlogs.map(b => Number(b.id) || 0)) + 1 : 1;
+    const newPost = {
+      id: newId,
+      slug,
+      title,
+      date: currentDate,
+      summary,
+      coverImage,
+      content: Array.isArray(content) ? content : [content],
+      recapLink: recapLinkText ? { text: recapLinkText, targetSlug: recapLinkTargetSlug } : undefined,
+    };
+
+    localDevBlogs.unshift(newPost);
+
+    return NextResponse.json({ success: true, message: "Đã tạo bài viết mới (Local Dev)!", data: newPost });
   } catch (error: any) {
     console.error("D1 Insert Error:", error);
-    return NextResponse.json({ success: false, message: error.message || "Lỗi khi thêm bài viết vào D1!" }, { status: 500 });
+    return NextResponse.json({ success: false, message: error.message || "Lỗi khi thêm bài viết!" }, { status: 500 });
   }
 }

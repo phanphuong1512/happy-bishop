@@ -169,28 +169,35 @@ export default function BlogIndexPage() {
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15 first:rounded-t-3xl"
               >
-                Giới thiệu
+                {isVie ? "Giới thiệu" : "About"}
               </Link>
               <Link
                 href="/#su-kien"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Sự kiện
+                {isVie ? "Sự kiện" : "Events"}
               </Link>
               <Link
                 href="/blog"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Tin tức
+                {isVie ? "Tin tức" : "News"}
               </Link>
               <Link
                 href="/#cong-dong"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Cộng đồng
+                {isVie ? "Cộng đồng" : "Community"}
+              </Link>
+              <Link
+                href="/#lien-he"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
+              >
+                {isVie ? "Liên hệ" : "Contact"}
               </Link>
             </nav>
             <div className="flex items-center justify-center gap-3 px-4 py-4">
@@ -237,7 +244,20 @@ export default function BlogIndexPage() {
       {/* Blog Cards Grid Container */}
       <section className="relative z-10 mt-8">
         <div className="grid grid-cols-2 gap-8 max-[850px]:grid-cols-1">
-          {posts.map((post) => (
+          {loading ? (
+            <div className="col-span-2 flex items-center justify-center py-20 max-[850px]:col-span-1">
+              <p className="text-base font-bold text-[#8e2b2b] [font-family:var(--font-lexend)] animate-pulse">
+                {isVie ? "Đang tải bài viết..." : "Loading articles..."}
+              </p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="col-span-2 flex items-center justify-center py-20 max-[850px]:col-span-1">
+              <p className="text-base text-[#8e2b2b]/60 [font-family:var(--font-lexend)]">
+                {isVie ? "Chưa có bài viết nào." : "No articles found."}
+              </p>
+            </div>
+          ) : (
+          posts.map((post) => (
             <article
               key={post.id}
               className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[rgba(142,43,43,0.18)] bg-[#fff6e3] p-6 shadow-xs transition-all duration-300 hover:shadow-md max-[680px]:p-5"
@@ -281,7 +301,8 @@ export default function BlogIndexPage() {
                 </span>
               </div>
             </article>
-          ))}
+          ))
+          )}
         </div>
       </section>
 

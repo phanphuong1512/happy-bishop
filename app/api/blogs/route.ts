@@ -45,7 +45,7 @@ export async function GET() {
           date: row.date,
           summary: row.summary,
           coverImage: row.cover_image,
-          content: typeof row.content === "string" ? JSON.parse(row.content) : row.content,
+          content: (() => { try { return typeof row.content === "string" ? JSON.parse(row.content) : row.content; } catch { return [row.content]; } })(),
           recapLink: row.recap_link_text ? {
             text: row.recap_link_text,
             targetSlug: row.recap_link_target_slug,

@@ -47,9 +47,7 @@ export default function RootLayout({
       lang="vi"
       className={`${lexend.variable} ${comfortaa.variable} ${sourceSerif4.variable} h-full antialiased`}
     >
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
+      
       <body className="min-h-full">
         <LanguageProvider>{children}</LanguageProvider>
       </body>

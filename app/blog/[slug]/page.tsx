@@ -3,8 +3,7 @@
 import React, { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
+import { Calendar, ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
@@ -46,7 +45,19 @@ export default function BlogPostDetailPage({
   }
 
   if (!post) {
-    notFound();
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#fff6e3] gap-4">
+        <p className="text-lg font-bold text-[#8e2b2b] [font-family:var(--font-lexend)]">
+          {isVie ? "Không tìm thấy bài viết" : "Article not found"}
+        </p>
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#8e2b2b]/10 px-4 py-2 text-sm text-[#8e2b2b] hover:bg-[#8e2b2b]/20 transition-colors [font-family:var(--font-lexend)]"
+        >
+          <ArrowLeft className="w-4 h-4" /> {isVie ? "Xem tất cả bài viết" : "View all articles"}
+        </Link>
+      </main>
+    );
   }
 
   return (
@@ -154,7 +165,7 @@ export default function BlogPostDetailPage({
         <div className="mt-12 flex items-center justify-between gap-4 border-t border-[rgba(88,10,10,0.2)] pt-6 text-sm font-bold [font-family:var(--font-lexend)]">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#8e2b2b]/10 px-4 py-2 text.xs text-[#8e2b2b] hover:bg-[#8e2b2b]/20 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#8e2b2b]/10 px-4 py-2 text-xs text-[#8e2b2b] hover:bg-[#8e2b2b]/20 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> {isVie ? "Xem tất cả bài viết" : "View all articles"}
           </Link>

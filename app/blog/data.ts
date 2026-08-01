@@ -12,4 +12,3 @@ export type BlogPost = {
   };
 };
 
-export const blogPosts: BlogPost[] = [];

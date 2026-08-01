@@ -24,23 +24,25 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // If R2 bucket binding exists on Cloudflare
+    // Upload to R2 bucket (binding: R2 in wrangler.jsonc)
     try {
       const { env } = await getCloudflareContext();
-      const r2 = (env as any)?.R2 || (env as any)?.IMAGES_BUCKET;
+      const r2 = (env as any)?.R2;
       if (r2) {
         const fileExt = file.name.split(".").pop() || "png";
-        const fileName = `blog-covers/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+        const fileName = `blog/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
         await r2.put(fileName, buffer, {
           httpMetadata: { contentType: file.type },
         });
 
-        // CDN URL if R2 public domain configured
-        const cdnUrl = `https://assets.happybishops.com/media/${fileName}`;
+        const cdnUrl = `https://assets.happybishops.com/${fileName}`;
         return NextResponse.json({ success: true, url: cdnUrl, message: "Đã tải ảnh lên CDN thành công!" });
+      } else {
+        console.error("R2 binding not found in env. Available keys:", Object.keys(env as any));
       }
-    } catch (e) {
-      console.log("R2 not configured, using optimized Base64 fallback");
+    } catch (e: any) {
+      console.error("R2 upload error:", e?.message || e);
+      return NextResponse.json({ success: false, message: `Lỗi tải ảnh lên R2: ${e?.message || "Unknown error"}` }, { status: 500 });
     }
 
     // High performance Data URL fallback (works 100% everywhere without external storage setup)

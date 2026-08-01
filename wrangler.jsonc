@@ -38,5 +38,11 @@
       "database_name": "happy-bishop",
       "database_id": "8bcdea0e-ab68-47dd-9f44-e0508eb8fcc6"
     }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "happy-bishop"
+    }
   ]
 }

@@ -8,12 +8,12 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "assets.happybishops.com",
-        pathname: "/hb-assets/**",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "happybishops.com",
-        pathname: "/hb-assets/**",
+        pathname: "/**",
       },
       {
         protocol: "https",

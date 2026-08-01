@@ -138,7 +138,7 @@ export async function POST(request: Request) {
         )
         .run();
 
-      return NextResponse.json({ success: true, message: "Đã lưu bài viết vào Cloudflare D1 Database!" });
+      return NextResponse.json({ success: true, message: "🟢 Đã ghi bài viết trực tiếp vào Cloudflare D1 Database!" });
     }
 
     // In-memory fallback
@@ -156,7 +156,11 @@ export async function POST(request: Request) {
 
     memoryBlogs.unshift(newPost);
 
-    return NextResponse.json({ success: true, message: "Đã tạo bài viết mới!", data: newPost });
+    return NextResponse.json({
+      success: true,
+      message: "⚠️ Chưa phát hiện kết nối D1 ở môi trường local, bài viết tạm thời lưu ở bộ nhớ local. Vui lòng deploy hoặc chạy lệnh SQL trên Cloudflare Console!",
+      data: newPost,
+    });
   } catch (error: any) {
     console.error("Create Blog Error:", error);
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi tạo bài viết!" }, { status: 500 });

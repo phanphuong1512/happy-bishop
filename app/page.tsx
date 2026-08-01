@@ -563,7 +563,7 @@ export default function HomePage() {
             </div>
 
             <Link
-              href="/#su-kien"
+              href="/su-kien"
               aria-label="Xem thêm"
               className="absolute right-[4.2%] bottom-[2.4%] z-20 block h-auto w-[10.1%] transition-all duration-200 ease-out hover:scale-110 hover:brightness-110 active:scale-95 active:translate-y-[2px] max-[680px]:right-[3%] max-[680px]:bottom-[2%] max-[680px]:w-[11.4%]"
             >

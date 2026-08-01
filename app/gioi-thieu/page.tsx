@@ -160,28 +160,35 @@ export default function AboutPage() {
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15 first:rounded-t-3xl"
               >
-                Giới thiệu
+                {isVie ? "Giới thiệu" : "About"}
               </Link>
               <Link
-                href="/#su-kien"
+                href="/su-kien"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Sự kiện
+                {isVie ? "Sự kiện" : "Events"}
               </Link>
               <Link
-                href="/#tin-tuc"
+                href="/blog"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Tin tức
+                {isVie ? "Tin tức" : "News"}
               </Link>
               <Link
                 href="/#cong-dong"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
               >
-                Cộng đồng
+                {isVie ? "Cộng đồng" : "Community"}
+              </Link>
+              <Link
+                href="/lien-he"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
+              >
+                {isVie ? "Liên hệ" : "Contact"}
               </Link>
             </nav>
             <div className="flex items-center justify-center gap-3 px-4 py-4">

@@ -175,6 +175,13 @@ export default function ContactPage() {
                 {isVie ? "Tin tức" : "News"}
               </Link>
               <Link
+                href="/#cong-dong"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"
+              >
+                {isVie ? "Cộng đồng" : "Community"}
+              </Link>
+              <Link
                 href="/lien-he"
                 onClick={() => setIsMenuOpen(false)}
                 className="px-6 py-4 text-[16px] font-bold text-white hover:bg-white/15"

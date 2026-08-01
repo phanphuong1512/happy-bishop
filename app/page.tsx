@@ -704,7 +704,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={cell.id}
-                    className={`relative min-h-[106px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[6px] ${
+                    className={`relative min-h-[92px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[6px] ${
                       index < 7 ? "border-t-0" : ""
                     } ${index % 7 === 6 ? "border-r-0" : ""} ${
                       isEventDay

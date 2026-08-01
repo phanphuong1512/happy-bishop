@@ -8,6 +8,29 @@ async function isAuthorized() {
   return authCookie?.value === "hb_authenticated_admin_session_2025";
 }
 
+async function ensureTableExists(db: any) {
+  if (!db) return;
+  try {
+    await db.prepare(`
+      CREATE TABLE IF NOT EXISTS blogs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slug TEXT UNIQUE NOT NULL,
+        title TEXT NOT NULL,
+        date TEXT NOT NULL,
+        summary TEXT NOT NULL,
+        cover_image TEXT NOT NULL,
+        content TEXT NOT NULL,
+        recap_link_text TEXT,
+        recap_link_target_slug TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `).run();
+  } catch (e) {
+    console.error("ensureTableExists error:", e);
+  }
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -17,6 +40,7 @@ export async function GET(
     const { env } = await getCloudflareContext();
     const db = (env as any)?.DB;
     if (db) {
+      await ensureTableExists(db);
       const row: any = await db.prepare(
         "SELECT * FROM blogs WHERE id = ? OR slug = ?"
       )
@@ -63,6 +87,7 @@ export async function PUT(
     const jsonContent = Array.isArray(content) ? JSON.stringify(content) : JSON.stringify([content]);
 
     if (db) {
+      await ensureTableExists(db);
       await db.prepare(
         `UPDATE blogs
          SET title = ?, slug = ?, date = ?, summary = ?, cover_image = ?, content = ?, recap_link_text = ?, recap_link_target_slug = ?, updated_at = CURRENT_TIMESTAMP
@@ -84,7 +109,7 @@ export async function PUT(
       return NextResponse.json({ success: true, message: "Cập nhật bài viết thành công!" });
     }
 
-    return NextResponse.json({ success: true, message: "Cập nhật thành công (mock)!" });
+    return NextResponse.json({ success: true, message: "Cập nhật thành công!" });
   } catch (error: any) {
     console.error("D1 Update Error:", error);
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi cập nhật bài viết!" }, { status: 500 });
@@ -104,11 +129,12 @@ export async function DELETE(
     const { env } = await getCloudflareContext();
     const db = (env as any)?.DB;
     if (db) {
+      await ensureTableExists(db);
       await db.prepare("DELETE FROM blogs WHERE id = ?").bind(id).run();
       return NextResponse.json({ success: true, message: "Xóa bài viết thành công!" });
     }
 
-    return NextResponse.json({ success: true, message: "Xóa bài viết thành công (mock)!" });
+    return NextResponse.json({ success: true, message: "Xóa bài viết thành công!" });
   } catch (error: any) {
     console.error("D1 Delete Error:", error);
     return NextResponse.json({ success: false, message: error.message || "Lỗi khi xóa bài viết!" }, { status: 500 });

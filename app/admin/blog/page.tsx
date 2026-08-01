@@ -4,8 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Edit, Trash2, LogOut, ArrowLeft, RefreshCw } from "lucide-react";
-import { BlogPost } from "@/app/blog/data";
+import { Plus, Edit, Trash2, LogOut, ArrowLeft, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react";
 
 const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
 
@@ -16,6 +15,7 @@ export default function AdminBlogManagementPage() {
   const [authorized, setAuthorized] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<any | null>(null);
+  const [toastMsg, setToastMsg] = useState<{ text: string; isError?: boolean } | null>(null);
 
   // Form fields state
   const [formData, setFormData] = useState({
@@ -29,7 +29,12 @@ export default function AdminBlogManagementPage() {
     recapLinkTargetSlug: "",
   });
   const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState("");
+  const [formErrorMsg, setFormErrorMsg] = useState("");
+
+  const showToast = (text: string, isError = false) => {
+    setToastMsg({ text, isError });
+    setTimeout(() => setToastMsg(null), 4000);
+  };
 
   const checkAuth = async () => {
     try {
@@ -72,7 +77,7 @@ export default function AdminBlogManagementPage() {
     setEditingPost(null);
     setFormData({
       title: "",
-      slug: "",
+      slug: `bai-viet-${Date.now()}`,
       date: new Date().toLocaleDateString("vi-VN"),
       summary: "",
       coverImage: "https://assets.happybishops.com/media/blog_1.webp",
@@ -80,7 +85,7 @@ export default function AdminBlogManagementPage() {
       recapLinkText: "",
       recapLinkTargetSlug: "",
     });
-    setMessage("");
+    setFormErrorMsg("");
     setModalOpen(true);
   };
 
@@ -97,7 +102,7 @@ export default function AdminBlogManagementPage() {
       recapLinkText: post.recapLink?.text || post.recapLinkText || "",
       recapLinkTargetSlug: post.recapLink?.targetSlug || post.recapLinkTargetSlug || "",
     });
-    setMessage("");
+    setFormErrorMsg("");
     setModalOpen(true);
   };
 
@@ -108,19 +113,20 @@ export default function AdminBlogManagementPage() {
       const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (res.ok && data.success) {
+        showToast("Đã xóa bài viết thành công!");
         fetchBlogs();
       } else {
-        alert(data.message || "Xóa bài viết thất bại!");
+        showToast(data.message || "Xóa bài viết thất bại!", true);
       }
     } catch (err) {
-      alert("Đã xảy ra lỗi kết nối!");
+      showToast("Đã xảy ra lỗi kết nối!", true);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setMessage("");
+    setFormErrorMsg("");
 
     const paragraphs = formData.content.split("\n\n").filter(p => p.trim() !== "");
 
@@ -149,12 +155,13 @@ export default function AdminBlogManagementPage() {
 
       if (res.ok && data.success) {
         setModalOpen(false);
+        showToast(editingPost ? "Đã cập nhật bài viết!" : "Đã tạo bài viết mới thành công!");
         fetchBlogs();
       } else {
-        setMessage(data.message || "Đã xảy ra lỗi!");
+        setFormErrorMsg(data.message || "Đã xảy ra lỗi!");
       }
     } catch (err) {
-      setMessage("Đã xảy ra lỗi kết nối!");
+      setFormErrorMsg("Đã xảy ra lỗi kết nối máy chủ!");
     } finally {
       setSubmitting(false);
     }
@@ -174,6 +181,18 @@ export default function AdminBlogManagementPage() {
 
   return (
     <main className="relative mx-auto mt-4 mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1200px]">
+      {/* Toast Notification Banner */}
+      {toastMsg && (
+        <div
+          className={`fixed top-4 right-4 z-50 flex items-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-bold text-white shadow-xl ${
+            toastMsg.isError ? "bg-rose-700" : "bg-emerald-700"
+          }`}
+        >
+          {toastMsg.isError ? <AlertCircle className="w-5 h-5" /> : <CheckCircle2 className="w-5 h-5" />}
+          <span>{toastMsg.text}</span>
+        </div>
+      )}
+
       {/* Admin Top Header */}
       <header className="flex items-center justify-between rounded-2xl bg-[#8e2b2b] px-6 py-4 text-white shadow-md">
         <div className="flex items-center gap-3">
@@ -204,7 +223,7 @@ export default function AdminBlogManagementPage() {
       <section className="mt-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-[#8e2b2b] [font-family:var(--font-lexend)]">
-            Danh sách tin tức &amp; bài viết ({blogs.length})
+            Danh sách bài viết ({blogs.length})
           </h2>
           <div className="flex gap-3">
             <button
@@ -214,6 +233,7 @@ export default function AdminBlogManagementPage() {
               <RefreshCw className="w-4 h-4" /> Làm mới
             </button>
             <button
+              type="button"
               onClick={openCreateModal}
               className="flex items-center gap-2 rounded-xl border border-[#c86a6c] bg-linear-to-b from-[#b63d3f] to-[#8f2a2d] px-5 py-2.5 text-xs font-bold text-[#fff6e3] shadow-md hover:brightness-105 transition-all cursor-pointer"
             >
@@ -254,12 +274,14 @@ export default function AdminBlogManagementPage() {
 
               <div className="flex items-center gap-2 shrink-0">
                 <button
+                  type="button"
                   onClick={() => openEditModal(post)}
                   className="flex items-center gap-1 rounded-lg border border-amber-600 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-800 hover:bg-amber-100 transition-colors cursor-pointer"
                 >
                   <Edit className="w-3.5 h-3.5" /> Sửa (PUT)
                 </button>
                 <button
+                  type="button"
                   onClick={() => handleDelete(post.id)}
                   className="flex items-center gap-1 rounded-lg border border-rose-600 bg-rose-50 px-3 py-1.5 text-xs font-bold text-rose-800 hover:bg-rose-100 transition-colors cursor-pointer"
                 >
@@ -280,6 +302,7 @@ export default function AdminBlogManagementPage() {
                 {editingPost ? "Sửa bài viết (PUT)" : "Thêm bài viết mới (POST)"}
               </h3>
               <button
+                type="button"
                 onClick={() => setModalOpen(false)}
                 className="text-gray-500 hover:text-black font-bold text-xl cursor-pointer"
               >
@@ -287,9 +310,9 @@ export default function AdminBlogManagementPage() {
               </button>
             </div>
 
-            {message && (
+            {formErrorMsg && (
               <div className="mt-4 rounded-xl bg-red-100 p-3 text-xs font-bold text-red-700">
-                {message}
+                {formErrorMsg}
               </div>
             )}
 

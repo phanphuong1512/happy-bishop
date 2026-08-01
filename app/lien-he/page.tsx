@@ -211,151 +211,172 @@ export default function ContactPage() {
         </>
       )}
 
-      {/* Page Header Banner */}
-      <section className="relative pt-10 pb-6 text-center max-[680px]:pt-6 max-[680px]:pb-4">
+      {/* Hero Banner Section */}
+      <section className="relative pt-10 pb-8 text-center max-[680px]:pt-6 max-[680px]:pb-4">
         <p className="m-0 text-[42px] leading-none font-normal [font-family:var(--font-comfortaa)] tracking-[1em] lowercase text-[var(--hb-primary)] max-[1080px]:text-[32px] max-[680px]:text-[24px] max-[680px]:tracking-[0.6em]">
           happy bishops
         </p>
-        <h1 className="mt-2 text-[72px] leading-none font-bold [font-family:var(--font-lexend)] tracking-[0.05em] text-[var(--hb-deep-red)] max-[1080px]:text-[56px] max-[680px]:text-[38px]">
+        <h1 className="mt-2 text-[76px] leading-none font-bold [font-family:var(--font-lexend)] tracking-[0.05em] text-[var(--hb-deep-red)] max-[1080px]:text-[56px] max-[680px]:text-[38px]">
           {isVie ? "LIÊN HỆ VỚI CHÚNG MÌNH" : "CONTACT US"}
         </h1>
-        <p className="mt-4 max-w-[700px] mx-auto text-[16.5px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[14.5px]">
+        <p className="mt-4 max-w-[760px] mx-auto text-[17px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[15px]">
           {isVie
-            ? "Chúng mình rất vui khi được lắng nghe bạn! Hãy nhắn tin cho Happy Bishops nếu bạn có bất kỳ thắc mắc, câu hỏi hay muốn đăng ký tham gia giao lưu và giải đấu cờ vua."
-            : "We'd love to hear from you! Feel free to reach out for any inquiries, feedback, or to learn more about our chess club and events."}
+            ? "Chúng mình luôn sẵn sàng lắng nghe và giải đáp mọi thắc mắc từ cộng đồng. Bạn có thể liên hệ trực tiếp với đội ngũ sáng lập hoặc tham gia các kênh truyền thông chính thức dưới đây."
+            : "We'd love to hear from you! Feel free to reach out for any inquiries, feedback, or to learn more about our chess club and events. You can contact us via email, phone, or join our community on Zalo and Facebook."}
         </p>
 
-        {/* Global Community Buttons */}
-        <div className="mt-6 flex flex-wrap justify-center gap-4">
+        {/* Global Community Links Bar */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
           <a
             href="https://zalo.me/g/jvjnze574"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#8e2b2b] px-6 py-3 text-white font-bold text-[15px] hover:opacity-90 transition-opacity [font-family:var(--font-lexend)] shadow-xs"
+            className="inline-flex items-center gap-2 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
-            💬 Nhóm Zalo Cộng Đồng
+            <span>💬</span> Zalo Community Group
           </a>
           <a
             href="https://www.facebook.com/happy.bishops.community"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#1877f2] px-6 py-3 text-white font-bold text-[15px] hover:opacity-90 transition-opacity [font-family:var(--font-lexend)] shadow-xs"
+            className="inline-flex items-center gap-2 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
-            👍 Fanpage Facebook
+            <span>🌐</span> Facebook Fanpage
           </a>
         </div>
 
-        <div className="mt-8 h-px w-full bg-[rgba(88,10,10,0.35)]" />
+        <div className="mt-8 h-px w-full bg-[rgba(88,10,10,0.25)]" />
       </section>
 
-      {/* 2 Co-Founder Contact Cards Grid */}
-      <section className="relative z-10 mt-6">
-        <h2 className="text-[28px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] mb-6 text-center max-[680px]:text-[22px]">
-          {isVie ? "Liên hệ Ban Quản Trị" : "Contact Co-Founders"}
-        </h2>
-
+      {/* 2 Co-Founder Contact Cards */}
+      <section className="relative z-10 mt-8">
         <div className="grid grid-cols-2 gap-8 max-[850px]:grid-cols-1">
           {/* Card 1: Vũ Hiền Thanh */}
-          <div className="rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#fff6e3] p-8 shadow-xs flex flex-col justify-between items-center text-center max-[680px]:p-6">
-            <div className="flex flex-col items-center w-full">
-              {/* Photo Frame */}
-              <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-[#eb979b]/40 border border-[#8e2b2b]/20 text-4xl mb-4">
-                ♟
+          <div className="flex flex-col justify-between rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#fff6e3] p-8 shadow-xs max-[680px]:p-6">
+            <div>
+              {/* Header inside card */}
+              <div className="flex items-center gap-5">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/30 text-3xl shadow-inner">
+                  ♟
+                </div>
+                <div>
+                  <h2 className="text-[26px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    Vũ Hiền Thanh
+                  </h2>
+                  <p className="text-[14.5px] font-semibold italic [font-family:var(--font-source-serif-4)] text-[#f78181]">
+                    Co-Founder – Happy Bishops
+                  </p>
+                </div>
               </div>
 
-              <h3 className="text-[24px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                Vũ Hiền Thanh
-              </h3>
-              <p className="text-[14px] font-semibold italic [font-family:var(--font-source-serif-4)] text-[#f78181] mb-2">
-                Co-Founder – Happy Bishops
-              </p>
-
-              <div className="my-4 h-px w-3/4 bg-[rgba(88,10,10,0.15)]" />
-
-              {/* Contact Details */}
-              <div className="w-full space-y-3 text-left text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                <p className="flex items-center gap-2">
-                  <span>✉️</span> <strong>Email:</strong> hienthanh.hb@gmail.com
-                </p>
-                <p className="flex items-center gap-2">
-                  <span>📱</span> <strong>Hotline / Zalo:</strong> 098 765 4321
-                </p>
-                <p className="flex items-center gap-2">
-                  <span>📍</span> <strong>Địa điểm giao lưu:</strong> Urban Station Coffee
-                </p>
+              {/* Badges / Qualifications */}
+              <div className="mt-4 flex flex-wrap gap-2 text-[12px] font-medium [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
+                  Đại học Ngoại thương
+                </span>
+                <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
+                  National Arbiter
+                </span>
+                <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
+                  FIDE School Instructor – Batch 29
+                </span>
               </div>
-            </div>
 
-            {/* Direct Action Buttons */}
-            <div className="mt-8 flex w-full flex-wrap gap-3">
-              <a
-                href="https://zalo.me/g/jvjnze574"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#8e2b2b] px-4 py-2.5 text-xs font-bold text-white hover:opacity-90 transition-opacity [font-family:var(--font-lexend)]"
-              >
-                💬 Nhắn Zalo
-              </a>
-              <a
-                href="https://www.facebook.com/happy.bishops.community"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1877f2] px-4 py-2.5 text-xs font-bold text-white hover:opacity-90 transition-opacity [font-family:var(--font-lexend)]"
-              >
-                👍 Facebook
-              </a>
+              <div className="my-5 h-px w-full bg-[rgba(88,10,10,0.15)]" />
+
+              {/* Contact Info List */}
+              <div className="space-y-3.5 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">✉️</span>
+                  <div>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Email:</span>
+                    <a href="mailto:hienthanh.hb@gmail.com" className="font-bold hover:underline">
+                      hienthanh.hb@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">💬</span>
+                  <div>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Phone &amp; Zalo:</span>
+                    <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">
+                      Gia nhập nhóm Zalo
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">📍</span>
+                  <div>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Địa điểm sinh hoạt:</span>
+                    <span className="font-semibold">Urban Station Coffee, Phạm Ngọc Thạch</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Card 2: Trịnh Thành Long */}
-          <div className="rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#fff6e3] p-8 shadow-xs flex flex-col justify-between items-center text-center max-[680px]:p-6">
-            <div className="flex flex-col items-center w-full">
-              {/* Photo Frame */}
-              <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-[#eb979b]/40 border border-[#8e2b2b]/20 text-4xl mb-4">
-                ♟
+          <div className="flex flex-col justify-between rounded-3xl border border-[rgba(142,43,43,0.2)] bg-[#fff6e3] p-8 shadow-xs max-[680px]:p-6">
+            <div>
+              {/* Header inside card */}
+              <div className="flex items-center gap-5">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-[#f78181] bg-linear-to-b from-[#ffdcd9] to-[#f78181]/30 text-3xl shadow-inner">
+                  ♟
+                </div>
+                <div>
+                  <h2 className="text-[26px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                    Trịnh Thành Long
+                  </h2>
+                  <p className="text-[14.5px] font-semibold italic [font-family:var(--font-source-serif-4)] text-[#f78181]">
+                    Co-Founder – Happy Bishops
+                  </p>
+                </div>
               </div>
 
-              <h3 className="text-[24px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                Trịnh Thành Long
-              </h3>
-              <p className="text-[14px] font-semibold italic [font-family:var(--font-source-serif-4)] text-[#f78181] mb-2">
-                Co-Founder – Happy Bishops
-              </p>
-
-              <div className="my-4 h-px w-3/4 bg-[rgba(88,10,10,0.15)]" />
-
-              {/* Contact Details */}
-              <div className="w-full space-y-3 text-left text-[14.5px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
-                <p className="flex items-center gap-2">
-                  <span>✉️</span> <strong>Email:</strong> thanhlong.hb@gmail.com
-                </p>
-                <p className="flex items-center gap-2">
-                  <span>📱</span> <strong>Hotline / Zalo:</strong> 091 234 5678
-                </p>
-                <p className="flex items-center gap-2">
-                  <span>📍</span> <strong>Địa điểm giao lưu:</strong> Urban Station Coffee
-                </p>
+              {/* Badges / Qualifications */}
+              <div className="mt-4 flex flex-wrap gap-2 text-[12px] font-medium [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
+                  Đại học Y Hà Nội
+                </span>
+                <span className="rounded-full bg-[#8e2b2b]/10 px-3 py-1">
+                  FIDE School Instructor – Batch 29
+                </span>
               </div>
-            </div>
 
-            {/* Direct Action Buttons */}
-            <div className="mt-8 flex w-full flex-wrap gap-3">
-              <a
-                href="https://zalo.me/g/jvjnze574"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#8e2b2b] px-4 py-2.5 text-xs font-bold text-white hover:opacity-90 transition-opacity [font-family:var(--font-lexend)]"
-              >
-                💬 Nhắn Zalo
-              </a>
-              <a
-                href="https://www.facebook.com/happy.bishops.community"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1877f2] px-4 py-2.5 text-xs font-bold text-white hover:opacity-90 transition-opacity [font-family:var(--font-lexend)]"
-              >
-                👍 Facebook
-              </a>
+              <div className="my-5 h-px w-full bg-[rgba(88,10,10,0.15)]" />
+
+              {/* Contact Info List */}
+              <div className="space-y-3.5 text-[15px] [font-family:var(--font-lexend)] text-[#8e2b2b]">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">✉️</span>
+                  <div>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Email:</span>
+                    <a href="mailto:thanhlong.hb@gmail.com" className="font-bold hover:underline">
+                      thanhlong.hb@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">💬</span>
+                  <div>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Phone &amp; Zalo:</span>
+                    <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">
+                      Gia nhập nhóm Zalo
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8e2b2b]/10 text-base">📍</span>
+                  <div>
+                    <span className="text-xs text-[#8e2b2b]/70 block font-normal">Địa điểm sinh hoạt:</span>
+                    <span className="font-semibold">Urban Station Coffee, Phạm Ngọc Thạch</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

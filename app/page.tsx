@@ -6,37 +6,24 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 type Language = "VIE" | "ENG";
 
-const logoSrc =
-  "https://assets.happybishops.com/hb-assets/logo.webp";
-const heroBoardSrc =
-  "https://assets.happybishops.com/hb-assets/hero.webp";
-const floatingPawnSrc =
-  "https://assets.happybishops.com/hb-assets/pawn.webp";
+const logoSrc = "https://assets.happybishops.com/hb-assets/logo.webp";
+const heroBoardSrc = "https://assets.happybishops.com/hb-assets/hero.webp";
+const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 const floatingBishopSrc =
   "https://assets.happybishops.com/hb-assets/bishop.webp";
-const galleryImg1 =
-  "https://assets.happybishops.com/hb-assets/1.webp";
-const galleryImg2 =
-  "https://assets.happybishops.com/hb-assets/2.webp";
-const galleryImg3 =
-  "https://assets.happybishops.com/hb-assets/3.webp";
-const galleryImg4 =
-  "https://assets.happybishops.com/hb-assets/4.webp";
-const galleryImg5 =
-  "https://assets.happybishops.com/hb-assets/5.webp";
-const galleryImg6 =
-  "https://assets.happybishops.com/hb-assets/6.webp";
+const galleryImg1 = "https://assets.happybishops.com/hb-assets/1.webp";
+const galleryImg2 = "https://assets.happybishops.com/hb-assets/2.webp";
+const galleryImg3 = "https://assets.happybishops.com/hb-assets/3.webp";
+const galleryImg4 = "https://assets.happybishops.com/hb-assets/4.webp";
+const galleryImg5 = "https://assets.happybishops.com/hb-assets/5.webp";
+const galleryImg6 = "https://assets.happybishops.com/hb-assets/6.webp";
 const viewMoreIconSrc = "/go_to_button.svg";
 const scheduleCalendarIconSrc = "/calendar.svg";
 const schedulePinIconSrc = "/map.svg";
-const newsRookSrc =
-  "https://assets.happybishops.com/hb-assets/rook.webp";
-const newsCard1Src =
-  "https://assets.happybishops.com/hb-assets/1.webp";
-const newsCard2Src =
-  "https://assets.happybishops.com/hb-assets/2.webp";
-const newsCard3Src =
-  "https://assets.happybishops.com/hb-assets/3.webp";
+const newsRookSrc = "https://assets.happybishops.com/hb-assets/rook.webp";
+const newsCard1Src = "https://assets.happybishops.com/hb-assets/1.webp";
+const newsCard2Src = "https://assets.happybishops.com/hb-assets/2.webp";
+const newsCard3Src = "https://assets.happybishops.com/hb-assets/3.webp";
 const newsArrowSrc = "/go_to_button_white.svg";
 
 const localizedText: Record<
@@ -155,11 +142,6 @@ const scheduleEventTemplatesByLanguage: Record<
       place: string;
       address: string;
     };
-    sunday: {
-      time: string;
-      place: string;
-      address: string;
-    };
   }
 > = {
   VIE: {
@@ -168,22 +150,12 @@ const scheduleEventTemplatesByLanguage: Record<
       place: "Urban Station Coffee",
       address: "số 7 ngõ 82 phố Phạm Ngọc Thạch",
     },
-    sunday: {
-      time: "[15h00 - 18h00]",
-      place: "Dzyn Coffee",
-      address: "số 16 ngõ 84 phố Trần Quang Diệu",
-    },
   },
   ENG: {
     wednesday: {
       time: "[7:30 PM - 10:30 PM]",
       place: "Urban Station Coffee",
       address: "No. 7, Alley 82, Pham Ngoc Thach Street",
-    },
-    sunday: {
-      time: "[3:00 PM - 6:00 PM]",
-      place: "Dzyn Coffee",
-      address: "No. 16, Alley 84, Tran Quang Dieu Street",
     },
   },
 };
@@ -256,13 +228,6 @@ export default function HomePage() {
     () =>
       calendarCells
         .filter((cell) => cell.day !== null && cell.dayOfWeek === 3)
-        .map((cell) => cell.day as number),
-    [calendarCells],
-  );
-  const sundayDays = useMemo(
-    () =>
-      calendarCells
-        .filter((cell) => cell.day !== null && cell.dayOfWeek === 0)
         .map((cell) => cell.day as number),
     [calendarCells],
   );
@@ -497,7 +462,7 @@ export default function HomePage() {
             alt={text.heroImageAlt}
             fill
             priority
-            className="!absolute !top-[-335px] !left-1/2 !right-auto !bottom-auto !w-[150%] !h-[150%] max-w-none -translate-x-1/2 -rotate-[40deg] object-contain object-center drop-shadow-[0_22px_26px_rgba(94,10,24,0.2)] min-[1081px]:!top-[-410px] min-[1081px]:scale-[1.66] max-[1080px]:!top-[-255px] max-[1080px]:!w-[145%] max-[1080px]:!h-[145%] max-[680px]:!top-[-238px] max-[680px]:!w-[173%] max-[680px]:!h-[173%]"
+            className="!absolute !top-[-335px] !left-1/2 !right-auto !bottom-auto !w-[150%] !h-[150%] max-w-none -translate-x-1/2  object-contain object-center drop-shadow-[0_22px_26px_rgba(94,10,24,0.2)] min-[1081px]:!top-[-410px] min-[1081px]:scale-[1.66] max-[1080px]:!top-[-255px] max-[1080px]:!w-[145%] max-[1080px]:!h-[145%] max-[680px]:!top-[-238px] max-[680px]:!w-[173%] max-[680px]:!h-[173%]"
             sizes="(max-width: 900px) 100vw, 62vw"
           />
         </div>
@@ -588,14 +553,19 @@ export default function HomePage() {
               />
             </div>
 
-            <Image
-              src={viewMoreIconSrc}
-              alt=""
-              width={152}
-              height={56}
-              aria-hidden="true"
-              className="pointer-events-none absolute right-[4.2%] bottom-[2.4%] h-auto w-[10.1%] max-[680px]:right-[3%] max-[680px]:bottom-[2%] max-[680px]:w-[11.4%]"
-            />
+            <Link
+              href="/#su-kien"
+              aria-label="Xem thêm"
+              className="absolute right-[4.2%] bottom-[2.4%] z-20 block h-auto w-[10.1%] transition-all duration-200 ease-out hover:scale-110 hover:brightness-110 active:scale-95 active:translate-y-[2px] max-[680px]:right-[3%] max-[680px]:bottom-[2%] max-[680px]:w-[11.4%]"
+            >
+              <Image
+                src={viewMoreIconSrc}
+                alt="Xem thêm"
+                width={152}
+                height={56}
+                className="h-auto w-full"
+              />
+            </Link>
           </div>
 
           <div
@@ -668,7 +638,7 @@ export default function HomePage() {
           width={130}
           height={130}
           aria-hidden="true"
-          className="pointer-events-none absolute left-[22%] top-[-45%] z-10 h-auto w-[84px] rotate-[-22deg] opacity-95 drop-shadow-[0_12px_16px_rgba(94,10,24,0.18)] max-[1080px]:left-[52%] max-[1080px]:top-[4%] max-[1080px]:w-[72px] max-[680px]:hidden"
+          className="pointer-events-none absolute left-[30%] top-[-90%] z-10 h-auto w21 opacity-95 drop-shadow-[0_12px_16px_rgba(94,10,24,0.18)] max-[1080px]:left-[52%] max-[1080px]:top-[4%] max-[1080px]:w-[72px] max-[680px]:hidden"
         />
         <Image
           src={floatingBishopSrc}
@@ -676,7 +646,7 @@ export default function HomePage() {
           width={240}
           height={240}
           aria-hidden="true"
-          className="pointer-events-none absolute left-[-3%] top-[72%] z-10 h-auto w-[140px] rotate-[18deg] opacity-95 drop-shadow-[0_16px_22px_rgba(94,10,24,0.22)] max-[1080px]:w-[110px] max-[680px]:hidden"
+          className="pointer-events-none absolute left-[-8%] top-[80%] z-10 h-auto opacity-95 drop-shadow-[0_16px_22px_rgba(94,10,24,0.22)] max-[1080px]:w-[110px] max-[680px]:hidden"
         />
       </section>
 
@@ -719,9 +689,7 @@ export default function HomePage() {
                 const event =
                   cell.dayOfWeek === 3
                     ? scheduleTemplates.wednesday
-                    : cell.dayOfWeek === 0
-                      ? scheduleTemplates.sunday
-                      : undefined;
+                    : undefined;
                 const isEventDay = Boolean(event);
 
                 return (
@@ -802,7 +770,7 @@ export default function HomePage() {
 
           <div className="mt-2 grid grid-cols-7 gap-1">
             {calendarCells.map((cell) => {
-              const isEventDay = cell.dayOfWeek === 3 || cell.dayOfWeek === 0;
+              const isEventDay = cell.dayOfWeek === 3;
 
               return (
                 <div
@@ -823,7 +791,6 @@ export default function HomePage() {
               );
             })}
           </div>
-
           <div className="mt-4 space-y-2">
             <article className="rounded-xl border border-[#8e2b2b40] bg-[#fff6e3] p-2.5 text-[#580a0a]">
               <p className="text-[11px] font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
@@ -838,22 +805,6 @@ export default function HomePage() {
               </p>
               <p className="text-[9px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
                 {scheduleTemplates.wednesday.address}
-              </p>
-            </article>
-
-            <article className="rounded-xl border border-[#8e2b2b40] bg-[#fff6e3] p-2.5 text-[#580a0a]">
-              <p className="text-[11px] font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
-                {activeLanguage === "VIE" ? "Chủ nhật" : "Sunday"}:{" "}
-                {sundayDays.join(", ")}
-              </p>
-              <p className="mt-1 text-[11px] leading-[1.2] font-semibold [font-family:var(--font-source-serif-4)]">
-                {scheduleTemplates.sunday.time}
-              </p>
-              <p className="text-[10px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
-                {scheduleTemplates.sunday.place}
-              </p>
-              <p className="text-[9px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic">
-                {scheduleTemplates.sunday.address}
               </p>
             </article>
           </div>
@@ -875,52 +826,57 @@ export default function HomePage() {
           width={180}
           height={300}
           aria-hidden="true"
-          className="pointer-events-none absolute top-[-60px] right-[-20px] z-20 hidden h-auto w-[180px] rotate-[22deg] drop-shadow-[0_14px_20px_rgba(94,10,24,0.2)] min-[1081px]:block"
+          className="pointer-events-none absolute top-[-60px] right-[-90px] z-20 hidden h-auto drop-shadow-[0_14px_20px_rgba(94,10,24,0.2)] min-[1081px]:block"
         />
 
         <div className="relative left-1/2 mt-8 w-screen -translate-x-1/2 overflow-x-clip">
-          <div className="relative w-full overflow-hidden rounded-tl-[160px] bg-[#eb979b] px-[50px] pt-[58px] pb-[66px] min-[1081px]:min-h-[713px] max-[1080px]:rounded-tl-[80px] max-[1080px]:px-6 max-[1080px]:pt-10 max-[1080px]:pb-10 max-[680px]:rounded-tl-[40px] max-[680px]:px-4 max-[680px]:pt-6 max-[680px]:pb-6">
-            <div className="relative hidden h-[480px] min-[1280px]:block">
+          <div className="relative w-full overflow-hidden rounded-tl-[160px] bg-[#eb979b] px-[50px] pt-[58px] pb-[66px] min-[1081px]:min-h-[760px] max-[1080px]:rounded-tl-[80px] max-[1080px]:px-6 max-[1080px]:pt-10 max-[1080px]:pb-10 max-[680px]:rounded-tl-[40px] max-[680px]:px-4 max-[680px]:pt-6 max-[680px]:pb-6">
+            <div className="relative hidden h-[530px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[1280px]:block">
               {newsCards.map((card, index) => {
                 const leftClass =
                   index === 0
                     ? "left-0"
                     : index === 1
-                      ? "left-[410px]"
-                      : "left-[820px]";
+                      ? "left-[456px]"
+                      : "left-[911px]";
 
                 return (
                   <article
                     key={`${card.title}-${index}`}
-                    className={`absolute top-0 w-[338px] translate-x-[24px] translate-y-[24px] ${leftClass}`}
+                    className={`absolute top-0 w-[376px] translate-x-[24px] translate-y-[24px] ${leftClass}`}
                   >
-                    <div className="relative h-[336px] w-[338px] overflow-hidden rounded-[22px]">
+                    <div className="relative h-[373px] w-[376px] overflow-hidden rounded-[24px]">
                       <Image
                         src={card.imageSrc}
                         alt={card.title}
                         fill
                         className="object-cover"
-                        sizes="338px"
+                        sizes="376px"
                       />
                     </div>
-                    <h4 className="mt-[10px] text-[20px] leading-none font-bold whitespace-nowrap [font-family:var(--font-lexend)] text-[#580a0a]">
+                    <h4 className="mt-[11px] text-[22px] leading-none font-bold whitespace-nowrap [font-family:var(--font-lexend)] text-[#580a0a]">
                       {card.title}
                     </h4>
-                    <p className="mt-[8px] w-[337px] text-[14px] leading-[1.2] font-light [font-family:var(--font-lexend)] text-[#580a0a]">
+                    <p className="mt-[9px] w-[374px] text-[15.5px] leading-[1.25] font-light [font-family:var(--font-lexend)] text-[#580a0a]">
                       {card.summary}
                     </p>
                   </article>
                 );
               })}
 
-              <Image
-                src={newsArrowSrc}
-                alt=""
-                width={52}
-                height={76}
-                aria-hidden="true"
-                className="pointer-events-none absolute top-[166px] right-[6px] z-20 h-[76px] w-[52px]"
-              />
+              <Link
+                href="/#tin-tuc"
+                aria-label="Xem thêm tin tức"
+                className="absolute top-[184px] right-[8px] z-20 block h-[84px] w-[58px] transition-all duration-200 ease-out hover:scale-110 hover:translate-x-1 hover:brightness-110 active:scale-95 active:translate-y-[2px]"
+              >
+                <Image
+                  src={newsArrowSrc}
+                  alt="Xem thêm tin tức"
+                  width={58}
+                  height={84}
+                  className="h-full w-full"
+                />
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 min-[1280px]:hidden">

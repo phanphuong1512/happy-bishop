@@ -233,18 +233,18 @@ export default function ContactPage() {
             href="https://zalo.me/g/jvjnze574"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
+            className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
-            <ZaloIcon className="w-5 h-5 text-[#0068ff]" />
+            <ZaloIcon className="w-7 h-7" />
             <span>Zalo Community Group</span>
           </a>
           <a
             href="https://www.facebook.com/happy.bishops.community"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
+            className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(142,43,43,0.25)] bg-[#eb979b]/20 px-6 py-2.5 text-[15px] font-bold [font-family:var(--font-lexend)] text-[#8e2b2b] hover:bg-[#eb979b]/40 transition-colors"
           >
-            <FacebookIcon className="w-5 h-5 text-[#1877f2]" />
+            <FacebookIcon className="w-7 h-7" />
             <span>Facebook Fanpage</span>
           </a>
         </div>
@@ -315,7 +315,7 @@ export default function ContactPage() {
                   <div>
                     <span className="text-xs text-[#8e2b2b]/70 block font-normal">Zalo &amp; Hotline:</span>
                     <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline flex items-center gap-1.5">
-                      <ZaloIcon className="w-4 h-4 text-[#0068ff]" /> Gia nhập nhóm Zalo
+                      <ZaloIcon className="w-5 h-5" /> Gia nhập nhóm Zalo
                     </a>
                   </div>
                 </div>
@@ -390,7 +390,7 @@ export default function ContactPage() {
                   <div>
                     <span className="text-xs text-[#8e2b2b]/70 block font-normal">Zalo &amp; Hotline:</span>
                     <a href="https://zalo.me/g/jvjnze574" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline flex items-center gap-1.5">
-                      <ZaloIcon className="w-4 h-4 text-[#0068ff]" /> Gia nhập nhóm Zalo
+                      <ZaloIcon className="w-5 h-5" /> Gia nhập nhóm Zalo
                     </a>
                   </div>
                 </div>

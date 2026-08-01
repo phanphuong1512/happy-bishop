@@ -19,14 +19,41 @@ export default function BlogPostDetailPage({
   const { language } = useLanguage();
   const isVie = language === "VIE";
 
-  const postIndex = blogPosts.findIndex((p) => p.slug === slug);
-  if (postIndex === -1) {
+  const [post, setPost] = React.useState<any | null>(() => {
+    return blogPosts.find((p) => p.slug === slug) || null;
+  });
+  const [loading, setLoading] = React.useState(!post);
+
+  React.useEffect(() => {
+    if (!post) {
+      fetch(`/api/blogs/${slug}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.data) {
+            setPost(data.data);
+          }
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [slug, post]);
+
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#fff6e3]">
+        <p className="text-base font-bold text-[#8e2b2b] [font-family:var(--font-lexend)]">
+          {isVie ? "Đang tải bài viết..." : "Loading article..."}
+        </p>
+      </main>
+    );
+  }
+
+  if (!post) {
     notFound();
   }
 
-  const post = blogPosts[postIndex];
+  const postIndex = blogPosts.findIndex((p) => p.slug === slug);
   const nextPost = postIndex > 0 ? blogPosts[postIndex - 1] : null;
-  const prevPost = postIndex < blogPosts.length - 1 ? blogPosts[postIndex + 1] : null;
+  const prevPost = postIndex < blogPosts.length - 1 && postIndex !== -1 ? blogPosts[postIndex + 1] : null;
 
   return (
     <main className="relative mx-auto mt-[0.6rem] mb-20 min-h-screen w-[calc(100%-1.2rem)] max-w-[1000px] overflow-visible max-[680px]:w-[calc(100%-0.8rem)] max-[680px]:mt-[0.4rem]">
@@ -107,7 +134,7 @@ export default function BlogPostDetailPage({
 
         {/* Article Body Content */}
         <div className="space-y-5 text-[17px] leading-relaxed [font-family:var(--font-source-serif-4)] italic text-[#580a0a] max-[680px]:text-[15px]">
-          {post.content.map((paragraph, idx) => (
+          {(Array.isArray(post.content) ? post.content : [post.content]).map((paragraph: string, idx: number) => (
             <p key={`p-${idx}`} className="whitespace-pre-line">
               {paragraph}
             </p>

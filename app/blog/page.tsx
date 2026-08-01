@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { blogPosts } from "./data";
 
 import { useLanguage } from "@/context/language-context";
@@ -14,6 +14,18 @@ const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 export default function BlogIndexPage() {
   const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [posts, setPosts] = useState<any[]>(blogPosts);
+
+  useEffect(() => {
+    fetch("/api/blogs")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data && data.data.length > 0) {
+          setPosts(data.data);
+        }
+      })
+      .catch((err) => console.error("Dynamic blog fetch error:", err));
+  }, []);
 
   const isVie = language === "VIE";
 
@@ -225,7 +237,7 @@ export default function BlogIndexPage() {
       {/* Blog Cards Grid Container */}
       <section className="relative z-10 mt-8">
         <div className="grid grid-cols-2 gap-8 max-[850px]:grid-cols-1">
-          {blogPosts.map((post) => (
+          {posts.map((post) => (
             <article
               key={post.id}
               className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[rgba(142,43,43,0.18)] bg-[#fff6e3] p-6 shadow-xs transition-all duration-300 hover:shadow-md max-[680px]:p-5"

@@ -103,7 +103,7 @@ export default function TournamentsListPage() {
             </div>
 
             {/* Links if available */}
-            {(t.workshopLink || t.drawLink || t.driveLink) && (
+            {(t.workshopLink || t.drawLink) && (
               <div className="mt-6 space-y-2 rounded-2xl bg-white/70 p-4 border border-[rgba(142,43,43,0.15)] text-[14px] [font-family:var(--font-lexend)]">
                 {t.workshopLink && (
                   <p>
@@ -119,19 +119,6 @@ export default function TournamentsListPage() {
                     <Link href={t.drawLink} className="font-bold text-[#8e2b2b] underline hover:text-[#f78181]">
                       Đọc thêm tại đây →
                     </Link>
-                  </p>
-                )}
-                {t.driveLink && (
-                  <p className="pt-1">
-                    📁 <strong>Thư viện hình ảnh Google Drive:</strong>{" "}
-                    <a
-                      href={t.driveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-[#8e2b2b] underline hover:text-[#f78181]"
-                    >
-                      Mở Google Drive →
-                    </a>
                   </p>
                 )}
               </div>

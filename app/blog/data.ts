@@ -6,7 +6,6 @@ export type BlogPost = {
   coverImage: string;
   summary: string;
   content: string[]; // Paragraphs or HTML sections
-  driveLink?: string;
   recapLink?: {
     text: string;
     targetSlug: string;
@@ -68,7 +67,6 @@ export const blogPosts: BlogPost[] = [
       "🚀 Hành trình chính thức bắt đầu\nChặng 2 khép lại cũng là lúc các đội rời khỏi trạng thái “chuẩn bị” để bước vào trạng thái thi đấu thực sự. Từ danh sách đội, đến bốc thăm bảng đấu, mọi thứ đã sẵn sàng.",
       "Phần còn lại là những gì sẽ diễn ra trên bàn cờ. Một mùa giải với 36 đội tuyển đã chính thức được thành. Và từ đây, hành trình chinh phục chiếc cúp vô địch thực sự bắt đầu.",
     ],
-    driveLink: "https://drive.google.com/drive/u/0/folders/1f0QXfaLnIDMdeN9B0dJAZat_DihpikpA",
   },
   {
     id: "1",

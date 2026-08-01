@@ -15,7 +15,6 @@ export type Tournament = {
   };
   sidePrizes?: string[];
   highlightsText?: string;
-  driveLink?: string;
   workshopLink?: string;
   drawLink?: string;
 };
@@ -73,7 +72,6 @@ export const tournaments: Tournament[] = [
     ],
     workshopLink: "/su-kien/workshop",
     drawLink: "/blog/boc-tham-chia-bang-happy-bishops-2025",
-    driveLink: "https://drive.google.com/drive/folders/16OAIsNE4oEQynEY67a2hsYzABR0tVJab?usp=drive_link",
   },
   {
     id: "lady-chess-2025",

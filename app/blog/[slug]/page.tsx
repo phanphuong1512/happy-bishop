@@ -127,22 +127,7 @@ export default async function BlogPostDetailPage({
           ))}
         </div>
 
-        {/* Drive Link (if available) */}
-        {post.driveLink && (
-          <div className="mt-8 rounded-2xl bg-white/80 p-5 border border-[rgba(142,43,43,0.15)]">
-            <p className="text-sm font-bold text-[#8e2b2b] [font-family:var(--font-lexend)] mb-2">
-              📸 Bộ sưu tập hình ảnh sự kiện (Google Drive):
-            </p>
-            <a
-              href={post.driveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#8e2b2b] px-4 py-2 text-xs font-bold text-white hover:opacity-90 transition-opacity [font-family:var(--font-lexend)]"
-            >
-              📁 Xem thư viện ảnh trên Google Drive →
-            </a>
-          </div>
-        )}
+
 
         {/* Target Recap Link (if available) */}
         {post.recapLink && (

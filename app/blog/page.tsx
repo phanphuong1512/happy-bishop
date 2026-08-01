@@ -14,17 +14,19 @@ const floatingPawnSrc = "https://assets.happybishops.com/hb-assets/pawn.webp";
 export default function BlogIndexPage() {
   const { language, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [posts, setPosts] = useState<any[]>(blogPosts);
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/blogs")
       .then((res) => res.json())
       .then((data) => {
-        if (data.data && data.data.length > 0) {
+        if (data.data) {
           setPosts(data.data);
         }
       })
-      .catch((err) => console.error("Dynamic blog fetch error:", err));
+      .catch((err) => console.error("D1 blog fetch error:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   const isVie = language === "VIE";

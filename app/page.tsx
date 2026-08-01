@@ -704,7 +704,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={cell.id}
-                    className={`relative min-h-[110px] border-t border-r border-[#8e2b2b80] px-[6px] pt-[5px] pb-[5px] ${
+                    className={`relative min-h-[106px] border-t border-r border-[#8e2b2b80] px-[8px] pt-[6px] pb-[6px] ${
                       index < 7 ? "border-t-0" : ""
                     } ${index % 7 === 6 ? "border-r-0" : ""} ${
                       isEventDay
@@ -718,41 +718,41 @@ export default function HomePage() {
                     }
                   >
                     {cell.day && (
-                      <p className="text-[16px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
+                      <p className="text-[14.5px] leading-none font-bold [font-family:var(--font-lexend)] text-[#ad4257]">
                         {cell.day}
                       </p>
                     )}
 
                     {event && (
-                      <div className="mt-[8px] space-y-[6px] text-[#580a0a]">
-                        <div className="flex items-center gap-[6px]">
+                      <div className="mt-[6px] space-y-[4px] text-[#580a0a]">
+                        <div className="flex items-center gap-[5px]">
                           <Image
                             src={scheduleCalendarIconSrc}
                             alt=""
-                            width={22}
-                            height={20}
+                            width={16}
+                            height={14}
                             aria-hidden="true"
-                            className="h-[18px] w-[20px] shrink-0"
+                            className="w-[16px] h-auto object-contain shrink-0"
                           />
-                          <p className="text-[15px] leading-[1.1] font-bold [font-family:var(--font-source-serif-4)] text-[#8e2b2b]">
+                          <p className="text-[14px] leading-[1.1] font-bold [font-family:var(--font-source-serif-4)] text-[#8e2b2b]">
                             {event.time}
                           </p>
                         </div>
 
-                        <div className="flex items-start gap-[6px]">
+                        <div className="flex items-start gap-[5px]">
                           <Image
                             src={schedulePinIconSrc}
                             alt=""
-                            width={22}
-                            height={20}
+                            width={16}
+                            height={14}
                             aria-hidden="true"
-                            className="mt-[2px] h-[20px] w-[20px] shrink-0"
+                            className="mt-[2px] w-[15px] h-auto object-contain shrink-0"
                           />
                           <div>
-                            <p className="text-[13px] leading-[1.15] font-semibold [font-family:var(--font-source-serif-4)] italic text-[#8e2b2b]">
+                            <p className="text-[12px] leading-[1.15] font-semibold [font-family:var(--font-source-serif-4)] italic text-[#8e2b2b]">
                               {event.place}
                             </p>
-                            <p className="text-[11px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic text-[#580a0a]/85 mt-[1px]">
+                            <p className="text-[10px] leading-[1.2] [font-family:var(--font-source-serif-4)] italic text-[#580a0a]/85 mt-[0.5px]">
                               {event.address}
                             </p>
                           </div>

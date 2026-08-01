@@ -127,7 +127,7 @@ const localizedText: Record<
 };
 
 const navHrefs = [
-  "/#gioi-thieu",
+  "/gioi-thieu",
   "/#su-kien",
   "/#tin-tuc",
   "/#cong-dong",

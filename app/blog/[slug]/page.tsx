@@ -19,23 +19,28 @@ export default function BlogPostDetailPage({
   const { language } = useLanguage();
   const isVie = language === "VIE";
 
-  const [post, setPost] = React.useState<any | null>(() => {
-    return blogPosts.find((p) => p.slug === slug) || null;
-  });
-  const [loading, setLoading] = React.useState(!post);
+  const [post, setPost] = React.useState<any | null>(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (!post) {
-      fetch(`/api/blogs/${slug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.data) {
-            setPost(data.data);
-          }
-        })
-        .finally(() => setLoading(false));
-    }
-  }, [slug, post]);
+    fetch(`/api/blogs/${slug}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) {
+          setPost(data.data);
+        } else {
+          // Fallback to initial seed matching D1
+          const staticFound = blogPosts.find((p) => p.slug === slug);
+          if (staticFound) setPost(staticFound);
+        }
+      })
+      .catch((err) => {
+        console.error("D1 Fetch Error:", err);
+        const staticFound = blogPosts.find((p) => p.slug === slug);
+        if (staticFound) setPost(staticFound);
+      })
+      .finally(() => setLoading(false));
+  }, [slug]);
 
   if (loading) {
     return (

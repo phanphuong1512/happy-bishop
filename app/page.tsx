@@ -47,6 +47,7 @@ const localizedText: Record<
     newsCards: {
       title: string;
       summary: string;
+      slug: string;
     }[];
   }
 > = {
@@ -71,19 +72,22 @@ const localizedText: Record<
     newsTitle: "NEWS",
     newsCards: [
       {
-        title: "[01] TIÊU ĐỀ BLOG",
+        title: "KHÉP LẠI GIẢI ĐẤU – FCA 2 LÊN NGÔI VÔ ĐỊCH 🏆",
         summary:
-          "Tóm tắt blog trong 5 đến 8 câu gây tò mò Tóm tắt blog trong 5 đến 8 câu gây tò mò Tóm tắt blog trong 5 đến 8 câu gây tò mò",
+          "Tiếp nối diễn biến buổi sáng với 8 đội góp mặt tại Vòng Chung Kết, các trận đấu buổi chiều đã diễn ra với nhịp độ cao và liên tục có những chuyển biến đáng chú ý.",
+        slug: "/blog/fca-2-vo-dich-happy-bishops-2025",
       },
       {
-        title: "[02] TIÊU ĐỀ BLOG",
+        title: "LỘ DIỆN 8 ĐỘI VÀO VÒNG CHUNG KẾT 🏆",
         summary:
-          "Tóm tắt blog trong 5 đến 8 câu gây tò mò Tóm tắt blog trong 5 đến 8 câu gây tò mò Tóm tắt blog trong 5 đến 8 câu gây tò mò",
+          "Sau 9 vòng thi đấu buổi sáng, chúng ta đã xác định được 8 đội xuất sắc nhất góp mặt tại Vòng Chung Kết của Happy Bishops Chess Club Championship 2025 🔥",
+        slug: "/blog/8-doi-vao-chung-ket-happy-bishops-2025",
       },
       {
-        title: "[03] TIÊU ĐỀ BLOG",
+        title: "Chặng 2: Bốc thăm chia bảng – khoảnh khắc định hình",
         summary:
-          "Tóm tắt blog trong 5 đến 8 câu gây tò mò Tóm tắt blog trong 5 đến 8 câu gây tò mò Tóm tắt blog trong 5 đến 8 câu gây tò mò",
+          "Sau khi danh sách đăng ký chính thức khép lại, Giải cờ vua Đồng đội tranh cup Happy Bishops 2025 bước vào Chặng 2: Họp kỹ thuật & bốc thăm chia bảng.",
+        slug: "/blog/boc-tham-chia-bang-happy-bishops-2025",
       },
     ],
   },
@@ -108,19 +112,22 @@ const localizedText: Record<
     newsTitle: "NEWS",
     newsCards: [
       {
-        title: "[01] BLOG TITLE",
+        title: "FINALS RECAP – FCA 2 CROWNED CHAMPION 🏆",
         summary:
-          "A short teaser in 5 to 8 sentences that sparks curiosity and encourages readers to open the full article.",
+          "Following the morning rounds with 8 teams making it to the Finals, the afternoon matches took place with high intensity and dramatic shifts.",
+        slug: "/blog/fca-2-vo-dich-happy-bishops-2025",
       },
       {
-        title: "[02] BLOG TITLE",
+        title: "TOP 8 TEAMS ADVANCE TO THE FINALS 🏆",
         summary:
-          "A short teaser in 5 to 8 sentences that sparks curiosity and encourages readers to open the full article.",
+          "After 9 morning rounds, the top 8 teams have been officially identified for the Finals of Happy Bishops Championship 2025 🔥",
+        slug: "/blog/8-doi-vao-chung-ket-happy-bishops-2025",
       },
       {
-        title: "[03] BLOG TITLE",
+        title: "Stage 2: Technical Meeting & Group Draw",
         summary:
-          "A short teaser in 5 to 8 sentences that sparks curiosity and encourages readers to open the full article.",
+          "With the official team list finalized, the Happy Bishops Team Championship enters Stage 2: Technical Meeting & Group Draw.",
+        slug: "/blog/boc-tham-chia-bang-happy-bishops-2025",
       },
     ],
   },
@@ -129,7 +136,7 @@ const localizedText: Record<
 const navHrefs = [
   "/gioi-thieu",
   "/#su-kien",
-  "/#tin-tuc",
+  "/blog",
   "/#cong-dong",
   "/#lien-he",
 ];
@@ -841,31 +848,34 @@ export default function HomePage() {
                       : "left-[911px]";
 
                 return (
-                  <article
+                  <Link
                     key={`${card.title}-${index}`}
-                    className={`absolute top-0 w-[376px] translate-x-[24px] translate-y-[24px] ${leftClass}`}
+                    href={card.slug}
+                    className={`absolute top-0 w-[376px] translate-x-[24px] translate-y-[24px] ${leftClass} group cursor-pointer`}
                   >
-                    <div className="relative h-[373px] w-[376px] overflow-hidden rounded-[24px]">
-                      <Image
-                        src={card.imageSrc}
-                        alt={card.title}
-                        fill
-                        className="object-cover"
-                        sizes="376px"
-                      />
-                    </div>
-                    <h4 className="mt-[11px] text-[22px] leading-none font-bold whitespace-nowrap [font-family:var(--font-lexend)] text-[#580a0a]">
-                      {card.title}
-                    </h4>
-                    <p className="mt-[9px] w-[374px] text-[15.5px] leading-[1.25] font-light [font-family:var(--font-lexend)] text-[#580a0a]">
-                      {card.summary}
-                    </p>
-                  </article>
+                    <article>
+                      <div className="relative h-[373px] w-[376px] overflow-hidden rounded-[24px]">
+                        <Image
+                          src={card.imageSrc}
+                          alt={card.title}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          sizes="376px"
+                        />
+                      </div>
+                      <h4 className="mt-[11px] text-[22px] leading-snug font-bold [font-family:var(--font-lexend)] text-[#580a0a] group-hover:text-[#f78181] transition-colors">
+                        {card.title}
+                      </h4>
+                      <p className="mt-[9px] w-[374px] text-[15.5px] leading-[1.25] font-light [font-family:var(--font-lexend)] text-[#580a0a] line-clamp-3">
+                        {card.summary}
+                      </p>
+                    </article>
+                  </Link>
                 );
               })}
 
               <Link
-                href="/#tin-tuc"
+                href="/blog"
                 aria-label="Xem thêm tin tức"
                 className="absolute top-[184px] right-[8px] z-20 block h-[84px] w-[58px] transition-all duration-200 ease-out hover:scale-110 hover:translate-x-1 hover:brightness-110 active:scale-95 active:translate-y-[2px]"
               >
@@ -881,26 +891,25 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 min-[1280px]:hidden">
               {newsCards.map((card, index) => (
-                <article
-                  key={`${card.title}-${index}`}
-                  className="relative z-10"
-                >
-                  <div className="relative h-[312px] w-full overflow-hidden rounded-[20px]">
-                    <Image
-                      src={card.imageSrc}
-                      alt={card.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1080px) 100vw, 50vw"
-                    />
-                  </div>
-                  <h4 className="mt-2 text-[20px] leading-none font-bold whitespace-nowrap [font-family:var(--font-lexend)] text-[#580a0a] max-[680px]:text-[16px]">
-                    {card.title}
-                  </h4>
-                  <p className="mt-2 text-[14px] leading-[1.2] font-light [font-family:var(--font-lexend)] text-[#580a0a] max-[680px]:text-[13px]">
-                    {card.summary}
-                  </p>
-                </article>
+                <Link key={`${card.title}-${index}`} href={card.slug} className="group">
+                  <article className="relative z-10">
+                    <div className="relative h-[312px] w-full overflow-hidden rounded-[20px]">
+                      <Image
+                        src={card.imageSrc}
+                        alt={card.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 1080px) 100vw, 50vw"
+                      />
+                    </div>
+                    <h4 className="mt-2 text-[20px] leading-snug font-bold [font-family:var(--font-lexend)] text-[#580a0a] group-hover:text-[#f78181] transition-colors max-[680px]:text-[16px]">
+                      {card.title}
+                    </h4>
+                    <p className="mt-2 text-[14px] leading-[1.2] font-light [font-family:var(--font-lexend)] text-[#580a0a] line-clamp-3 max-[680px]:text-[13px]">
+                      {card.summary}
+                    </p>
+                  </article>
+                </Link>
               ))}
             </div>
           </div>

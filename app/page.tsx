@@ -135,7 +135,7 @@ const localizedText: Record<
 
 const navHrefs = [
   "/gioi-thieu",
-  "/#su-kien",
+  "/su-kien",
   "/blog",
   "/#cong-dong",
   "/#lien-he",

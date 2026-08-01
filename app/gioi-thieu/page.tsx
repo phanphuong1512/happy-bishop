@@ -54,13 +54,13 @@ export default function AboutPage() {
               {isVie ? "Giới thiệu" : "About"}
             </Link>
             <Link
-              href="/#su-kien"
+              href="/su-kien"
               className="inline-flex items-center whitespace-nowrap text-[1.08rem] leading-[1.1] font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem]"
             >
               {isVie ? "Sự kiện" : "Events"}
             </Link>
             <Link
-              href="/#tin-tuc"
+              href="/blog"
               className="inline-flex items-center whitespace-nowrap text-[1.08rem] leading-[1.1] font-bold tracking-[0.01em] text-white underline-offset-2 hover:underline max-[1080px]:text-[0.56rem]"
             >
               {isVie ? "Tin tức" : "News"}
